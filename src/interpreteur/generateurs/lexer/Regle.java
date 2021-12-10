@@ -7,21 +7,17 @@ import java.util.Hashtable;
 
 
 /**
+ * Classe responsable de cr\u00E9er des {@link Token} selon un {@link #pattern}
+ *
  * @author Mathis Laroche
  */
-
-
 public class Regle {
-    
+
     static private final Hashtable<String, ArrayList<String>> categories = new Hashtable<>();
 
     private final String nom, pattern, categorie;
 
-    public static void reset() {
-        categories.clear();
-    }
-
-    public Regle(String nom, String pattern, String categorie){
+    public Regle(String nom, String pattern, String categorie) {
         this.nom = nom;
         this.pattern = pattern;
         this.categorie = categorie;
@@ -30,34 +26,38 @@ public class Regle {
         categories.get(categorie).add(nom);
     }
 
-    public Regle(String pattern){
+    public Regle(String pattern) {
         this.categorie = null;
         this.pattern = pattern;
         this.nom = null;
     }
 
-    public String getNom(){
+    public static void reset() {
+        categories.clear();
+    }
+
+    public static Hashtable<String, ArrayList<String>> getCategories() {
+        return categories;
+    }
+
+    public static ArrayList<String> getMembreCategorie(String nomCategorie) {
+        return categories.get(nomCategorie);
+    }
+
+    public String getNom() {
         return this.nom;
     }
 
-    public String getPattern(){
+    public String getPattern() {
         return this.pattern;
     }
 
-    public String getCategorie(){
+    public String getCategorie() {
         return this.categorie;
     }
 
     public Token makeToken(String valeur, int debut) {
         return new Token(this.nom, valeur, this.categorie, debut, this);
-    }
-
-    public static Hashtable<String, ArrayList<String>> getCategories(){
-        return categories;
-    }
-
-    public static ArrayList<String> getMembreCategorie(String nomCategorie){
-        return categories.get(nomCategorie);
     }
 
     @Override

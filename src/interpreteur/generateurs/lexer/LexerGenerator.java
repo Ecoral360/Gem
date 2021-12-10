@@ -1,5 +1,7 @@
 package interpreteur.generateurs.lexer;
 
+import interpreteur.tokens.Token;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -7,12 +9,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import interpreteur.tokens.Token;
-
-
-/**
- * @author Mathis Laroche
- */
 
 /*
  *
@@ -20,7 +16,11 @@ import interpreteur.tokens.Token;
  *
  */
 
-
+/**
+ * Classe charg\u00E9e de transformer un {@link String} en {@link List}<{@link Token}>
+ *
+ * @author Mathis Laroche
+ */
 public class LexerGenerator {
     static private final ArrayList<Regle> reglesIgnorees = new ArrayList<>();
     static private ArrayList<Regle> reglesAjoutees = new ArrayList<>();

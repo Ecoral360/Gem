@@ -10,6 +10,8 @@ import java.util.Objects;
 /**
  * Exemple d'une expression charg\u00E9e de retourner la valeur d'une variable au Runtime
  * selon le nom de la variable qui lui a \u00E9t\u00E9 pr\u00E9cis\u00E9e au compile time
+ *
+ * @author Mathis Laroche
  */
 public class Var implements Expression<ASObjet<?>> {
     private String nom;
@@ -17,7 +19,6 @@ public class Var implements Expression<ASObjet<?>> {
     public Var(String nom) {
         this.nom = nom;
     }
-
 
     public String getNom() {
         return nom;

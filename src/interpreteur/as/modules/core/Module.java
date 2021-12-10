@@ -12,7 +12,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
+/**
+ * Classe repr\u00E9sentant un module.<br>
+ * Un module est un ensemble de {@link Fonction fonctions} et de
+ * {@link Variable variables}/{@link interpreteur.as.Objets.Constante constantes}
+ * qui, lorsqu'{@link #utiliser(String) utiliser}, sont d\u00E9clar\u00E9es dans le scope
+ * pour \u00EAtre utilis\u00E9 plus loin dans le code
+ *
+ * @author Mathis Laroche
+ */
 public final record Module(Fonction[] fonctions,
                            Variable[] variables) {
 

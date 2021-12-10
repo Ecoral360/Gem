@@ -14,6 +14,8 @@ import java.util.List;
  * <br>
  * Chaque programme est responsable d'une instruction particuli\u00E8re dans le langage et
  * de contr\u00F4ler le flow du code
+ *
+ * @author Mathis Laroche
  */
 public abstract class Programme implements Serializable {
     protected final Executeur executeurInstance;

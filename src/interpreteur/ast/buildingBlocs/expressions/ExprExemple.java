@@ -4,6 +4,13 @@ import interpreteur.as.Objets.ValeurNul;
 import interpreteur.as.Objets.interfaces.ASObjet;
 import interpreteur.ast.buildingBlocs.Expression;
 
+/**
+ * Squelette de l'impl\u00E9mentation d'une expression.<br>
+ * Pour trouver un exemple d'une impl\u00E9mentation compl\u00E8te, voir {@link Var}
+ *
+ * @author Mathis Laroche
+ * @see Var
+ */
 public class ExprExemple implements Expression<ASObjet<?>> {
 
     /**

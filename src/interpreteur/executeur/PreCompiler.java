@@ -4,6 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
+/**
+ * Classe en charge de pr\u00E9compiler le code
+ *
+ * @author Mathis Laroche
+ */
 public class PreCompiler {
     public final static String COMMENTAIRE = "#";
     public final static String MULTI_LIGNE_DEBUT = "(:";

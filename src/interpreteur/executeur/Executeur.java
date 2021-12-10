@@ -39,14 +39,15 @@ afficher "fin"
 
 
 /**
- * Cette classe
+ * Cette classe est responsable de la compilation et de l'ex\u00E9cution du langage
  *
  * @author Mathis Laroche
  */
-
 public class Executeur {
 
     private final static int MAX_DATA_BEFORE_SEND;
+    // coordonne ou commencer tous les programmes
+    final private static Coordonnee debutCoord = new Coordonnee("<0>main");
 
     static {
         Dotenv dotenv = Dotenv.configure()
@@ -55,8 +56,6 @@ public class Executeur {
         MAX_DATA_BEFORE_SEND = Integer.parseInt(dotenv.get("MAX_DATA_BEFORE_SEND"));
     }
 
-    // coordonne ou commencer tous les programmes
-    final private static Coordonnee debutCoord = new Coordonnee("<0>main");
     // lexer et parser
     private final ASLexer lexer;
     //------------------------ compilation -----------------------------//
@@ -69,25 +68,44 @@ public class Executeur {
 
     // data explaining the actions to do to the com.server
     private final ArrayList<Data> datas = new ArrayList<>();
-
-    private JSONObject context = null;
-
     // data stack used when the program asks the site for information
     private final Stack<Object> dataResponse = new Stack<>();
+    // ast
+    private final ASAst ast;
     //debug mode
     public boolean debug = false;
+    private JSONObject context = null;
     private String[] anciennesLignes = null;
     // failsafe
     private boolean compilationActive = false;
     private boolean executionActive = false;
     private boolean canExecute = false;
-    // ast
-    private final ASAst ast;
 
     public Executeur() {
-        lexer =  new ASLexer();
+        lexer = new ASLexer();
         moduleManager = new ModuleManager(this);
         ast = new ASAst(this);
+    }
+
+    public static void main(String[] args) {
+
+        String[] lines = """
+                """.split("\n");
+
+
+        Executeur executeur = new Executeur();
+        executeur.debug = true;
+        Object a;
+        if (!(a = executeur.compiler(lines, true)).equals("[]")) System.out.println(a);
+        // executeur.printCompileDict();
+        System.out.println(executeur.executerMain(false));
+
+        Executeur executeur2 = new Executeur();
+        executeur2.debug = true;
+        Object a2;
+        if (!(a2 = executeur2.compiler(lines, true)).equals("[]")) System.out.println(a2);
+        // executeur.printCompileDict();
+        System.out.println(executeur2.executerMain(false));
     }
 
     public static void printCompiledCode(String code) {
@@ -134,33 +152,6 @@ public class Executeur {
         return lexer;
     }
 
-    public static void main(String[] args) {
-
-
-        String[] lines = """
-                var a = {
-                "salut": "hey!",
-                "bonjour": 122
-                }
-                afficher a
-                """.split("\n");
-
-
-        Executeur executeur = new Executeur();
-        executeur.debug = true;
-        Object a;
-        if (!(a = executeur.compiler(lines, true)).equals("[]")) System.out.println(a);
-        // executeur.printCompileDict();
-        System.out.println(executeur.executerMain(false));
-
-        Executeur executeur2 = new Executeur();
-        executeur2.debug = true;
-        Object a2;
-        if (!(a2 = executeur2.compiler(lines, true)).equals("[]")) System.out.println(a2);
-        // executeur.printCompileDict();
-        System.out.println(executeur2.executerMain(false));
-    }
-
     // methode utilisee a chaque fois qu'une info doit etre afficher par le langage
     public void ecrire(String texte) {
         if (debug) System.out.println(texte);
@@ -204,9 +195,14 @@ public class Executeur {
             for (var param : additionnalParams)
                 dataToGet.addParam(param);
             throw new ASErreur.StopGetInfo(dataToGet);
-        }
-        else
+        } else
             return this.dataResponse.pop();
+    }
+
+    public JSONObject getContext() {
+        if (context == null)
+            throw new ASErreur.ErreurContexteAbsent("Il n'y a pas de contexte");
+        return context;
     }
 
     public void setContext(JSONObject context) {
@@ -214,12 +210,6 @@ public class Executeur {
             throw new IllegalArgumentException("aaaaa");
         }
         this.context = context;
-    }
-
-    public JSONObject getContext() {
-        if (context == null)
-            throw new ASErreur.ErreurContexteAbsent("Il n'y a pas de contexte");
-        return context;
     }
 
     public Object pushDataResponse(Object item) {
@@ -553,7 +543,7 @@ public class Executeur {
                 }
 
                 if (datas.size() >= MAX_DATA_BEFORE_SEND) {
-                    synchronized(datas) {
+                    synchronized (datas) {
                         return datas.toString();
                     }
                 }

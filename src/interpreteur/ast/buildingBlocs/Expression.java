@@ -14,7 +14,9 @@ import java.io.Serializable;
 public interface Expression<T extends ASObjet<?>> extends Serializable {
 
     /**
-     * Appelé au runtime
+     * Appel\u00E9 durant le <i>Runtime</i>, cette m\u00E9thode retourne un objet de type {@link ASObjet}
+     *
+     * @return le r\u00E9sultat de l'expression
      */
     T eval();
 

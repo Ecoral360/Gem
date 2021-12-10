@@ -3,6 +3,11 @@ package interpreteur.executeur;
 
 import java.util.Objects;
 
+/**
+ * Classe utilis\u00E9e pour naviguer le code lors de l'ex\u00E9cution
+ *
+ * @author Mathis Laroche
+ */
 public class Coordonnee {
     private String coord;
     private int numLigne;
@@ -46,7 +51,7 @@ public class Coordonnee {
     public String getBoucleActuelle() {
         int lastIdx = coord.length();
         String boucleActuelle = null;
-        for (Boucle boucle: Boucle.values()) {
+        for (Boucle boucle : Boucle.values()) {
             int idx = coord.indexOf(boucle.getNom());
             if (idx != -1 && idx < lastIdx) {
                 lastIdx = idx;

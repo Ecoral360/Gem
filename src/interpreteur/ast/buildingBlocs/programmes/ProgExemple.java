@@ -8,6 +8,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+/**
+ * Squelette de l'impl\u00E9mentation d'un programme.<br>
+ * Pour trouver un exemple d'une impl\u00E9mentation compl\u00E8te, voir {@link Declarer}
+ *
+ * @author Mathis Laroche
+ * @see Declarer
+ */
 public class ProgExemple extends Programme {
 
     /**

@@ -6,7 +6,12 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * Classe responsable de charger les {@link Regle} du langage avec lesquelles seront contruits les
+ * {@link interpreteur.tokens.Token Token}
+ *
+ * @author Mathis Laroche
+ */
 public class LexerLoader extends LexerGenerator {
     private final Map<String, ?> dict;
 

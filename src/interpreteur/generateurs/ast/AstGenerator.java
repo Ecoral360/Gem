@@ -15,7 +15,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
- * Les explications vont être rajouté quand j'aurai la motivation de les écrire XD
+ * Classe dont le r\u00F4le est de:<br>
+ * 1. enregistrer les programmes et les expressions disponibles<br>
+ * 2. transformer une {@link List}<{@link Token}> en {@link Programme} et en {@link Expression}
  *
  * @author Mathis Laroche
  */

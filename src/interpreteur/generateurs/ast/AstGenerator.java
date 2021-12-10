@@ -1,11 +1,5 @@
 package interpreteur.generateurs.ast;
 
-import java.util.*;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
 import interpreteur.as.erreurs.ASErreur;
 import interpreteur.ast.Ast;
 import interpreteur.ast.buildingBlocs.Expression;
@@ -15,21 +9,22 @@ import interpreteur.tokens.Token;
 import interpreteur.utils.ArraysUtils;
 import interpreteur.utils.Range;
 
-/**
- * @author Mathis Laroche
- */
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Les explications vont être rajouté quand j'aurai la motivation de les écrire XD
+ *
+ * @author Mathis Laroche
  */
-
-
 public class AstGenerator {
-    static Hashtable<String, Ast<?>> programmesDict = new Hashtable<>();
-    static ArrayList<String> ordreProgrammes = new ArrayList<>();
+    private final static Hashtable<String, Ast<?>> programmesDict = new Hashtable<>();
+    private final static ArrayList<String> ordreProgrammes = new ArrayList<>();
 
-    static Hashtable<String, Ast<?>> expressionsDict = new Hashtable<>();
-    static ArrayList<String> ordreExpressions = new ArrayList<>();
+    private final static Hashtable<String, Ast<?>> expressionsDict = new Hashtable<>();
+    private final static ArrayList<String> ordreExpressions = new ArrayList<>();
     private int cptrExpr = 0;
     private int cptrProg = 0;
 

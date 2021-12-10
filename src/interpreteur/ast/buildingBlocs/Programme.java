@@ -9,9 +9,15 @@ import javax.lang.model.type.NullType;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Un programme est cr\u00E9e au <i>Compile time</i> et ex\u00E9cut\u00E9 au <i>Runtime</i>.
+ * <br>
+ * Chaque programme est responsable d'une instruction particuli\u00E8re dans le langage et
+ * de contr\u00F4ler le flow du code
+ */
 public abstract class Programme implements Serializable {
-    private int numLigne = -1;
     protected final Executeur executeurInstance;
+    private int numLigne = -1;
 
     protected Programme() {
         this.executeurInstance = null;
@@ -36,25 +42,30 @@ public abstract class Programme implements Serializable {
         };
     }
 
+    /**
+     * appelé au runtime
+     */
+    public abstract Object execute();
+
+    /**
+     * L'override de cette m\u00E9thode n'est pas obligatoire, mais est n\u00E9cessaire
+     * si le but est de changer la coordonn\u00E9e de la prochaine ligne \u00e0 compiler par
+     * {@link Executeur l'executeur}
+     *
+     * @param coord coordonn\u00E9e actuelle
+     * @param ligne ligne actuelle tokenized
+     * @return la coordonn\u00E9e de la prochaine ligne \u00e0 compiler
+     */
+    public Coordonnee prochaineCoord(Coordonnee coord, List<Token> ligne) {
+        return coord;
+    }
+
     public int getNumLigne() {
         return numLigne;
     }
 
     public void setNumLigne(int numLigne) {
         this.numLigne = numLigne;
-    }
-
-    /**
-     * appelé au runtime
-     */
-    public abstract Object execute();
-
-    public String transpile(String language) {
-        return "";
-    }
-
-    public Coordonnee prochaineCoord(Coordonnee coord, List<Token> ligne) {
-        return coord;
     }
 
     @Override

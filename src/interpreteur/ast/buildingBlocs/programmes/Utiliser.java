@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * Exemple d'un {@link Programme} dont la fonction est de charger un module
+ * selon le nom de la variable qui lui a \u00E9t\u00E9 pr\u00E9cis\u00E9e au compile time
+ */
 public class Utiliser extends Programme {
     private final Var module;
     private final List<Var> sous_modules;

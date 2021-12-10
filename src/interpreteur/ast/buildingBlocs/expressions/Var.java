@@ -1,13 +1,16 @@
 package interpreteur.ast.buildingBlocs.expressions;
 
 import interpreteur.as.Objets.Scope;
+import interpreteur.as.Objets.interfaces.ASObjet;
 import interpreteur.as.erreurs.ASErreur;
-import interpreteur.as.Objets.ASObjet;
 import interpreteur.ast.buildingBlocs.Expression;
-import interpreteur.executeur.Executeur;
 
 import java.util.Objects;
 
+/**
+ * Exemple d'une expression charg\u00E9e de retourner la valeur d'une variable au Runtime
+ * selon le nom de la variable qui lui a \u00E9t\u00E9 pr\u00E9cis\u00E9e au compile time
+ */
 public class Var implements Expression<ASObjet<?>> {
     private String nom;
 
@@ -22,6 +25,19 @@ public class Var implements Expression<ASObjet<?>> {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    /**
+     * @return la valeur de la variable ayant le m\u00EAme nom que {@link #nom Var.nom}
+     */
+    @Override
+    public ASObjet<?> eval() {
+        try {
+            // return ASObjet.VariableManager.obtenirVariable(this.nom).getValeurApresGetter();
+            return Scope.getCurrentScopeInstance().getVariable(nom).getValeurApresGetter();
+        } catch (NullPointerException e) {
+            throw new ASErreur.ErreurVariableInconnue("La variable '" + this.nom + "' n'est pas d\u00E9clar\u00E9e dans ce scope.");
+        }
     }
 
     @Override
@@ -43,16 +59,5 @@ public class Var implements Expression<ASObjet<?>> {
         return Objects.hash(nom);
     }
 
-    /**
-     * @return la valeur dans le Nom
-     */
-    @Override
-    public ASObjet<?> eval() {
-        try {
-            // return ASObjet.VariableManager.obtenirVariable(this.nom).getValeurApresGetter();
-            return Scope.getCurrentScopeInstance().getVariable(nom).getValeurApresGetter();
-        } catch (NullPointerException e) {
-            throw new ASErreur.ErreurVariableInconnue("La variable '" + this.nom + "' n'est pas d\u00E9clar\u00E9e dans ce scope.");
-        }
-    }
 }
+

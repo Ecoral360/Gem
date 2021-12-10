@@ -1,8 +1,7 @@
 package interpreteur.as.Objets;
 
+import interpreteur.as.Objets.interfaces.ASObjet;
 import interpreteur.as.erreurs.ASErreur;
-import interpreteur.ast.buildingBlocs.expressions.Type;
-import interpreteur.ast.buildingBlocs.programmes.Boucle;
 import interpreteur.executeur.Coordonnee;
 import interpreteur.executeur.Executeur;
 
@@ -222,7 +221,7 @@ public class ASFonction implements ASObjet<Object> {
 
             coordReprise = null;
 
-            Boucle.sortirScope(fonction.executeurInstance.obtenirCoordRunTime().toString());
+            /*Boucle.sortirScope(fonction.executeurInstance.obtenirCoordRunTime().toString());*/
 
             fonction.executeurInstance.setCoordRunTime(ancienneCoord.toString());
             Scope.popCurrentScopeInstance();

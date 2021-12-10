@@ -1,55 +1,57 @@
 package interpreteur.ast.buildingBlocs.programmes;
 
-import interpreteur.as.Objets.ASObjet;
-import interpreteur.as.Objets.Scope;
+
+import interpreteur.as.Objets.*;
+import interpreteur.as.Objets.interfaces.ASObjet;
 import interpreteur.as.erreurs.ASErreur;
 import interpreteur.ast.buildingBlocs.Expression;
 import interpreteur.ast.buildingBlocs.Programme;
-import interpreteur.ast.buildingBlocs.expressions.*;
+import interpreteur.ast.buildingBlocs.expressions.Var;
 
-import java.util.HashSet;
-
+/**
+ * Exemple d'un {@link Programme} charg\u00E9 de d\u00E9clarer une variable
+ * au <i>Compile time</i> et de lui assigner sa valeur par d\u00E9faut au <i>Runtime</i>
+ *
+ * @author Mathis Laroche
+ */
 public class Declarer extends Programme {
-    private static final HashSet<CreerSetter> waitingSetters = new HashSet<>();
-    private static final HashSet<CreerGetter> waitingGetters = new HashSet<>();
-
     private final Expression<?> valeur;
     private final boolean constante;
     private final Type type;
     private final Var var;
 
+    /**
+     * Cr\u00E9ation d'un programme Declarer
+     * <br>
+     * repr\u00E9sentation des param\u00E8tres: <code>constante expr: type = valeur</code>
+     *
+     * @param expr      l'expression repr\u00E9sentant ce qui est d\u00E9clar\u00E9
+     * @param valeur    la valeur par d\u00E9faut (premi\u00E8re valeur de la variable).
+     *                  Si elle est <code>null</code>, la valeur par d\u00E9faut est {@link interpreteur.as.Objets.ValeurNul ValeurNul}
+     * @param type      le type de la variable. Si <code>null</code>, vaut {@link TypeBuiltin#tout tout}
+     * @param constante booleen indiquant si la variable est une constante
+     */
     public Declarer(Expression<?> expr, Expression<?> valeur, Type type, boolean constante) {
         // get la variable
         if (expr instanceof Var) {
             var = (Var) expr;
         } else {
-            throw new ASErreur.ErreurSyntaxe("Il est impossible d'assigner \u00E0 autre chose qu'une variable");
+            throw new ASErreur.ErreurSyntaxe("Seul les variables peuvent \u00EAtre d\u00E9clar\u00E9e, pas " + expr);
         }
 
         this.valeur = valeur;
         this.constante = constante;
-        this.type = type == null ? new Type("tout") : type;
+        this.type = type == null ? TypeBuiltin.tout.asType() : type;
         addVariable();
     }
 
-    public static void addWaitingGetter(CreerGetter getter) {
-        waitingGetters.add(getter);
-    }
-
-    public static void addWaitingSetter(CreerSetter setter) {
-        waitingSetters.add(setter);
-    }
-
-    public static void reset() {
-        waitingGetters.clear();
-        waitingSetters.clear();
-    }
-
+    /**
+     * Ajout de la variable dans le {@link Scope} au <i>Compile time</i>
+     */
     private void addVariable() {
 
         // get l'objet variable s'il existe
-        // ASObjet.Variable varObj = ASObjet.VariableManager.obtenirVariable(var.getNom(), var.getScope());
-        ASObjet.Variable varObj = Scope.getCurrentScope().getVariable(var.getNom());
+        Variable varObj = Scope.getCurrentScope().getVariable(var.getNom());
 
         // si la variable existe déjà et que c'est une constante, lance une erreur, car on ne peut pas modifier une constante
         if (varObj != null)
@@ -57,29 +59,25 @@ public class Declarer extends Programme {
 
         // si le mot "const" est présent dans l'assignement de la variable, on crée la constante
         // sinon si la variable a été déclarée avec "var", on crée la variable
-        varObj = constante ? new ASObjet.Constante(var.getNom(), null) : new ASObjet.Variable(var.getNom(), null, type);
+        varObj = constante
+                ? new Constante(var.getNom(), null)
+                : new Variable(var.getNom(), null, type);
 
         Scope.getCurrentScope().declarerVariable(varObj);
 
         var.setNom(varObj.obtenirNom());
-
-        // si des setters et des getters attendaient la déclaration de la variable pour pouvoir être attachée à celle-ci, on les attache
-        CreerGetter getter = waitingGetters.stream().filter(waitingGetter -> waitingGetter.getVar().equals(var)).findFirst().orElse(null);
-        CreerSetter setter = waitingSetters.stream().filter(waitingSetter -> waitingSetter.getVar().equals(var)).findFirst().orElse(null);
-        if (getter != null) {
-            getter.addGetter();
-            waitingGetters.remove(getter);
-        }
-        if (setter != null) {
-            setter.addSetter();
-            waitingSetters.remove(setter);
-        }
     }
 
+    /**
+     * Assignement de la variable au <i>Runtime</i> si celle-ci \u00E9tait pr\u00E9sente dans la
+     * d\u00E9claration de la variable
+     *
+     * @return null
+     */
     @Override
     public Object execute() {
         //ASObjet.Variable variable = ASObjet.VariableManager.obtenirVariable(var.getNom());
-        ASObjet.Variable variable = Scope.getCurrentScopeInstance().getVariable(var.getNom());
+        Variable variable = Scope.getCurrentScopeInstance().getVariable(var.getNom());
         if (this.valeur != null) {
             ASObjet<?> valeur = this.valeur.eval();
             variable.setValeur(valeur);

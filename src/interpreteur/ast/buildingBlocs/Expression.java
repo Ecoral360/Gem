@@ -1,14 +1,19 @@
 package interpreteur.ast.buildingBlocs;
 
-import interpreteur.as.Objets.ASObjet;
+import interpreteur.as.Objets.interfaces.ASObjet;
 
 import java.io.Serializable;
 
-
+/**
+ * Une expression est un objet cr\u00E9e au <i>Compile time</i> et \u00E9valu\u00E9 au <i>Runtime</i> par un
+ * {@link Programme}
+ *
+ * @param <T> le type de l'objet retourn\u00E9 par l'expression lorsqu'\u00E9valuer
+ * @author Mathis Laroche
+ */
 public interface Expression<T extends ASObjet<?>> extends Serializable {
 
     /**
-     *
      * Appelé au runtime
      */
     T eval();

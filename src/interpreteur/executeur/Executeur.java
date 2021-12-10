@@ -2,13 +2,12 @@ package interpreteur.executeur;
 
 import interpreteur.as.ASAst;
 import interpreteur.as.ASLexer;
-import interpreteur.as.Objets.ASObjet.FonctionManager;
+import interpreteur.as.Objets.managers.FonctionManager;
 import interpreteur.as.Objets.Scope;
 import interpreteur.as.erreurs.ASErreur;
 import interpreteur.as.erreurs.ASErreur.*;
-import interpreteur.as.modules.ASModuleManager;
+import interpreteur.as.modules.core.ModuleManager;
 import interpreteur.ast.buildingBlocs.Programme;
-import interpreteur.ast.buildingBlocs.programmes.Declarer;
 import interpreteur.data_manager.Data;
 import interpreteur.data_manager.DataVoiture;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -66,7 +65,7 @@ public class Executeur {
     // Coordonnee utilisee lors de l'execution pour savoir quelle ligne executer
     private final Coordonnee coordRunTime = new Coordonnee(debutCoord.toString());
     // modules
-    private final ASModuleManager asModuleManager;
+    private final ModuleManager moduleManager;
 
     // data explaining the actions to do to the com.server
     private final ArrayList<Data> datas = new ArrayList<>();
@@ -87,7 +86,7 @@ public class Executeur {
 
     public Executeur() {
         lexer =  new ASLexer();
-        asModuleManager = new ASModuleManager(this);
+        moduleManager = new ModuleManager(this);
         ast = new ASAst(this);
     }
 
@@ -264,8 +263,8 @@ public class Executeur {
         return ast;
     }
 
-    public ASModuleManager getAsModuleManager() {
-        return asModuleManager;
+    public ModuleManager getAsModuleManager() {
+        return moduleManager;
     }
 
     /**
@@ -652,13 +651,13 @@ public class Executeur {
 
         FonctionManager.reset();
 
-        asModuleManager.utiliserModuleBuitlins();
+        moduleManager.utiliserModuleBuitlins();
         //for (ASObjet.Fonction fonction : asModuleManager.getModuleBuiltins().getFonctions())
         //    FonctionManager.ajouterFonction(fonction);
         //for (ASObjet.Variable variable : asModuleManager.getModuleBuiltins().getVariables()) {
         //    Scope.getCurrentScope().declarerVariable(variable);
         //}
-        Declarer.reset();
+        /*Declarer.reset();*/
         DataVoiture.reset();
 
         // remet la coordonnee d'execution au debut du programme

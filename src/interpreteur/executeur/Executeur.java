@@ -10,7 +10,6 @@ import interpreteur.as.erreurs.ASErreur.*;
 import interpreteur.as.modules.core.ModuleManager;
 import interpreteur.ast.buildingBlocs.Programme;
 import interpreteur.data_manager.Data;
-import interpreteur.data_manager.DataVoiture;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -654,8 +653,6 @@ public class Executeur {
         //for (ASObjet.Variable variable : asModuleManager.getModuleBuiltins().getVariables()) {
         //    Scope.getCurrentScope().declarerVariable(variable);
         //}
-        /*Declarer.reset();*/
-        DataVoiture.reset();
 
         // remet la coordonnee d'execution au debut du programme
         coordRunTime.setCoord(debutCoord.toString());

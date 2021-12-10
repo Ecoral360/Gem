@@ -16,7 +16,7 @@ public class LexerLoader extends LexerGenerator {
     private final Map<String, ?> dict;
 
     public LexerLoader(String fileName) {
-        if (fileName == null) fileName = "interpreteur/regle_et_grammaire/ASGrammaire.yaml";
+        if (fileName == null) fileName = "interpreteur/regle_et_grammaire/Grammaire.yaml";
 
         Yaml yaml = new Yaml();
         InputStream input = this.getClass().getClassLoader().getResourceAsStream(fileName);

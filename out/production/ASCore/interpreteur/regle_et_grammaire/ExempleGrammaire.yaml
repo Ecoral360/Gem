@@ -1,0 +1,10 @@
+Ajouter:
+  SHOW: '\bshow\b'
+
+  donnee:
+    ENTIER: '\d+'
+
+  PLUS: '\+'
+
+Ignorer:
+  - '\s+'

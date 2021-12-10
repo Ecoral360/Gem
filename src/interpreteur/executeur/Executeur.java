@@ -1,9 +1,10 @@
 package interpreteur.executeur;
 
 import interpreteur.as.ASAst;
+import interpreteur.as.ASAstExemple;
 import interpreteur.as.ASLexer;
-import interpreteur.as.Objets.managers.FonctionManager;
 import interpreteur.as.Objets.Scope;
+import interpreteur.as.Objets.managers.FonctionManager;
 import interpreteur.as.erreurs.ASErreur;
 import interpreteur.as.erreurs.ASErreur.*;
 import interpreteur.as.modules.core.ModuleManager;
@@ -70,10 +71,10 @@ public class Executeur {
     private final ArrayList<Data> datas = new ArrayList<>();
     // data stack used when the program asks the site for information
     private final Stack<Object> dataResponse = new Stack<>();
-    // ast
-    private final ASAst ast;
     //debug mode
     public boolean debug = false;
+    // ast
+    private ASAst ast;
     private JSONObject context = null;
     private String[] anciennesLignes = null;
     // failsafe
@@ -90,22 +91,24 @@ public class Executeur {
     public static void main(String[] args) {
 
         String[] lines = """
+                show 3 + 99
                 """.split("\n");
 
-
         Executeur executeur = new Executeur();
+        executeur.setAst(new ASAstExemple(executeur));
         executeur.debug = true;
         Object a;
         if (!(a = executeur.compiler(lines, true)).equals("[]")) System.out.println(a);
         // executeur.printCompileDict();
         System.out.println(executeur.executerMain(false));
 
+        /* executeur2
         Executeur executeur2 = new Executeur();
         executeur2.debug = true;
         Object a2;
         if (!(a2 = executeur2.compiler(lines, true)).equals("[]")) System.out.println(a2);
         // executeur.printCompileDict();
-        System.out.println(executeur2.executerMain(false));
+        System.out.println(executeur2.executerMain(false));*/
     }
 
     public static void printCompiledCode(String code) {
@@ -251,6 +254,10 @@ public class Executeur {
      */
     public ASAst getAst() {
         return ast;
+    }
+
+    public void setAst(ASAst ast) {
+        this.ast = ast;
     }
 
     public ModuleManager getAsModuleManager() {

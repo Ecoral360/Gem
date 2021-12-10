@@ -1,0 +1,8 @@
+/shelf/
+/workspace.xml
+*/node_modules
+*/out/production
+*/out/META-INF
+*.class
+*/log/
+/.env

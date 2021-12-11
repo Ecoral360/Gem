@@ -30,64 +30,6 @@ public class LexerGenerator {
         reglesIgnorees.clear();
         Regle.reset();
     }
-    /*
-    protected void chargerRegles(File configGrammaire){
-        try {
-            Scanner grammaire = new Scanner(configGrammaire);
-
-            String section = "";
-            String categorie = "";
-            boolean commentaire = false;
-
-            while (grammaire.hasNextLine()) {
-            	String line = grammaire.nextLine().trim();
-
-            	if (line.startsWith("\"\"\"")) {
-            		commentaire = ! commentaire;
-            	}
-
-            	if (commentaire || line.isBlank() || line.startsWith("#")) {
-            		continue;
-            	} else {
-            		if (line.startsWith("[") && line.endsWith("]")) {
-            			section = line.substring(1, line.length() - 1);
-            			continue;
-            		}
-            		if (line.endsWith("{")) {
-            			categorie = line.substring(0, line.length() - 1).trim();
-            			continue;
-            		}
-            		if (line.equals("}")) {
-            			categorie = "";
-            			continue;
-                    }
-                }
-
-                switch (section) {
-                case "Ajouter":
-                	String[] elements = line.split("->", 2);
-
-                	ajouterRegle(elements[0].trim(), elements[1].trim(), categorie);
-                	//System.out.println(elements[0].trim() + " " + elements[1].trim().substring(1, elements[1].trim().length()-1));
-                	break;
-
-                case "Ignorer":
-                	ignorerRegle(line);
-                	//System.out.println(line);
-                	break;
-
-                default:
-                	break;
-                }
-            }
-
-        grammaire.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-    */
 
     protected void ajouterRegle(String nom, String pattern, String categorie) {
         reglesAjoutees.add(new Regle(nom, pattern, categorie));

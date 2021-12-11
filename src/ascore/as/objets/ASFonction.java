@@ -1,6 +1,6 @@
-package ascore.as.Objets;
+package ascore.as.objets;
 
-import ascore.as.Objets.interfaces.ASObjet;
+import ascore.as.objets.interfaces.ASObjet;
 import ascore.as.erreurs.ASErreur;
 import ascore.executeur.Coordonnee;
 import ascore.executeur.Executeur;
@@ -86,15 +86,6 @@ public class ASFonction implements ASObjet<Object> {
     public void setScope(Scope scope) {
         this.scope = scope;
     }
-
-    //private void declarerParams() {
-    //    Arrays.stream(parametres).forEach(Fonction.Parametre -> scope.declarerVariable(new Variable(Fonction.Parametre.getNom(), null, Fonction.Parametre.getType())));
-    //}
-
-    // TODO ÇA
-    // public ASObjet<?> getValeurParam(String nomParametre) {
-    //     return this.parametres_appel.get(nomParametre);
-    // }
 
     /**
      * @return true -> si les parametres sont initialisees <br> false -> s'il n'y a pas de parametres
@@ -192,15 +183,6 @@ public class ASFonction implements ASObjet<Object> {
                         }
                     }
                 }
-                //for (Fonction.Parametre param : fonction.parametres) {
-                //    this.parametres_appel.computeIfAbsent(param.getNom(), (val) -> {
-                //        if (param.getValeurParDefaut() == null) {
-                //            throw new ASErreur.ErreurAppelFonction(fonction.nom, "L'argument: " + param.getNom() + " n'a pas reçu de valeur" +
-                //                    "et ne poss\u00E8de aucune valeur par d\u00E9faut.");
-                //        }
-                //        return param.getValeurParDefaut();
-                //    });
-                //}
             }
             Scope.pushCurrentScopeInstance(scopeInstance);
 
@@ -226,8 +208,6 @@ public class ASFonction implements ASObjet<Object> {
             fonction.executeurInstance.setCoordRunTime(ancienneCoord.toString());
             Scope.popCurrentScopeInstance();
 
-            //System.out.println(this.typeRetour);
-            //System.out.println(valeur);
             if (asValeur == null || fonction.typeRetour.noMatch(asValeur.obtenirNomType())) {
                 throw new ASErreur.ErreurType("Le type retourner ' " + (asValeur == null ? "vide" : asValeur.obtenirNomType()) + " ' ne correspond pas "
                         + "au type de retour pr\u00E9cis\u00E9 dans la d\u00E9claration de la fonction ' " + fonction.typeRetour.nom() + " '.");

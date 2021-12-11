@@ -1,6 +1,6 @@
-package ascore.as.Objets;
+package ascore.as.objets;
 
-import ascore.as.Objets.interfaces.ASObjet;
+import ascore.as.objets.interfaces.ASObjet;
 
 import javax.lang.model.type.NullType;
 

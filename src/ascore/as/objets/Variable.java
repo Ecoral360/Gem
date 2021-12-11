@@ -1,7 +1,7 @@
-package ascore.as.Objets;
+package ascore.as.objets;
 
-import ascore.as.Objets.interfaces.ASObjet;
-import ascore.as.Objets.managers.FonctionManager;
+import ascore.as.objets.interfaces.ASObjet;
+import ascore.as.objets.managers.FonctionManager;
 import ascore.as.erreurs.ASErreur;
 
 import java.util.function.Function;

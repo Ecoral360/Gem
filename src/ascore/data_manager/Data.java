@@ -21,6 +21,10 @@ public class Data extends JSONObject {
         this.put("p", new JSONArray());
     }
 
+    public static Data endOfExecution() {
+        return new Data(Id.FIN);
+    }
+
     public Data addParam(Object val) {
         this.getJSONArray("p").put(val);
         return this;
@@ -31,12 +35,6 @@ public class Data extends JSONObject {
         return this;
     }
 
-    public static Data endOfExecution() {
-        Data endOfExecutionData = new Data(Id.ARRETER);
-        endOfExecutionData.put("id", 0);
-        return endOfExecutionData;
-    }
-
     /**
      * MOTEUR = 1xx
      * SENSEUR = 2xx
@@ -45,36 +43,15 @@ public class Data extends JSONObject {
      * 450 à 499: erreur compilation
      */
     public enum Id {
-        ARRETER(Categorie.MOTEUR),          // 0
-        AVANCER(Categorie.MOTEUR),          // 1
-        RECULER(Categorie.MOTEUR),          // 2
-        TOURNER(Categorie.MOTEUR),          // 3
-        TOURNER_DROITE(Categorie.MOTEUR),   // 4
-        TOURNER_GAUCHE(Categorie.MOTEUR),   // 5
-        ROULER(Categorie.MOTEUR),           // 6
-        TOURNER_ABS(Categorie.MOTEUR),      // 7
-
-        AFFICHER(Categorie.UTILITAIRE),  // 0
-        ATTENDRE(Categorie.UTILITAIRE),  // 1
+        FIN(Categorie.UTILITAIRE, 0),
 
         ERREUR(Categorie.ERREUR),
 
         GET(Categorie.GET),
-
         SET(Categorie.SET),
-        SET_CAR_SPEED(Categorie.SET),
 
         CONSEIL(Categorie.TIPS),
         AVERTISSEMENT(Categorie.TIPS),
-
-        CREER_REGRESSION(Categorie.AI),   // 0
-        OPTIMISER_REGRESSION(Categorie.AI), // 1
-        AFFICHER_NUAGE(Categorie.AI),     // 2
-        EVALUER(Categorie.AI),            // 3
-        FONCTION_COUT(Categorie.AI),  // 4
-
-        // IoT Data Ids
-        UPDATE_COMPONENT(Categorie.IOT), // 0
         ;
 
         private final int id;

@@ -1,4 +1,4 @@
-package ascore.as.Objets;
+package ascore.as.objets;
 
 import java.util.Stack;
 
@@ -76,8 +76,6 @@ public class Scope {
 
 
     public static void resetAllScope() {
-        //Executeur.printCompiledCode(scopeStack.toString());
-        //Executeur.printCompiledCode(scopeInstanceStack.toString());
         scopeInstanceStack.clear();
         scopeStack.clear();
     }

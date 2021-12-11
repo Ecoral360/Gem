@@ -3,8 +3,8 @@ package ascore.executeur;
 import ascore.as.ASAst;
 import ascore.as.ASAstExemple;
 import ascore.as.ASLexer;
-import ascore.as.Objets.Scope;
-import ascore.as.Objets.managers.FonctionManager;
+import ascore.as.objets.Scope;
+import ascore.as.objets.managers.FonctionManager;
 import ascore.as.erreurs.ASErreur;
 import ascore.as.erreurs.ASErreur.*;
 import ascore.as.modules.core.ModuleManager;
@@ -100,14 +100,6 @@ public class Executeur {
         if (!(a = executeur.compiler(lines, true)).equals("[]")) System.out.println(a);
         // executeur.printCompileDict();
         System.out.println(executeur.executerMain(false));
-
-        /* executeur2
-        Executeur executeur2 = new Executeur();
-        executeur2.debug = true;
-        Object a2;
-        if (!(a2 = executeur2.compiler(lines, true)).equals("[]")) System.out.println(a2);
-        // executeur.printCompileDict();
-        System.out.println(executeur2.executerMain(false));*/
     }
 
     public static void printCompiledCode(String code) {
@@ -605,7 +597,6 @@ public class Executeur {
             if (debug)
                 System.out.println("execution " + (executionActive ? "done" : "interruped") + " in " +
                         (LocalDateTime.now().toLocalTime().toNanoOfDay() - before.toLocalTime().toNanoOfDay()) / Math.pow(10, 9) + " seconds\n");
-            //System.out.println(datas);
             // boolean servant a indique que l'execution est terminee
             executionActive = false;
             reset();
@@ -635,17 +626,9 @@ public class Executeur {
         FonctionManager.reset();
 
         moduleManager.utiliserModuleBuitlins();
-        //for (ASObjet.Fonction fonction : asModuleManager.getModuleBuiltins().getFonctions())
-        //    FonctionManager.ajouterFonction(fonction);
-        //for (ASObjet.Variable variable : asModuleManager.getModuleBuiltins().getVariables()) {
-        //    Scope.getCurrentScope().declarerVariable(variable);
-        //}
 
         // remet la coordonnee d'execution au debut du programme
         coordRunTime.setCoord(debutCoord.toString());
-        //if (ast instanceof ASAstExperimental) {
-        //    ast = new ASAst();
-        //}
     }
 }
 

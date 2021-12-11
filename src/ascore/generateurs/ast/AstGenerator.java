@@ -159,64 +159,13 @@ public class AstGenerator {
                         debut = i;
                         expressionNom = expressionNom.subList(i, expressionNom.size());
 
-
-                        /*
-                         * Check to make sure an expression is not a token
-                         */
-
-
-                        // comment if (nbNotExpr > 0 && i > 0 && expressionNom.get(i - 1).equals("expression")) {
-                        //     i++;
-                        //     continue;
-                        // }
-
-                        /*
-                         * End of the check
-                         */
-
                         String ouv = membresRegleSyntaxe.get(membresRegleSyntaxe.indexOf("#expression") - 1);
                         String ferm = membresRegleSyntaxe.get(membresRegleSyntaxe.size() - 1);
 
                         Range range = ArraysUtils.enclose(expressionNom, ouv, ferm);
                         assert range != null;
-                        //int premier_ouv = expressionNom.indexOf(ouv);
-                        //System.out.println(expressionNom);
-                        // algorithme des parenthèses (), des crochets [] et des accolades {}
-                        //int cptr = 0;
-                        //exprLength = premier_ouv;
-                        //do {
-                        //    String exp = expressionNom.get(exprLength);
-                        //    if (exp.equals(ferm)) {
-                        //        cptr--;
-                        //    } else if (exp.equals(ouv)) {
-                        //        cptr++;
-                        //    }
-                        //    //comment System.out.println("\nexp: " + exp
-                        //    //        + "\nfin: " + exprLength
-                        //    //        + "\ncptr: " + cptr
-                        //    //        + "\n" + "-".repeat(10)
-                        //    //);
-                        //    exprLength++;
-                        //} while (cptr > 0);
-
-                        //comment for (String exp : expressionNom.subList(premier_ouv + 1, expressionNom.size())) {
-                        //    if (exp.equals(ouv)) {
-                        //        cptr++;
-                        //    } else if (exp.equals(ferm)) {
-                        //        cptr--;
-                        //    }
-                        //    idxOrKey++;
-                        //    if (cptr == 0) {
-                        //        break;
-                        //    }
-                        //}
-
 
                         List<Object> expr = expressionArray.subList(debut, debut + range.end());
-
-                        // System.out.println("\nregle: " + regleSyntaxe + "\nexpr: " + expr);
-                        //expr.stream().map(Object::toString).forEach(Executeur::printCompiledCode);
-
 
                         Expression<?> capsule = (Expression<?>) expressionsDict.get(regleSyntaxeEtVariante).apply(new ArrayList<>(expr));
                         //System.out.println(capsule);
@@ -240,12 +189,6 @@ public class AstGenerator {
                         if (memeStructureExpression(String.join(" ", expressionNom.subList(debut, exprLength)), regleSyntaxe).matches()) {
                             //System.out.println(expressionNom);
 
-                            /*
-                            ---------------------------- Start Experimental ------------------------------
-                             */
-
-                            //System.out.println(memeStructure(String.join(" ", expressionNom.subList(debut, fin)), expression).toString());
-                            //System.out.println(expressionArray);
                             if ((regleSyntaxe.startsWith("expression") &&
                                     (!(expressionArray.get(debut) instanceof Expression<?>))
                                     ||
@@ -254,10 +197,6 @@ public class AstGenerator {
                                 i++;
                                 continue;
                             }
-                            /*
-                            ---------------------------- End Experimental ------------------------------
-                             */
-                            //System.out.println("expr ->" + expression + " : " + expressionArray.subList(debut, fin));
 
                             Expression<?> capsule = (Expression<?>) regleSyntaxeDispo.get(regleSyntaxeEtVariante).apply(expressionArray.subList(debut, exprLength));
                             //System.out.println(capsule);
@@ -322,11 +261,15 @@ public class AstGenerator {
     private String remplacerCategoriesParMembre(String pattern) {
         String nouveauPattern = pattern;
         for (String option : pattern.split("~")) {
-            for (String motClef : option.split(" ")) {  // on divise le pattern en mot clef afin d'evaluer ceux qui sont des categories (une categorie est entouree par des {})
-                if (motClef.startsWith("{") && motClef.endsWith("}")) {  // on test si le mot clef est une categorie
-                    ArrayList<String> membresCategorie = Regle.getMembreCategorie(motClef.substring(1, motClef.length() - 1)); // on va chercher les membres de la categorie (toutes les regles)
+            // on divise le pattern en mot clef afin d'evaluer ceux qui sont des categories (une categorie est entouree par des {})
+            for (String motClef : option.split(" ")) {
+                // on test si le mot clef est une categorie
+                if (motClef.startsWith("{") && motClef.endsWith("}")) {
+                    // on va chercher les membres de la categorie (toutes les regles)
+                    ArrayList<String> membresCategorie = Regle.getMembreCategorie(motClef.substring(1, motClef.length() - 1));
+                    // si la categorie n'existe pas, on lance une erreur
                     if (membresCategorie == null) {
-                        throw new Error("La categorie: '" + pattern + "' n'existe pas");    // si la categorie n'existe pas, on lance une erreur
+                        throw new Error("La categorie: '" + pattern + "' n'existe pas");
                     } else {
                         nouveauPattern = nouveauPattern.replace(motClef, "(" + String.join("|", membresCategorie) + ")");
                         // on remplace la categorie par les membres de la categorie
@@ -339,7 +282,8 @@ public class AstGenerator {
                 }
             }
         }
-        return nouveauPattern;  // on retourne le pattern avec les categories changees
+        // on retourne le pattern avec les categories changees
+        return nouveauPattern;
     }
 
     protected void ajouterProgramme(String pattern, Ast<?> fonction) {
@@ -347,7 +291,6 @@ public class AstGenerator {
             importance : 0 = plus important
             si plusieurs programmes ont la mÃªme importance, le dernier ajoutÃ© sera priorisÃ©
 		 */
-
         for (String programme : pattern.split("~")) {
             var sousAstCopy = new Hashtable<>(fonction.getSousAst());
             for (String p : sousAstCopy.keySet()) {
@@ -370,47 +313,6 @@ public class AstGenerator {
         fonction.setImportance(cptrExpr++);
         expressionsDict.put(nouveauPattern, fonction);
         ordreExpressions.add(nouveauPattern);
-    }
-
-    protected void setOrdreProgramme() {
-        for (int i = 0; i < programmesDict.size(); ++i) {
-            ordreProgrammes.add(null);
-        }
-        for (String pattern : programmesDict.keySet()) {
-            int importance = programmesDict.get(pattern).getImportance();
-            if (importance == -1) {
-                ordreProgrammes.add(pattern);
-            } else {
-                //if (ordreProgrammes.get(importance) == null) {
-                //    ordreProgrammes.set(importance, pattern);
-                //} else {
-                //    ordreProgrammes.add(importance, pattern);
-                //}
-                ordreProgrammes.add(importance, pattern);
-            }
-        }
-        ordreProgrammes.removeIf(Objects::isNull);
-        //System.out.println(this.ordreProgrammes);
-    }
-
-    protected void setOrdreExpression() {
-        for (int i = 0; i < expressionsDict.size(); ++i) {
-            ordreExpressions.add(null);
-        }
-        for (String pattern : expressionsDict.keySet()) {
-            int importance = expressionsDict.get(pattern).getImportance();
-            if (importance == -1) {
-                ordreExpressions.add(pattern);
-            } else {
-                if (ordreExpressions.get(importance) == null) {
-                    ordreExpressions.set(importance, pattern);
-                } else {
-                    ordreExpressions.add(importance, pattern);
-                }
-            }
-        }
-        ordreExpressions.removeIf(Objects::isNull);
-        //System.out.println(this.ordreExpressions);
     }
 
     public Programme parse(List<Token> listToken) {

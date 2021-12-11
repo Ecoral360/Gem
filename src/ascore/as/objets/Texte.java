@@ -1,7 +1,7 @@
-package ascore.as.Objets;
+package ascore.as.objets;
 
-import ascore.as.Objets.interfaces.ASObjet;
-import ascore.as.Objets.interfaces.Iterable;
+import ascore.as.objets.interfaces.ASObjet;
+import ascore.as.objets.interfaces.Iterable;
 import ascore.tokens.Token;
 
 import java.util.Arrays;

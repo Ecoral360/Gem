@@ -1,10 +1,10 @@
 package ascore.as.modules.core;
 
-import ascore.as.Objets.Fonction;
-import ascore.as.Objets.managers.FonctionManager;
-import ascore.as.Objets.Variable;
-import ascore.as.Objets.Scope;
-import ascore.as.Objets.Type;
+import ascore.as.objets.Fonction;
+import ascore.as.objets.managers.FonctionManager;
+import ascore.as.objets.Variable;
+import ascore.as.objets.Scope;
+import ascore.as.objets.Type;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 /**
  * Classe repr\u00E9sentant un module.<br>
  * Un module est un ensemble de {@link Fonction fonctions} et de
- * {@link Variable variables}/{@link ascore.as.Objets.Constante constantes}
+ * {@link Variable variables}/{@link ascore.as.objets.Constante constantes}
  * qui, lorsqu'{@link #utiliser(String) utiliser}, sont d\u00E9clar\u00E9es dans le scope
  * pour \u00EAtre utilis\u00E9 plus loin dans le code
  *

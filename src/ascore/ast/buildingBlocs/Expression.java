@@ -1,6 +1,6 @@
 package ascore.ast.buildingBlocs;
 
-import ascore.as.Objets.interfaces.ASObjet;
+import ascore.as.objets.interfaces.ASObjet;
 
 import java.io.Serializable;
 

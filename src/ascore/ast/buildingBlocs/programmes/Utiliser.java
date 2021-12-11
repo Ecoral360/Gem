@@ -1,6 +1,6 @@
 package ascore.ast.buildingBlocs.programmes;
 
-import ascore.as.Objets.Fonction;
+import ascore.as.objets.Fonction;
 import ascore.ast.buildingBlocs.Programme;
 import ascore.ast.buildingBlocs.expressions.Var;
 import ascore.executeur.Executeur;
@@ -23,7 +23,7 @@ public class Utiliser extends Programme {
     /**
      * @param module            nom du module pr\u00E9sent \u00e0 l'int\u00E9rieur d'une expression {@link Var}
      * @param sous_modules      array des noms des {@link Fonction fonctions} et des
-     *                          {@link ascore.as.Objets.Variable variables}/{@link ascore.as.Objets.Constante constantes}
+     *                          {@link ascore.as.objets.Variable variables}/{@link ascore.as.objets.Constante constantes}
      *                          \u00e0 charger dans le module
      * @param executeurInstance l'ex\u00E9cuteur actuel
      */

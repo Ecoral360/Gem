@@ -1,4 +1,4 @@
-package ascore.as.Objets;
+package ascore.as.objets;
 
 public enum TypeBuiltin {
     tout,

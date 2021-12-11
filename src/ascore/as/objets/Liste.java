@@ -1,7 +1,7 @@
-package ascore.as.Objets;
+package ascore.as.objets;
 
-import ascore.as.Objets.interfaces.ASObjet;
-import ascore.as.Objets.interfaces.Iterable;
+import ascore.as.objets.interfaces.ASObjet;
+import ascore.as.objets.interfaces.Iterable;
 import ascore.as.erreurs.ASErreur;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class Liste implements Iterable<Object> {
         this.valeur.add(element);
     }
 
-    public ascore.as.Objets.Liste ajouterTout(ascore.as.Objets.Liste elements) {
+    public ascore.as.objets.Liste ajouterTout(ascore.as.objets.Liste elements) {
         elements.getValue().forEach(this::clefValideOrThrow);
         this.valeur.addAll(elements.getValue());
         return this;
@@ -59,19 +59,19 @@ public class Liste implements Iterable<Object> {
         ASObjet<?> element = this.valeur.remove(idxRelatif(this.valeur, idx));
     }
 
-    public ascore.as.Objets.Liste remplacer(int idx, ASObjet<?> valeur) {
+    public ascore.as.objets.Liste remplacer(int idx, ASObjet<?> valeur) {
         this.valeur.set(idxRelatif(this.valeur, idx), valeur);
         aucuneClefDuplique();
         return this;
     }
 
-    public ascore.as.Objets.Liste remplacer(ASObjet<?> valeur, ASObjet<?> remplacement) {
+    public ascore.as.objets.Liste remplacer(ASObjet<?> valeur, ASObjet<?> remplacement) {
         this.valeur.replaceAll(v -> v.equals(valeur) ? remplacement : v);
         aucuneClefDuplique();
         return this;
     }
 
-    public ascore.as.Objets.Liste remplacerRange(int debut, int fin, ascore.as.Objets.Liste remplacement) {
+    public ascore.as.objets.Liste remplacerRange(int debut, int fin, ascore.as.objets.Liste remplacement) {
         debut = idxRelatif(valeur, debut);
         fin = idxRelatif(valeur, fin);
         this.valeur = this.sousSection(0, debut).ajouterTout(remplacement).ajouterTout(this.sousSection(fin, this.taille())).getValue();
@@ -156,7 +156,7 @@ public class Liste implements Iterable<Object> {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ascore.as.Objets.Liste liste)) return false;
+        if (!(o instanceof ascore.as.objets.Liste liste)) return false;
         return Objects.equals(valeur, liste.valeur);
     }
 
@@ -165,15 +165,15 @@ public class Liste implements Iterable<Object> {
         return Objects.hash(valeur);
     }
 
-    public static class SousListe extends ascore.as.Objets.Liste {
-        private final ascore.as.Objets.Liste parent;
+    public static class SousListe extends ascore.as.objets.Liste {
+        private final ascore.as.objets.Liste parent;
 
-        SousListe(ascore.as.Objets.Liste parent, int debut, int fin) {
+        SousListe(ascore.as.objets.Liste parent, int debut, int fin) {
             super(parent.valeur.subList(debut, fin).toArray(ASObjet<?>[]::new));
             this.parent = parent;
         }
 
-        public ascore.as.Objets.Liste getParent() {
+        public ascore.as.objets.Liste getParent() {
             return parent;
         }
     }

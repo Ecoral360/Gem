@@ -1,6 +1,4 @@
-package ascore.as.lang;
-
-import ascore.as.lang.interfaces.ASObjet;
+package ascore.as.lang.datatype;
 
 import javax.lang.model.type.NullType;
 

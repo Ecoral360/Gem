@@ -1,6 +1,5 @@
-package ascore.as.lang;
+package ascore.as.lang.datatype;
 
-import ascore.as.lang.interfaces.ASObjet;
 import ascore.as.erreurs.ASErreur;
 import ascore.tokens.Token;
 

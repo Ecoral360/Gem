@@ -1,6 +1,6 @@
 package ascore.as.lang;
 
-import ascore.as.lang.interfaces.ASObjet;
+import ascore.as.lang.datatype.ASObjet;
 import ascore.as.erreurs.ASErreur;
 import ascore.executeur.Coordonnee;
 
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 
-public abstract class Fonction implements ASObjet<Object> {
+public abstract class FonctionModule implements ASObjet<Object> {
     private final Type typeRetour;
     private final Parametre[] parametres; //String[] de forme {nomDuParam�tre, typeDuParam�tre (ou null s'il n'en poss�de pas)}
     private final String nom;
@@ -32,7 +32,7 @@ public abstract class Fonction implements ASObjet<Object> {
      *                   Mettre <b>null</b> si le type du retour n'a pas de type forcee
      *                   </li>
      */
-    public Fonction(String nom, Type typeRetour) {
+    public FonctionModule(String nom, Type typeRetour) {
         this.nom = nom;
         this.scopeName = "fonc_";
         this.typeRetour = typeRetour;
@@ -56,7 +56,7 @@ public abstract class Fonction implements ASObjet<Object> {
      *                   Mettre <b>null</b> si le type du retour n'a pas de type forcee
      *                   </li>
      */
-    public Fonction(String nom, Parametre[] parametres, Type typeRetour) {
+    public FonctionModule(String nom, Parametre[] parametres, Type typeRetour) {
         this.nom = nom;
         this.scopeName = "fonc_";
         this.parametres = parametres;
@@ -205,74 +205,4 @@ public abstract class Fonction implements ASObjet<Object> {
         return TypeBuiltin.fonctionType.toString();
     }
 
-    /**
-     * Classe responsable de definir les proprietes des parametres des fonctions
-     */
-    public record Parametre(Type type, String nom,
-                            ASObjet<?> valeurParDefaut) implements ASObjet<Object> {
-        /**
-         * @param type            <li>
-         *                        Nom du type du parametre (ex: <i>entier</i>, <i>texte</i>, <i>liste</i>, ect.)
-         *                        </li>
-         *                        <li>
-         *                        le parametre peut avoir plusieurs types
-         *                        -> separer chaque type par un <b>|</b> (les espaces sont ignores)
-         *                        <br> (ex: <i>texte | liste</i>, <i>entier | decimal</i>)
-         *                        </li>
-         *                        <li>
-         *                        Mettre <b>null</b> si le parametre n'a pas de type forcee
-         *                        </li>
-         * @param nom             <li>
-         *                        Nom du parametre
-         *                        </li>
-         * @param valeurParDefaut <li>
-         *                        Valeur de type ASObjet qui sera assigne au parametre s'il ne recoit aucune valeur lors de l'appel de la fonction
-         *                        </li>
-         *                        <li>
-         *                        Mettre <b>null</b> pour rendre ce parametre obligatoire lors de l'appel de la fonction
-         *                        </li>
-         */
-        public Parametre(Type type, String nom, ASObjet<?> valeurParDefaut) {
-            this.nom = nom;
-            this.type = type == null ? TypeBuiltin.tout.asType() : type;
-            this.valeurParDefaut = valeurParDefaut;
-        }
-
-        public String getNom() {
-            return nom;
-        }
-
-        public Type getType() {
-            return type;
-        }
-
-        public ASObjet<?> getValeurParDefaut() {
-            return valeurParDefaut;
-        }
-
-        @Override
-        public Object getValue() {
-            return null;
-        }
-
-        @Override
-        public boolean boolValue() {
-            return false;
-        }
-
-        @Override
-        public String obtenirNomType() {
-            return this.type.nom();
-        }
-
-        @Override
-        public String toString() {
-            return "Parametre{" +
-                    "nom='" + nom + '\'' +
-                    ", type=" + type +
-                    ", valeurParDefaut=" + valeurParDefaut +
-                    '}';
-        }
-
-    }
 }

@@ -1,4 +1,4 @@
-package ascore.as.lang.interfaces;
+package ascore.as.lang.datatype;
 
 
 /**

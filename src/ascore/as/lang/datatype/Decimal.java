@@ -1,6 +1,5 @@
-package ascore.as.lang;
+package ascore.as.lang.datatype;
 
-import ascore.as.lang.interfaces.Nombre;
 import ascore.as.erreurs.ASErreur;
 import ascore.tokens.Token;
 
@@ -51,7 +50,7 @@ public class Decimal implements Nombre {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ascore.as.lang.Decimal decimal)) return false;
+        if (!(o instanceof Decimal decimal)) return false;
         return Double.compare(decimal.valeur, valeur) == 0;
     }
 

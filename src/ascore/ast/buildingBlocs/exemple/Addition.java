@@ -1,6 +1,6 @@
 package ascore.ast.buildingBlocs.exemple;
 
-import ascore.as.lang.Entier;
+import ascore.as.lang.datatype.Entier;
 import ascore.ast.buildingBlocs.Expression;
 
 public record Addition(ExprEntier nb1, ExprEntier nb2) implements Expression<Entier> {

@@ -1,7 +1,5 @@
-package ascore.as.lang;
+package ascore.as.lang.datatype;
 
-import ascore.as.lang.interfaces.ASObjet;
-import ascore.as.lang.interfaces.Iterable;
 import ascore.as.erreurs.ASErreur;
 
 import java.util.ArrayList;
@@ -28,7 +26,7 @@ public class Liste implements Iterable<Object> {
         this.valeur.add(element);
     }
 
-    public ascore.as.lang.Liste ajouterTout(ascore.as.lang.Liste elements) {
+    public Liste ajouterTout(Liste elements) {
         elements.getValue().forEach(this::clefValideOrThrow);
         this.valeur.addAll(elements.getValue());
         return this;
@@ -59,19 +57,19 @@ public class Liste implements Iterable<Object> {
         ASObjet<?> element = this.valeur.remove(idxRelatif(this.valeur, idx));
     }
 
-    public ascore.as.lang.Liste remplacer(int idx, ASObjet<?> valeur) {
+    public Liste remplacer(int idx, ASObjet<?> valeur) {
         this.valeur.set(idxRelatif(this.valeur, idx), valeur);
         aucuneClefDuplique();
         return this;
     }
 
-    public ascore.as.lang.Liste remplacer(ASObjet<?> valeur, ASObjet<?> remplacement) {
+    public Liste remplacer(ASObjet<?> valeur, ASObjet<?> remplacement) {
         this.valeur.replaceAll(v -> v.equals(valeur) ? remplacement : v);
         aucuneClefDuplique();
         return this;
     }
 
-    public ascore.as.lang.Liste remplacerRange(int debut, int fin, ascore.as.lang.Liste remplacement) {
+    public Liste remplacerRange(int debut, int fin, Liste remplacement) {
         debut = idxRelatif(valeur, debut);
         fin = idxRelatif(valeur, fin);
         this.valeur = this.sousSection(0, debut).ajouterTout(remplacement).ajouterTout(this.sousSection(fin, this.taille())).getValue();
@@ -156,7 +154,7 @@ public class Liste implements Iterable<Object> {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ascore.as.lang.Liste liste)) return false;
+        if (!(o instanceof Liste liste)) return false;
         return Objects.equals(valeur, liste.valeur);
     }
 
@@ -165,15 +163,15 @@ public class Liste implements Iterable<Object> {
         return Objects.hash(valeur);
     }
 
-    public static class SousListe extends ascore.as.lang.Liste {
-        private final ascore.as.lang.Liste parent;
+    public static class SousListe extends Liste {
+        private final Liste parent;
 
-        SousListe(ascore.as.lang.Liste parent, int debut, int fin) {
+        SousListe(Liste parent, int debut, int fin) {
             super(parent.valeur.subList(debut, fin).toArray(ASObjet<?>[]::new));
             this.parent = parent;
         }
 
-        public ascore.as.lang.Liste getParent() {
+        public Liste getParent() {
             return parent;
         }
     }

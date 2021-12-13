@@ -1,12 +1,12 @@
 package ascore.as.modules.builtins;
 
-import ascore.as.lang.Fonction;
+import ascore.as.lang.FonctionModule;
 import ascore.as.lang.Variable;
 import ascore.as.modules.core.Module;
 import ascore.executeur.Executeur;
 
 /**
- * Classe o\u00F9 sont d\u00E9finis les {@link Fonction fonctions} et les
+ * Classe o\u00F9 sont d\u00E9finis les {@link FonctionModule fonctions} et les
  * {@link Variable variables}/{@link ascore.as.lang.Constante constantes} builtin
  *
  * @author Mathis Laroche
@@ -14,7 +14,7 @@ import ascore.executeur.Executeur;
 public class ModuleBuiltin {
 
     public static Module charger(Executeur executeurInstance) {
-        var fonctionsBuiltin = new Fonction[]{
+        var fonctionsBuiltin = new FonctionModule[]{
                 // ajouter vos fonctions builtin ici
         };
         var variablesBuiltin = new Variable[]{

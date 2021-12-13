@@ -1,6 +1,6 @@
 package ascore.as.modules.core;
 
-import ascore.as.lang.Fonction;
+import ascore.as.lang.FonctionModule;
 import ascore.as.lang.managers.FonctionManager;
 import ascore.as.lang.Variable;
 import ascore.as.lang.Scope;
@@ -14,28 +14,28 @@ import java.util.stream.Stream;
 
 /**
  * Classe repr\u00E9sentant un module.<br>
- * Un module est un ensemble de {@link Fonction fonctions} et de
+ * Un module est un ensemble de {@link FonctionModule fonctions} et de
  * {@link Variable variables}/{@link ascore.as.lang.Constante constantes}
  * qui, lorsqu'{@link #utiliser(String) utiliser}, sont d\u00E9clar\u00E9es dans le scope
  * pour \u00EAtre utilis\u00E9 plus loin dans le code
  *
  * @author Mathis Laroche
  */
-public final record Module(Fonction[] fonctions,
+public final record Module(FonctionModule[] fonctionModules,
                            Variable[] variables) {
 
-    public Module(Fonction[] fonctions) {
-        this(fonctions, new Variable[]{});
+    public Module(FonctionModule[] fonctionModules) {
+        this(fonctionModules, new Variable[]{});
     }
 
     public Module(Variable[] variables) {
-        this(new Fonction[]{}, variables);
+        this(new FonctionModule[]{}, variables);
     }
 
     public void utiliser(String prefix) {
         FonctionManager.ajouterStructure(prefix);
-        for (Fonction fonction : fonctions) {
-            Scope.getCurrentScope().declarerVariable(new Variable(fonction.getNom(), fonction, new Type(fonction.obtenirNomType())));
+        for (FonctionModule fonctionModule : fonctionModules) {
+            Scope.getCurrentScope().declarerVariable(new Variable(fonctionModule.getNom(), fonctionModule, new Type(fonctionModule.obtenirNomType())));
         }
         for (Variable variable : variables) {
             Scope.getCurrentScope().declarerVariable(variable.clone());
@@ -44,9 +44,9 @@ public final record Module(Fonction[] fonctions,
     }
 
     public void utiliser(List<String> nomMethodes) {
-        for (Fonction fonction : fonctions) {
-            if (nomMethodes.contains(fonction.getNom()))
-                FonctionManager.ajouterFonction(fonction);
+        for (FonctionModule fonctionModule : fonctionModules) {
+            if (nomMethodes.contains(fonctionModule.getNom()))
+                FonctionManager.ajouterFonction(fonctionModule);
         }
         for (Variable variable : variables) {
             if (nomMethodes.contains(variable.obtenirNom())) {
@@ -58,8 +58,8 @@ public final record Module(Fonction[] fonctions,
     /**
      * @return un array contenant toutes les fonctions du module
      */
-    public Fonction[] getFonctions() {
-        return fonctions;
+    public FonctionModule[] getFonctions() {
+        return fonctionModules;
     }
 
     /**
@@ -73,8 +73,8 @@ public final record Module(Fonction[] fonctions,
      * @return la liste des noms des fonctions du module
      */
     public List<String> getNomsFonctions() {
-        if (fonctions.length == 0) return new ArrayList<>();
-        return Stream.of(fonctions).map(Fonction::getNom).collect(Collectors.toList());
+        if (fonctionModules.length == 0) return new ArrayList<>();
+        return Stream.of(fonctionModules).map(FonctionModule::getNom).collect(Collectors.toList());
     }
 
     /**
@@ -97,7 +97,7 @@ public final record Module(Fonction[] fonctions,
     @Override
     public String toString() {
         return "Module{\n" +
-                "fonctions=" + Arrays.toString(fonctions) + "\n" +
+                "fonctions=" + Arrays.toString(fonctionModules) + "\n" +
                 ", variables=" + Arrays.toString(variables) + "\n" +
                 '}';
     }

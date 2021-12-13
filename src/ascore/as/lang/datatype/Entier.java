@@ -1,6 +1,5 @@
-package ascore.as.lang;
+package ascore.as.lang.datatype;
 
-import ascore.as.lang.interfaces.Nombre;
 import ascore.as.erreurs.ASErreur;
 import ascore.tokens.Token;
 
@@ -59,7 +58,7 @@ public class Entier implements Nombre {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ascore.as.lang.Entier entier)) return false;
+        if (!(o instanceof Entier entier)) return false;
         return valeur == entier.valeur;
     }
 

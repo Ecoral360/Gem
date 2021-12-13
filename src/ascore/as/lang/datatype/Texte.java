@@ -1,7 +1,6 @@
-package ascore.as.lang;
+package ascore.as.lang.datatype;
 
-import ascore.as.lang.interfaces.ASObjet;
-import ascore.as.lang.interfaces.Iterable;
+import ascore.as.lang.TypeBuiltin;
 import ascore.tokens.Token;
 
 import java.util.Arrays;

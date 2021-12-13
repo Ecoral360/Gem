@@ -1,7 +1,7 @@
 package ascore.ast.buildingBlocs.expressions;
 
 import ascore.as.lang.Scope;
-import ascore.as.lang.interfaces.ASObjet;
+import ascore.as.lang.datatype.ASObjet;
 import ascore.as.erreurs.ASErreur;
 import ascore.ast.buildingBlocs.Expression;
 

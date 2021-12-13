@@ -1,6 +1,6 @@
 package ascore.as.lang;
 
-import ascore.as.lang.interfaces.ASObjet;
+import ascore.as.lang.datatype.ASObjet;
 import ascore.as.lang.managers.FonctionManager;
 import ascore.as.erreurs.ASErreur;
 

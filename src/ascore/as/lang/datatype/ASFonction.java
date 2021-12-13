@@ -1,6 +1,8 @@
-package ascore.as.lang;
+package ascore.as.lang.datatype;
 
-import ascore.as.lang.interfaces.ASObjet;
+import ascore.as.lang.Parametre;
+import ascore.as.lang.Scope;
+import ascore.as.lang.Type;
 import ascore.as.erreurs.ASErreur;
 import ascore.executeur.Coordonnee;
 import ascore.executeur.Executeur;
@@ -12,7 +14,7 @@ import java.util.function.Function;
 public class ASFonction implements ASObjet<Object> {
 
     private final Type typeRetour;
-    private final Fonction.Parametre[] parametres;
+    private final Parametre[] parametres;
     private final String nom;
     private Scope scope;
     private String coordBlocName;
@@ -38,7 +40,7 @@ public class ASFonction implements ASObjet<Object> {
         this.nom = nom;
         this.coordBlocName = "fonc_";
         this.typeRetour = typeRetour;
-        this.parametres = new Fonction.Parametre[0];
+        this.parametres = new Parametre[0];
         this.executeurInstance = executeurInstance;
     }
 
@@ -59,7 +61,7 @@ public class ASFonction implements ASObjet<Object> {
      *                   Mettre <b>null</b> si le type du retour n'a pas de type forcee
      *                   </li>
      */
-    public ASFonction(String nom, Fonction.Parametre[] parametres, Type typeRetour, Executeur executeurInstance) {
+    public ASFonction(String nom, Parametre[] parametres, Type typeRetour, Executeur executeurInstance) {
         this.nom = nom;
         this.coordBlocName = "fonc_";
         this.parametres = parametres;
@@ -75,7 +77,7 @@ public class ASFonction implements ASObjet<Object> {
         return this.typeRetour;
     }
 
-    public Fonction.Parametre[] getParams() {
+    public Parametre[] getParams() {
         return this.parametres;
     }
 
@@ -107,7 +109,7 @@ public class ASFonction implements ASObjet<Object> {
 
         }
         for (int i = 0; i < paramsValeurs.size(); i++) {
-            Fonction.Parametre parametre = this.parametres[i];
+            Parametre parametre = this.parametres[i];
             if (parametre.getType().noMatch(((ASObjet<?>) paramsValeurs.get(i)).obtenirNomType())) {
                 throw new ASErreur.ErreurType("Le param\u00E8tres '" + parametre.getNom() + "' est de type '" + parametre.getType().nom() +
                         "', mais l'argument pass\u00E9 est de type '" + ((ASObjet<?>) paramsValeurs.get(i)).obtenirNomType() + "'.");
@@ -172,7 +174,7 @@ public class ASFonction implements ASObjet<Object> {
             if (fonction.testParams(paramsValeurs)) {
 
                 for (int i = 0; i < fonction.parametres.length; i++) {
-                    Fonction.Parametre param = fonction.parametres[i];
+                    Parametre param = fonction.parametres[i];
                     if (i < paramsValeurs.size()) {
                         scopeInstance.getVariable(param.getNom()).changerValeur(paramsValeurs.get(i));
 

@@ -1,6 +1,6 @@
 package ascore.as;
 
-import ascore.as.lang.Entier;
+import ascore.as.lang.datatype.Entier;
 import ascore.ast.Ast;
 import ascore.ast.buildingBlocs.Expression;
 import ascore.ast.buildingBlocs.exemple.Addition;

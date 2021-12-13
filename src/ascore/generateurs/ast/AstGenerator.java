@@ -62,7 +62,7 @@ public class AstGenerator {
         int crochets = 0;
 
         for (Token token : expressionArray) {
-            switch (token.obtenirNom()) {
+            switch (token.getNom()) {
                 case "PARENT_OUV" -> parentheses++;
                 case "PARENT_FERM" -> parentheses--;
 
@@ -146,7 +146,7 @@ public class AstGenerator {
                     List<String> expressionNom = new ArrayList<>();
 
                     for (Object expr : expressionArray) {
-                        expressionNom.add(expr instanceof Token token ? token.obtenirNom() : "expression");
+                        expressionNom.add(expr instanceof Token token ? token.getNom() : "expression");
                     }
                     //System.out.println("Nom " + expressionNom);
                     Matcher match = memeStructureExpression(String.join(" ", expressionNom.subList(i, expressionNom.size())), regleSyntaxe);
@@ -220,7 +220,7 @@ public class AstGenerator {
         Token[] token = expressionArray.stream().filter(e -> e instanceof Token).toArray(Token[]::new);
 
         if (token.length > 0) {
-            throw new ASErreur.ErreurSyntaxe("Expression ill\u00E9gale: " + String.join(" ", Arrays.stream(token).map(Token::obtenirValeur).toArray(String[]::new)));
+            throw new ASErreur.ErreurSyntaxe("Expression ill\u00E9gale: " + String.join(" ", Arrays.stream(token).map(Token::getValeur).toArray(String[]::new)));
         }
 
         //System.out.println(expressionArray);
@@ -286,7 +286,7 @@ public class AstGenerator {
         return nouveauPattern;
     }
 
-    protected void ajouterProgramme(String pattern, Ast<?> fonction) {
+    protected void ajouterProgramme(String pattern, Ast<? extends Programme> fonction) {
 		/*
             importance : 0 = plus important
             si plusieurs programmes ont la mÃªme importance, le dernier ajoutÃ© sera priorisÃ©
@@ -304,7 +304,7 @@ public class AstGenerator {
         }
     }
 
-    protected void ajouterExpression(String pattern, Ast<?> fonction) {
+    protected void ajouterExpression(String pattern, Ast<? extends Expression<?>> fonction) {
 		/*
             importance : 0 = plus important
             si plusieurs expressions ont la mÃªme importance, la derniÃ¨re ajoutÃ©e sera priorisÃ©e
@@ -320,7 +320,7 @@ public class AstGenerator {
 
         String programme = obtenirProgramme(listToken);
         if (programme == null) {
-            throw new ASErreur.ErreurSyntaxe("Syntaxe invalide: " + listToken.stream().map(Token::obtenirValeur).collect(Collectors.toList()));
+            throw new ASErreur.ErreurSyntaxe("Syntaxe invalide: " + listToken.stream().map(Token::getValeur).collect(Collectors.toList()));
         }
         //System.out.println("Programme trouvé: " + programme);
 
@@ -354,7 +354,7 @@ public class AstGenerator {
     public String obtenirProgramme(List<Token> listToken) {
         String programmeTrouve = null;
         List<String> structureLine = new ArrayList<>();
-        listToken.forEach(e -> structureLine.add(e.obtenirNom()));
+        listToken.forEach(e -> structureLine.add(e.getNom()));
         //System.out.println(structureLine);
         int nbTokenProgrammeTrouvee = 0;
         for (String programme : ordreProgrammes) {
@@ -376,7 +376,7 @@ public class AstGenerator {
 
     private ArrayList<ArrayList<Token>> obtenirDivisionExpressionsProgramme(List<Token> listToken, String programme) {
         ArrayList<String> structureLine = new ArrayList<>();
-        listToken.forEach(e -> structureLine.add(e.obtenirNom()));
+        listToken.forEach(e -> structureLine.add(e.getNom()));
 
         ArrayList<String> structureProgramme = new ArrayList<>(Arrays.asList(programme.split(" ")));
         structureProgramme.removeIf(e -> e.equals("expression") || e.equals("#expression"));

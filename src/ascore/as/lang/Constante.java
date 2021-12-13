@@ -1,6 +1,6 @@
-package ascore.as.objets;
+package ascore.as.lang;
 
-import ascore.as.objets.interfaces.ASObjet;
+import ascore.as.lang.interfaces.ASObjet;
 import ascore.as.erreurs.ASErreur;
 
 import java.util.function.Function;
@@ -14,7 +14,7 @@ public class Constante extends Variable {
 
     @Override
     public Variable clone() {
-        return new ascore.as.objets.Constante(obtenirNom(), this.getValeur());
+        return new ascore.as.lang.Constante(obtenirNom(), this.getValeur());
     }
 
     @Override

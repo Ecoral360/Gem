@@ -1,8 +1,8 @@
 package ascore.ast.buildingBlocs.programmes;
 
 
-import ascore.as.objets.*;
-import ascore.as.objets.interfaces.ASObjet;
+import ascore.as.lang.*;
+import ascore.as.lang.interfaces.ASObjet;
 import ascore.as.erreurs.ASErreur;
 import ascore.ast.buildingBlocs.Expression;
 import ascore.ast.buildingBlocs.Programme;
@@ -27,7 +27,7 @@ public class Declarer extends Programme {
      *
      * @param expr      l'expression repr\u00E9sentant ce qui est d\u00E9clar\u00E9
      * @param valeur    la valeur par d\u00E9faut (premi\u00E8re valeur de la variable).
-     *                  Si elle est <code>null</code>, la valeur par d\u00E9faut est {@link ascore.as.objets.ValeurNul ValeurNul}
+     *                  Si elle est <code>null</code>, la valeur par d\u00E9faut est {@link ascore.as.lang.ValeurNul ValeurNul}
      * @param type      le type de la variable. Si <code>null</code>, vaut {@link TypeBuiltin#tout tout}
      * @param constante booleen indiquant si la variable est une constante
      */

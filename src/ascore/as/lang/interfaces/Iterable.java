@@ -1,4 +1,4 @@
-package ascore.as.objets.interfaces;
+package ascore.as.lang.interfaces;
 
 import ascore.as.erreurs.ASErreur;
 

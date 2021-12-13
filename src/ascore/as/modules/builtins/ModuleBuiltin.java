@@ -1,13 +1,13 @@
 package ascore.as.modules.builtins;
 
-import ascore.as.objets.Fonction;
-import ascore.as.objets.Variable;
+import ascore.as.lang.Fonction;
+import ascore.as.lang.Variable;
 import ascore.as.modules.core.Module;
 import ascore.executeur.Executeur;
 
 /**
  * Classe o\u00F9 sont d\u00E9finis les {@link Fonction fonctions} et les
- * {@link Variable variables}/{@link ascore.as.objets.Constante constantes} builtin
+ * {@link Variable variables}/{@link ascore.as.lang.Constante constantes} builtin
  *
  * @author Mathis Laroche
  */

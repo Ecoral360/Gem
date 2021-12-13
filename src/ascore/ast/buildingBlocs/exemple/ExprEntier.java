@@ -1,6 +1,6 @@
 package ascore.ast.buildingBlocs.exemple;
 
-import ascore.as.objets.Entier;
+import ascore.as.lang.Entier;
 import ascore.ast.buildingBlocs.Expression;
 
 

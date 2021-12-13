@@ -1,6 +1,6 @@
-package ascore.as.objets;
+package ascore.as.lang;
 
-import ascore.as.objets.interfaces.Nombre;
+import ascore.as.lang.interfaces.Nombre;
 import ascore.as.erreurs.ASErreur;
 import ascore.tokens.Token;
 
@@ -11,7 +11,7 @@ public class Entier implements Nombre {
 
     public Entier(Token valeur) {
         try {
-            this.valeur = Integer.parseInt(valeur.obtenirValeur());
+            this.valeur = Integer.parseInt(valeur.getValeur());
         } catch (NumberFormatException e) {
             throw new ASErreur.ErreurEntierInvalide("Les nombres entiers doivent avoir une valeur entre "
                     + Integer.MIN_VALUE + " et " + Integer.MAX_VALUE);
@@ -59,7 +59,7 @@ public class Entier implements Nombre {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ascore.as.objets.Entier entier)) return false;
+        if (!(o instanceof ascore.as.lang.Entier entier)) return false;
         return valeur == entier.valeur;
     }
 

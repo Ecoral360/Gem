@@ -1,6 +1,6 @@
-package ascore.as.objets.managers;
+package ascore.as.lang.managers;
 
-import ascore.as.objets.Scope;
+import ascore.as.lang.Scope;
 
 import java.util.Stack;
 

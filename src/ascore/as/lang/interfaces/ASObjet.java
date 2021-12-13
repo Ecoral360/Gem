@@ -1,7 +1,4 @@
-package ascore.as.objets.interfaces;
-
-
-//import interpreteur.as.Objets.Type;
+package ascore.as.lang.interfaces;
 
 
 /**

@@ -1,6 +1,6 @@
-package ascore.as.objets;
+package ascore.as.lang;
 
-import ascore.as.objets.interfaces.Nombre;
+import ascore.as.lang.interfaces.Nombre;
 import ascore.as.erreurs.ASErreur;
 import ascore.tokens.Token;
 
@@ -10,7 +10,7 @@ public class Decimal implements Nombre {
     private final double valeur;
 
     public Decimal(Token valeur) {
-        String val = valeur.obtenirValeur();
+        String val = valeur.getValeur();
         if (val.startsWith(".")) val = "0" + val;
         else if (val.endsWith(".")) val += "0";
         this.valeur = Double.parseDouble(val);
@@ -51,7 +51,7 @@ public class Decimal implements Nombre {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ascore.as.objets.Decimal decimal)) return false;
+        if (!(o instanceof ascore.as.lang.Decimal decimal)) return false;
         return Double.compare(decimal.valeur, valeur) == 0;
     }
 

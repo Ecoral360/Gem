@@ -1,6 +1,6 @@
-package ascore.as.objets;
+package ascore.as.lang;
 
-import ascore.as.objets.interfaces.ASObjet;
+import ascore.as.lang.interfaces.ASObjet;
 import ascore.as.erreurs.ASErreur;
 import ascore.tokens.Token;
 
@@ -10,7 +10,7 @@ public class Booleen implements ASObjet<Boolean> {
     private final boolean valeur;
 
     public Booleen(Token valeur) {
-        this.valeur = valeur.obtenirValeur().equals("vrai");
+        this.valeur = valeur.getValeur().equals("vrai");
     }
 
     public Booleen(ASObjet<?> valeur) {

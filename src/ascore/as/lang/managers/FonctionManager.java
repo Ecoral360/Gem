@@ -1,6 +1,6 @@
-package ascore.as.objets.managers;
+package ascore.as.lang.managers;
 
-import ascore.as.objets.*;
+import ascore.as.lang.*;
 
 public class FonctionManager {
 

@@ -1,4 +1,4 @@
-package ascore.as.objets;
+package ascore.as.lang;
 
 import java.util.Stack;
 

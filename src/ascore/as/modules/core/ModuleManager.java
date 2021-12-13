@@ -1,10 +1,10 @@
 package ascore.as.modules.core;
 
 
-import ascore.as.objets.Liste;
-import ascore.as.objets.Constante;
-import ascore.as.objets.Scope;
-import ascore.as.objets.Texte;
+import ascore.as.lang.Liste;
+import ascore.as.lang.Constante;
+import ascore.as.lang.Scope;
+import ascore.as.lang.Texte;
 import ascore.as.erreurs.ASErreur;
 import ascore.as.modules.EnumModule;
 import ascore.executeur.Executeur;

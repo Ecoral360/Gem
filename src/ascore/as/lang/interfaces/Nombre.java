@@ -1,7 +1,7 @@
-package ascore.as.objets.interfaces;
+package ascore.as.lang.interfaces;
 
-import ascore.as.objets.Decimal;
-import ascore.as.objets.Entier;
+import ascore.as.lang.Decimal;
+import ascore.as.lang.Entier;
 import ascore.as.erreurs.ASErreur;
 
 public interface Nombre extends ASObjet<Number> {

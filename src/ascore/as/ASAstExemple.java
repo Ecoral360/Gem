@@ -1,6 +1,6 @@
 package ascore.as;
 
-import ascore.as.objets.Entier;
+import ascore.as.lang.Entier;
 import ascore.ast.Ast;
 import ascore.ast.buildingBlocs.Expression;
 import ascore.ast.buildingBlocs.exemple.Addition;
@@ -36,6 +36,7 @@ public class ASAstExemple extends ASAst {
              */
             @Override
             public Afficher apply(List<Object> p) {
+                System.out.println(p.get(0));
                 return new Afficher((Expression<?>) p.get(1), executeurInstance);
             }
         });
@@ -52,6 +53,7 @@ public class ASAstExemple extends ASAst {
              */
             @Override
             public ExprEntier apply(List<Object> p) {
+                System.out.println(p.get(0));
                 return new ExprEntier(new Entier((Token) p.get(0)));
             }
         });
@@ -68,7 +70,7 @@ public class ASAstExemple extends ASAst {
             public Addition apply(List<Object> p) {
                 ExprEntier premierNombre = (ExprEntier) p.get(0);
                 ExprEntier deuxiemeNombre = (ExprEntier) p.get(2);
-
+                System.out.println(p.get(1));
                 return new Addition(premierNombre, deuxiemeNombre);
             }
         });

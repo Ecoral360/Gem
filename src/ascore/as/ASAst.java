@@ -5,7 +5,8 @@ import ascore.generateurs.ast.AstGenerator;
 
 
 /**
- * Les explications vont être rajoutées quand j'aurai la motivation de les écrire XD
+ * Classe o\u00F9 sont d\u00E9finis les programmes et les expressions support\u00E9s par le
+ * langage
  *
  * @author Mathis Laroche
  */

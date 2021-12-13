@@ -1,7 +1,7 @@
-package ascore.as.objets;
+package ascore.as.lang;
 
-import ascore.as.objets.interfaces.ASObjet;
-import ascore.as.objets.interfaces.Iterable;
+import ascore.as.lang.interfaces.ASObjet;
+import ascore.as.lang.interfaces.Iterable;
 import ascore.tokens.Token;
 
 import java.util.Arrays;
@@ -12,7 +12,7 @@ public class Texte implements Iterable<String> {
     private final String valeur;
 
     public Texte(Token valeur) {
-        this.valeur = valeur.obtenirValeur().substring(1, valeur.obtenirValeur().length() - 1);
+        this.valeur = valeur.getValeur().substring(1, valeur.getValeur().length() - 1);
     }
 
     public Texte(Object valeur) {

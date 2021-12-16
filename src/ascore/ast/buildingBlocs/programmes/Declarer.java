@@ -47,12 +47,12 @@ public class Declarer extends Programme {
     }
 
     /**
-     * Ajout de la variable dans le {@link Scope} au <i>Compile time</i>
+     * Ajout de la variable dans le {@link ASScope} au <i>Compile time</i>
      */
     private void addVariable() {
 
         // get l'objet variable s'il existe
-        ASVariable varObj = Scope.getCurrentScope().getVariable(var.getNom());
+        ASVariable varObj = ASScope.getCurrentScope().getVariable(var.getNom());
 
         // si la variable existe déjà et que c'est une constante, lance une erreur, car on ne peut pas modifier une constante
         if (varObj != null)
@@ -64,7 +64,7 @@ public class Declarer extends Programme {
                 ? new ASConstante(var.getNom(), null)
                 : new ASVariable(var.getNom(), null, type);
 
-        Scope.getCurrentScope().declarerVariable(varObj);
+        ASScope.getCurrentScope().declarerVariable(varObj);
 
         var.setNom(varObj.obtenirNom());
     }
@@ -78,7 +78,7 @@ public class Declarer extends Programme {
     @Override
     public Object execute() {
         //ASObjet.Variable variable = ASObjet.VariableManager.obtenirVariable(var.getNom());
-        ASVariable variable = Scope.getCurrentScopeInstance().getVariable(var.getNom());
+        ASVariable variable = ASScope.getCurrentScopeInstance().getVariable(var.getNom());
         if (this.valeur != null) {
             ASObjet<?> valeur = this.valeur.eval();
             variable.setValeur(valeur);

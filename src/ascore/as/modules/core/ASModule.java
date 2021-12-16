@@ -1,7 +1,7 @@
 package ascore.as.modules.core;
 
 import ascore.as.lang.*;
-import ascore.as.lang.managers.FonctionManager;
+import ascore.as.lang.managers.ASFonctionManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,24 +30,24 @@ public final record ASModule(ASFonctionModule[] fonctionModules,
     }
 
     public void utiliser(String prefix) {
-        FonctionManager.ajouterStructure(prefix);
+        ASFonctionManager.ajouterStructure(prefix);
         for (ASFonctionModule fonctionModule : fonctionModules) {
-            Scope.getCurrentScope().declarerVariable(new ASVariable(fonctionModule.getNom(), fonctionModule, new ASType(fonctionModule.obtenirNomType())));
+            ASScope.getCurrentScope().declarerVariable(new ASVariable(fonctionModule.getNom(), fonctionModule, new ASType(fonctionModule.obtenirNomType())));
         }
         for (ASVariable variable : variables) {
-            Scope.getCurrentScope().declarerVariable(variable.clone());
+            ASScope.getCurrentScope().declarerVariable(variable.clone());
         }
-        FonctionManager.retirerStructure();
+        ASFonctionManager.retirerStructure();
     }
 
     public void utiliser(List<String> nomMethodes) {
         for (ASFonctionModule fonctionModule : fonctionModules) {
             if (nomMethodes.contains(fonctionModule.getNom()))
-                FonctionManager.ajouterFonction(fonctionModule);
+                ASFonctionManager.ajouterFonction(fonctionModule);
         }
         for (ASVariable variable : variables) {
             if (nomMethodes.contains(variable.obtenirNom())) {
-                Scope.getCurrentScope().declarerVariable(variable);
+                ASScope.getCurrentScope().declarerVariable(variable);
             }
         }
     }

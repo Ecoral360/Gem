@@ -72,7 +72,7 @@ public class ASType implements Expression<ASObjet<?>> {
     @Override
     public ASObjet<?> eval() {
         ASVariable var;
-        if ((var = Scope.getCurrentScopeInstance().getVariable(this.nom)) != null) {
+        if ((var = ASScope.getCurrentScopeInstance().getVariable(this.nom)) != null) {
             return var.getValeurApresGetter();
         }
         throw new ASErreur.ErreurType("Il est impossible d'\u00E9valuer le type '" + this.nom + "'");

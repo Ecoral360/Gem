@@ -35,6 +35,10 @@ public record ASParametre(ASType type, String nom,
         this.valeurParDefaut = valeurParDefaut;
     }
 
+    public ASParametre(ASTypeBuiltin type, String nom, ASObjet<?> valeurParDefaut) {
+        this(type.asType(), nom, valeurParDefaut);
+    }
+
     public String getNom() {
         return nom;
     }

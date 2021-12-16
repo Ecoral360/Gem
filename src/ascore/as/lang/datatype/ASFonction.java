@@ -1,7 +1,7 @@
 package ascore.as.lang.datatype;
 
 import ascore.as.lang.ASParametre;
-import ascore.as.lang.Scope;
+import ascore.as.lang.ASScope;
 import ascore.as.lang.ASType;
 import ascore.as.erreurs.ASErreur;
 import ascore.executeur.Coordonnee;
@@ -16,7 +16,7 @@ public class ASFonction implements ASObjet<Object> {
     private final ASType typeRetour;
     private final ASParametre[] parametres;
     private final String nom;
-    private Scope scope;
+    private ASScope scope;
     private String coordBlocName;
     private final Executeur executeurInstance;
 
@@ -81,11 +81,11 @@ public class ASFonction implements ASObjet<Object> {
         return this.parametres;
     }
 
-    public Scope getScope() {
+    public ASScope getScope() {
         return scope;
     }
 
-    public void setScope(Scope scope) {
+    public void setScope(ASScope scope) {
         this.scope = scope;
     }
 
@@ -162,7 +162,7 @@ public class ASFonction implements ASObjet<Object> {
 
     public static class FonctionInstance implements ASObjet<Object> {
         private final ASFonction fonction;
-        private final Scope.ScopeInstance scopeInstance;
+        private final ASScope.ScopeInstance scopeInstance;
         private Coordonnee coordReprise = null;
 
         public FonctionInstance(ASFonction fonction) {
@@ -186,7 +186,7 @@ public class ASFonction implements ASObjet<Object> {
                     }
                 }
             }
-            Scope.pushCurrentScopeInstance(scopeInstance);
+            ASScope.pushCurrentScopeInstance(scopeInstance);
 
             Object valeur;
             ASObjet<?> asValeur;
@@ -208,7 +208,7 @@ public class ASFonction implements ASObjet<Object> {
             /*Boucle.sortirScope(fonction.executeurInstance.obtenirCoordRunTime().toString());*/
 
             fonction.executeurInstance.setCoordRunTime(ancienneCoord.toString());
-            Scope.popCurrentScopeInstance();
+            ASScope.popCurrentScopeInstance();
 
             if (asValeur == null || fonction.typeRetour.noMatch(asValeur.obtenirNomType())) {
                 throw new ASErreur.ErreurType("Le type retourner ' " + (asValeur == null ? "vide" : asValeur.obtenirNomType()) + " ' ne correspond pas "

@@ -1,11 +1,11 @@
 package ascore.ast.buildingBlocs.exemple;
 
-import ascore.as.lang.datatype.Entier;
+import ascore.as.lang.datatype.ASEntier;
 import ascore.ast.buildingBlocs.Expression;
 
-public record Addition(ExprEntier nb1, ExprEntier nb2) implements Expression<Entier> {
+public record Addition(ExprEntier nb1, ExprEntier nb2) implements Expression<ASEntier> {
     @Override
-    public Entier eval() {
-        return new Entier(((Entier) nb1.eval()).getValue() + ((Entier) nb2.eval()).getValue());
+    public ASEntier eval() {
+        return new ASEntier(((ASEntier) nb1.eval()).getValue() + ((ASEntier) nb2.eval()).getValue());
     }
 }

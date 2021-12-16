@@ -4,7 +4,7 @@ package ascore.ast.buildingBlocs.programmes;
 import ascore.as.lang.*;
 import ascore.as.lang.datatype.ASObjet;
 import ascore.as.erreurs.ASErreur;
-import ascore.as.lang.datatype.ValeurNul;
+import ascore.as.lang.datatype.ASNul;
 import ascore.ast.buildingBlocs.Expression;
 import ascore.ast.buildingBlocs.Programme;
 import ascore.ast.buildingBlocs.expressions.Var;
@@ -18,7 +18,7 @@ import ascore.ast.buildingBlocs.expressions.Var;
 public class Declarer extends Programme {
     private final Expression<?> valeur;
     private final boolean constante;
-    private final Type type;
+    private final ASType type;
     private final Var var;
 
     /**
@@ -28,11 +28,11 @@ public class Declarer extends Programme {
      *
      * @param expr      l'expression repr\u00E9sentant ce qui est d\u00E9clar\u00E9
      * @param valeur    la valeur par d\u00E9faut (premi\u00E8re valeur de la variable).
-     *                  Si elle est <code>null</code>, la valeur par d\u00E9faut est {@link ValeurNul ValeurNul}
-     * @param type      le type de la variable. Si <code>null</code>, vaut {@link TypeBuiltin#tout tout}
+     *                  Si elle est <code>null</code>, la valeur par d\u00E9faut est {@link ASNul ValeurNul}
+     * @param type      le type de la variable. Si <code>null</code>, vaut {@link ASTypeBuiltin#tout tout}
      * @param constante booleen indiquant si la variable est une constante
      */
-    public Declarer(Expression<?> expr, Expression<?> valeur, Type type, boolean constante) {
+    public Declarer(Expression<?> expr, Expression<?> valeur, ASType type, boolean constante) {
         // get la variable
         if (expr instanceof Var) {
             var = (Var) expr;
@@ -42,7 +42,7 @@ public class Declarer extends Programme {
 
         this.valeur = valeur;
         this.constante = constante;
-        this.type = type == null ? TypeBuiltin.tout.asType() : type;
+        this.type = type == null ? ASTypeBuiltin.tout.asType() : type;
         addVariable();
     }
 
@@ -52,7 +52,7 @@ public class Declarer extends Programme {
     private void addVariable() {
 
         // get l'objet variable s'il existe
-        Variable varObj = Scope.getCurrentScope().getVariable(var.getNom());
+        ASVariable varObj = Scope.getCurrentScope().getVariable(var.getNom());
 
         // si la variable existe déjà et que c'est une constante, lance une erreur, car on ne peut pas modifier une constante
         if (varObj != null)
@@ -61,8 +61,8 @@ public class Declarer extends Programme {
         // si le mot "const" est présent dans l'assignement de la variable, on crée la constante
         // sinon si la variable a été déclarée avec "var", on crée la variable
         varObj = constante
-                ? new Constante(var.getNom(), null)
-                : new Variable(var.getNom(), null, type);
+                ? new ASConstante(var.getNom(), null)
+                : new ASVariable(var.getNom(), null, type);
 
         Scope.getCurrentScope().declarerVariable(varObj);
 
@@ -78,7 +78,7 @@ public class Declarer extends Programme {
     @Override
     public Object execute() {
         //ASObjet.Variable variable = ASObjet.VariableManager.obtenirVariable(var.getNom());
-        Variable variable = Scope.getCurrentScopeInstance().getVariable(var.getNom());
+        ASVariable variable = Scope.getCurrentScopeInstance().getVariable(var.getNom());
         if (this.valeur != null) {
             ASObjet<?> valeur = this.valeur.eval();
             variable.setValeur(valeur);

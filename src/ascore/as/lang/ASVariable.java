@@ -7,9 +7,9 @@ import ascore.as.erreurs.ASErreur;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class Variable implements ASObjet<Object> {
+public class ASVariable implements ASObjet<Object> {
     private final String nom;
-    private final Type type;
+    private final ASType type;
     private ASObjet<?> valeur;
     private boolean readOnly = false;
 
@@ -17,10 +17,10 @@ public class Variable implements ASObjet<Object> {
     private Function<ASObjet<?>, ASObjet<?>> setter = null;
 
 
-    public Variable(String nom, ASObjet<?> valeur, Type type) {
-        this.type = type == null ? new Type("tout") : type;
+    public ASVariable(String nom, ASObjet<?> valeur, ASType type) {
+        this.type = type == null ? new ASType("tout") : type;
         this.nom = FonctionManager.ajouterDansStructure(nom);
-        this.valeur = valeur instanceof Variable var ? var.getValeurApresGetter() : valeur;
+        this.valeur = valeur instanceof ASVariable var ? var.getValeurApresGetter() : valeur;
     }
 
     private boolean nouvelleValeurValide(ASObjet<?> nouvelleValeur) {
@@ -52,15 +52,15 @@ public class Variable implements ASObjet<Object> {
     }
 
     @Override
-    public Variable clone() {
-        return new Variable(nom, this.valeur, this.type).setGetter(this.getter).setSetter(this.setter);
+    public ASVariable clone() {
+        return new ASVariable(nom, this.valeur, this.type).setGetter(this.getter).setSetter(this.setter);
     }
 
     public String obtenirNom() {
         return this.nom;
     }
 
-    public Type getType() {
+    public ASType getType() {
         return type;
     }
 
@@ -68,17 +68,17 @@ public class Variable implements ASObjet<Object> {
         return this.valeur == null;
     }
 
-    public Variable setGetter(Supplier<ASObjet<?>> getter) {
+    public ASVariable setGetter(Supplier<ASObjet<?>> getter) {
         this.getter = getter;
         return this;
     }
 
-    public Variable setSetter(Function<ASObjet<?>, ASObjet<?>> setter) {
+    public ASVariable setSetter(Function<ASObjet<?>, ASObjet<?>> setter) {
         this.setter = setter;
         return this;
     }
 
-    public Variable setReadOnly() {
+    public ASVariable setReadOnly() {
         this.setter = (valeur) -> {
             throw new ASErreur.ErreurAssignement("Cette variable est en lecture seule: elle ne peut pas \u00EAtre modifi\u00E9e");
         };

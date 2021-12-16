@@ -1,10 +1,10 @@
 package ascore.as.modules.core;
 
 
-import ascore.as.lang.datatype.Liste;
-import ascore.as.lang.Constante;
+import ascore.as.lang.datatype.ASListe;
+import ascore.as.lang.ASConstante;
 import ascore.as.lang.Scope;
-import ascore.as.lang.datatype.Texte;
+import ascore.as.lang.datatype.ASTexte;
 import ascore.as.erreurs.ASErreur;
 import ascore.as.modules.EnumModule;
 import ascore.executeur.Executeur;
@@ -16,8 +16,8 @@ import java.util.*;
  *
  * @author Mathis Laroche
  */
-public record ModuleManager(Executeur executeurInstance) {
-    private final static Hashtable<EnumModule, ModuleFactory> MODULE_FACTORY = new Hashtable<>();
+public record ASModuleManager(Executeur executeurInstance) {
+    private final static Hashtable<EnumModule, ASModuleFactory> MODULE_FACTORY = new Hashtable<>();
     /*
     TABLE DES MATIERES:
     Module:
@@ -27,22 +27,22 @@ public record ModuleManager(Executeur executeurInstance) {
     -Math
      */
 
-    public static void enregistrerModule(EnumModule nomModule, ModuleFactory moduleFactory) {
+    public static void enregistrerModule(EnumModule nomModule, ASModuleFactory moduleFactory) {
         MODULE_FACTORY.put(nomModule, moduleFactory);
     }
 
-    public Module getModuleBuiltins() {
+    public ASModule getModuleBuiltins() {
         return MODULE_FACTORY.get(EnumModule.builtins).charger(executeurInstance);
     }
 
     public void utiliserModuleBuitlins() {
         var moduleBuiltins = getModuleBuiltins();
         moduleBuiltins.utiliser((String) null);
-        Scope.getCurrentScope().declarerVariable(new Constante("builtins", new Liste(moduleBuiltins
+        Scope.getCurrentScope().declarerVariable(new ASConstante("builtins", new ASListe(moduleBuiltins
                 .getNomsConstantesEtFonctions()
                 .stream()
-                .map(Texte::new)
-                .toArray(Texte[]::new))));
+                .map(ASTexte::new)
+                .toArray(ASTexte[]::new))));
 
     }
 
@@ -56,15 +56,15 @@ public record ModuleManager(Executeur executeurInstance) {
         if (nomModule.equals("experimental")) {
             return;
         }
-        Module module = getModule(nomModule);
+        ASModule module = getModule(nomModule);
 
         module.utiliser(nomModule);
-        Scope.getCurrentScope().declarerVariable(new Constante(nomModule, new Liste(module
+        Scope.getCurrentScope().declarerVariable(new ASConstante(nomModule, new ASListe(module
                 .getNomsConstantesEtFonctions()
                 .stream()
                 .map(e -> nomModule + "." + e)
-                .map(Texte::new)
-                .toArray(Texte[]::new))));
+                .map(ASTexte::new)
+                .toArray(ASTexte[]::new))));
     }
 
     /**
@@ -77,7 +77,7 @@ public record ModuleManager(Executeur executeurInstance) {
             return;
         }
 
-        Module module = getModule(nomModule);
+        ASModule module = getModule(nomModule);
 
         List<String> nomsFctEtConstDemandees = Arrays.asList(methodes);
 
@@ -90,15 +90,15 @@ public record ModuleManager(Executeur executeurInstance) {
                     .replaceAll("\\[|]", ""));
 
         module.utiliser(nomsFctEtConstDemandees);
-        Scope.getCurrentScope().declarerVariable(new Constante(nomModule, new Liste(nomsFctEtConstDemandees
+        Scope.getCurrentScope().declarerVariable(new ASConstante(nomModule, new ASListe(nomsFctEtConstDemandees
                 .stream()
-                .map(Texte::new)
-                .toArray(Texte[]::new))));
+                .map(ASTexte::new)
+                .toArray(ASTexte[]::new))));
     }
 
 
-    public Module getModule(String nomModule) {
-        ModuleFactory module;
+    public ASModule getModule(String nomModule) {
+        ASModuleFactory module;
         try {
             module = MODULE_FACTORY.get(EnumModule.valueOf(nomModule));
         } catch (IllegalArgumentException err) {

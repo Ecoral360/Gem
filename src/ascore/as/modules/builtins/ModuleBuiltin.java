@@ -1,26 +1,27 @@
 package ascore.as.modules.builtins;
 
-import ascore.as.lang.FonctionModule;
-import ascore.as.lang.Variable;
-import ascore.as.modules.core.Module;
+import ascore.as.lang.ASConstante;
+import ascore.as.lang.ASFonctionModule;
+import ascore.as.lang.ASVariable;
+import ascore.as.modules.core.ASModule;
 import ascore.executeur.Executeur;
 
 /**
- * Classe o\u00F9 sont d\u00E9finis les {@link FonctionModule fonctions} et les
- * {@link Variable variables}/{@link ascore.as.lang.Constante constantes} builtin
+ * Classe o\u00F9 sont d\u00E9finis les {@link ASFonctionModule fonctions} et les
+ * {@link ASVariable variables}/{@link ASConstante constantes} builtin
  *
  * @author Mathis Laroche
  */
 public class ModuleBuiltin {
 
-    public static Module charger(Executeur executeurInstance) {
-        var fonctionsBuiltin = new FonctionModule[]{
+    public static ASModule charger(Executeur executeurInstance) {
+        var fonctionsBuiltin = new ASFonctionModule[]{
                 // ajouter vos fonctions builtin ici
         };
-        var variablesBuiltin = new Variable[]{
+        var variablesBuiltin = new ASVariable[]{
                 // ajouter vos variables et vos constantes builtin ici
         };
 
-        return new Module(fonctionsBuiltin, variablesBuiltin);
+        return new ASModule(fonctionsBuiltin, variablesBuiltin);
     }
 }

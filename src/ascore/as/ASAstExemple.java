@@ -1,6 +1,6 @@
 package ascore.as;
 
-import ascore.as.lang.datatype.Entier;
+import ascore.as.lang.datatype.ASEntier;
 import ascore.ast.Ast;
 import ascore.ast.buildingBlocs.Expression;
 import ascore.ast.buildingBlocs.exemple.Addition;
@@ -54,7 +54,7 @@ public class ASAstExemple extends ASAst {
             @Override
             public ExprEntier apply(List<Object> p) {
                 System.out.println(p.get(0));
-                return new ExprEntier(new Entier((Token) p.get(0)));
+                return new ExprEntier(new ASEntier((Token) p.get(0)));
             }
         });
 

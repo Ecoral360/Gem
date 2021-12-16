@@ -3,8 +3,8 @@ package ascore.as.modules.core;
 import ascore.executeur.Executeur;
 
 @FunctionalInterface
-public interface ModuleFactory {
+public interface ASModuleFactory {
 
-    Module charger(Executeur executeurInstance);
+    ASModule charger(Executeur executeurInstance);
 
 }

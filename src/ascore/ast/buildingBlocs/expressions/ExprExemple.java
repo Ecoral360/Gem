@@ -1,6 +1,6 @@
 package ascore.ast.buildingBlocs.expressions;
 
-import ascore.as.lang.datatype.ValeurNul;
+import ascore.as.lang.datatype.ASNul;
 import ascore.as.lang.datatype.ASObjet;
 import ascore.ast.buildingBlocs.Expression;
 
@@ -20,6 +20,6 @@ public class ExprExemple implements Expression<ASObjet<?>> {
      */
     @Override
     public ASObjet<?> eval() {
-        return new ValeurNul();
+        return new ASNul();
     }
 }

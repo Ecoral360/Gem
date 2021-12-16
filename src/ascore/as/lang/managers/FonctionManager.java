@@ -8,8 +8,8 @@ public class FonctionManager {
 
     // met la fonction dans le dictionnaire de fonction et cree enregistre la fonction dans une Variable
     // pour que le code puisse la retrouver plus tard
-    public static void ajouterFonction(FonctionModule fonctionModule) {
-        Scope.getCurrentScope().declarerVariable(new Variable(fonctionModule.getNom(), fonctionModule, new Type(fonctionModule.obtenirNomType())));
+    public static void ajouterFonction(ASFonctionModule fonctionModule) {
+        Scope.getCurrentScope().declarerVariable(new ASVariable(fonctionModule.getNom(), fonctionModule, new ASType(fonctionModule.obtenirNomType())));
         //VariableManager.ajouterConstante(new Constante(fonction.getNom(), fonction));
         //fonction.nom = ajouterDansStructure(fonction.getNom());
     }

@@ -2,9 +2,9 @@ package ascore.as.lang.datatype;
 
 import javax.lang.model.type.NullType;
 
-public class ValeurNul implements ASObjet<NullType> {
+public class ASNul implements ASObjet<NullType> {
 
-    public ValeurNul() {
+    public ASNul() {
     }
 
     @Override

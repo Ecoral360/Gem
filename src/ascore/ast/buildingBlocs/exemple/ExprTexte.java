@@ -1,19 +1,18 @@
 package ascore.ast.buildingBlocs.exemple;
 
-import ascore.as.lang.datatype.ASEntier;
+import ascore.as.lang.datatype.ASTexte;
 import ascore.ast.buildingBlocs.Expression;
 
-
-public record ExprEntier(ASEntier val) implements Expression<ASEntier> {
+public record ExprTexte(ASTexte val) implements Expression<ASTexte> {
 
     @Override
-    public ASEntier eval() {
+    public ASTexte eval() {
         return val;
     }
 
     @Override
     public String toString() {
-        return "ExprEntier{" +
+        return "ExprTexte{" +
                 "val=" + val +
                 '}';
     }

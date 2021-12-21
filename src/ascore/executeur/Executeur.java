@@ -3,10 +3,10 @@ package ascore.executeur;
 import ascore.as.ASAst;
 import ascore.as.ASAstExemple;
 import ascore.as.ASLexer;
-import ascore.as.lang.ASScope;
-import ascore.as.lang.managers.ASFonctionManager;
 import ascore.as.erreurs.ASErreur;
 import ascore.as.erreurs.ASErreur.*;
+import ascore.as.lang.ASScope;
+import ascore.as.lang.managers.ASFonctionManager;
 import ascore.as.modules.core.ASModuleManager;
 import ascore.ast.buildingBlocs.Programme;
 import ascore.data_manager.Data;
@@ -91,7 +91,13 @@ public class Executeur {
 
         String[] lines = """
                 show 3 + 99
+                show "hello world!"
                 """.split("\n");
+
+
+        //Analyste analyste = new Analyste(lines);
+        //analyste.afficherProgramme();
+        //analyste.analyserLexing(Analyste.Precision.TOUT_EN_MEME_TEMPS, true);
 
         Executeur executeur = new Executeur();
         executeur.setAst(new ASAstExemple(executeur));
@@ -311,11 +317,11 @@ public class Executeur {
      * @return
      */
     public boolean leBlocExiste(String nom) {
-        return coordCompileDict.get(coordRunTime.getScope()).containsKey("<1>" + nom + coordRunTime.toString());
+        return coordCompileDict.get(coordRunTime.getScope()).containsKey("<1>" + nom + coordRunTime);
     }
 
     public boolean laCoordExiste(String coord) {
-        return coordCompileDict.get(coordRunTime.getScope()).containsKey(coord + coordRunTime.toString());
+        return coordCompileDict.get(coordRunTime.getScope()).containsKey(coord + coordRunTime);
     }
 
     /**

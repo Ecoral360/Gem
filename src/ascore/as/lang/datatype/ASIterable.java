@@ -5,6 +5,13 @@ import ascore.as.erreurs.ASErreur;
 import java.util.Iterator;
 import java.util.List;
 
+
+/**
+ * Interface commune \u00e0 tous les iterables du langage.
+ *
+ * @param <T>
+ * @author Mathis Laroche
+ */
 public interface ASIterable<T> extends ASObjet<T> {
     boolean contient(ASObjet<?> element);
 

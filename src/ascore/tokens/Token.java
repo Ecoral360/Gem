@@ -56,9 +56,9 @@ public class Token {
         return "Token{" +
                 "nom='" + nom + '\'' +
                 ", valeur='" + valeur + '\'' +
-                ", categorie='" + categorie + '\'' +
+                (!categorie.isBlank() ? ", categorie='" + categorie + '\'' : "") +
                 ", debut=" + debut +
-                ", regleParent='" + (regleParent != null ? regleParent.getNom() : "") + '\'' +
+                (regleParent != null ? ", pattern=" + regleParent.getPattern() : "") +
                 '}';
     }
 }

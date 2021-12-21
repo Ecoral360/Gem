@@ -1,11 +1,13 @@
 package ascore.as;
 
 import ascore.as.lang.datatype.ASEntier;
+import ascore.as.lang.datatype.ASTexte;
 import ascore.ast.Ast;
 import ascore.ast.buildingBlocs.Expression;
 import ascore.ast.buildingBlocs.exemple.Addition;
 import ascore.ast.buildingBlocs.exemple.Afficher;
 import ascore.ast.buildingBlocs.exemple.ExprEntier;
+import ascore.ast.buildingBlocs.exemple.ExprTexte;
 import ascore.executeur.Executeur;
 import ascore.tokens.Token;
 
@@ -55,6 +57,20 @@ public class ASAstExemple extends ASAst {
             public ExprEntier apply(List<Object> p) {
                 System.out.println(p.get(0));
                 return new ExprEntier(new ASEntier((Token) p.get(0)));
+            }
+        });
+
+        ajouterExpression("TEXTE", new Ast<ExprTexte>() {
+
+            /**
+             * @param p p contient l'\u00E9quivalent du pattern de l'expression en objet.<br>
+             *          Par exemple, ici, <code>p = [Token(nom="ENTIER")]</code>
+             * @return une Expression de type valeurConstante
+             */
+            @Override
+            public ExprTexte apply(List<Object> p) {
+                System.out.println(p.get(0));
+                return new ExprTexte(new ASTexte((Token) p.get(0)));
             }
         });
 

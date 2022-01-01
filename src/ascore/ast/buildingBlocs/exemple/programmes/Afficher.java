@@ -1,4 +1,4 @@
-package ascore.ast.buildingBlocs.exemple;
+package ascore.ast.buildingBlocs.exemple.programmes;
 
 import ascore.ast.buildingBlocs.Expression;
 import ascore.ast.buildingBlocs.Programme;

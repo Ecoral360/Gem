@@ -84,7 +84,6 @@ public record Analyste(String[] lignes, ASLexer lexer) {
         LIGNE_PAR_LIGNE,
         TOUT_EN_MEME_TEMPS,
     }
-
 }
 
 

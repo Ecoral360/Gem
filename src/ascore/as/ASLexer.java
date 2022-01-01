@@ -12,7 +12,7 @@ import ascore.generateurs.lexer.LexerLoader;
 public class ASLexer extends LexerGenerator {
 	public ASLexer() {
         super();
-        LexerLoader loader = new LexerLoader("ascore/regle_et_grammaire/ExempleGrammaire.yaml");
+        LexerLoader loader = new LexerLoader("ascore/regle_et_grammaire/Grammaire.yaml");
         loader.load();
         sortRegle();
     }

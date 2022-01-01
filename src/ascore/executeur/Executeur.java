@@ -90,8 +90,7 @@ public class Executeur {
     public static void main(String[] args) {
 
         String[] lines = """
-                show 3 + 99
-                show "hello world!"
+                $> 2️⃣
                 """.split("\n");
 
 

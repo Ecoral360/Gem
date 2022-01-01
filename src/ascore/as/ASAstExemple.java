@@ -4,10 +4,10 @@ import ascore.as.lang.datatype.ASEntier;
 import ascore.as.lang.datatype.ASTexte;
 import ascore.ast.Ast;
 import ascore.ast.buildingBlocs.Expression;
-import ascore.ast.buildingBlocs.exemple.Addition;
-import ascore.ast.buildingBlocs.exemple.Afficher;
-import ascore.ast.buildingBlocs.exemple.ExprEntier;
-import ascore.ast.buildingBlocs.exemple.ExprTexte;
+import ascore.ast.buildingBlocs.exemple.expressions.Addition;
+import ascore.ast.buildingBlocs.exemple.programmes.Afficher;
+import ascore.ast.buildingBlocs.exemple.expressions.ExprEntier;
+import ascore.ast.buildingBlocs.exemple.expressions.ExprTexte;
 import ascore.executeur.Executeur;
 import ascore.tokens.Token;
 
@@ -37,7 +37,7 @@ public class ASAstExemple extends ASAst {
              * @return une Expression de type Addition
              */
             @Override
-            public Afficher apply(List<Object> p) {
+            public Afficher apply(List<Object> p, Integer idxVariante) {
                 System.out.println(p.get(0));
                 return new Afficher((Expression<?>) p.get(1), executeurInstance);
             }
@@ -54,7 +54,7 @@ public class ASAstExemple extends ASAst {
              * @return une Expression de type valeurConstante
              */
             @Override
-            public ExprEntier apply(List<Object> p) {
+            public ExprEntier apply(List<Object> p, Integer idxVariante) {
                 System.out.println(p.get(0));
                 return new ExprEntier(new ASEntier((Token) p.get(0)));
             }
@@ -68,7 +68,7 @@ public class ASAstExemple extends ASAst {
              * @return une Expression de type valeurConstante
              */
             @Override
-            public ExprTexte apply(List<Object> p) {
+            public ExprTexte apply(List<Object> p, Integer idxVariante) {
                 System.out.println(p.get(0));
                 return new ExprTexte(new ASTexte((Token) p.get(0)));
             }
@@ -83,7 +83,7 @@ public class ASAstExemple extends ASAst {
              * @return une Expression de type Addition
              */
             @Override
-            public Addition apply(List<Object> p) {
+            public Addition apply(List<Object> p, Integer idxVariante) {
                 ExprEntier premierNombre = (ExprEntier) p.get(0);
                 ExprEntier deuxiemeNombre = (ExprEntier) p.get(2);
                 System.out.println(p.get(1));

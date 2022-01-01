@@ -1,4 +1,4 @@
-package ascore.ast.buildingBlocs.exemple;
+package ascore.ast.buildingBlocs.exemple.expressions;
 
 import ascore.as.lang.datatype.ASTexte;
 import ascore.ast.buildingBlocs.Expression;

@@ -7,10 +7,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public record Language(JSONObject languageDict) {
+
+    private final static JSONObject fr = new JSONObject();
+
     /**
      * To test the class
      */
     public static void main(String[] args) {
+        /*
+         * {
+         * "error": {
+         *      "type": {
+         *          "invalide3: "$0 est un type invalide: $1 ou $2 sont les types autorisés."
+         *      }
+         *   }
+         * }
+         */
+
         var Fr = new Language(new JSONObject()
                 .put("error", new JSONObject()
                         .put("type", new JSONObject()
@@ -19,6 +32,7 @@ public record Language(JSONObject languageDict) {
         );
         String a = Fr.convert("error.type.invalide3", "entier", "texte", "booleen");
         System.out.println(a);
+
     }
 
     public String convert(String translationPath, String... values) {

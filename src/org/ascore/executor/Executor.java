@@ -1,12 +1,12 @@
-package org.ascore.executeur;
+package org.ascore.executor;
 
 import org.ascore.as.lang.ASScope;
 import org.ascore.as.lang.managers.ASFonctionManager;
-import org.ascore.ast.buildingBlocs.Programme;
+import org.ascore.ast.buildingBlocs.Statement;
 import org.ascore.as.ASAst;
 import org.ascore.as.ASLexer;
-import org.ascore.as.erreurs.ASErreur;
-import org.ascore.as.erreurs.ASErreur.*;
+import org.ascore.as.erreurs.ASError;
+import org.ascore.as.erreurs.ASError.*;
 import org.ascore.as.modules.core.ASModuleManager;
 import org.ascore.data_manager.Data;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -42,11 +42,11 @@ afficher "fin"
  *
  * @author Mathis Laroche
  */
-public class Executeur {
+public class Executor {
 
     private final static int MAX_DATA_BEFORE_SEND;
     // coordonne ou commencer tous les programmes
-    final private static Coordonnee debutCoord = new Coordonnee("<0>main");
+    final private static Coordinate debutCoord = new Coordinate("<0>main");
 
     static {
         Dotenv dotenv = Dotenv.configure()
@@ -58,10 +58,10 @@ public class Executeur {
     // lexer et parser
     private final ASLexer lexer;
     //------------------------ compilation -----------------------------//
-    private final Hashtable<String, Hashtable<String, Programme>> coordCompileDict = new Hashtable<>();
-    private final ArrayList<Coordonnee> coordCompileTime = new ArrayList<>();
+    private final Hashtable<String, Hashtable<String, Statement>> coordCompileDict = new Hashtable<>();
+    private final ArrayList<Coordinate> coordCompileTime = new ArrayList<>();
     // Coordonnee utilisee lors de l'execution pour savoir quelle ligne executer
-    private final Coordonnee coordRunTime = new Coordonnee(debutCoord.toString());
+    private final Coordinate coordRunTime = new Coordinate(debutCoord.toString());
     // modules
     private final ASModuleManager moduleManager;
 
@@ -80,7 +80,7 @@ public class Executeur {
     private boolean executionActive = false;
     private boolean canExecute = false;
 
-    public Executeur() {
+    public Executor() {
         lexer = new ASLexer();
         moduleManager = new ASModuleManager(this);
         ast = new ASAst(this);
@@ -97,12 +97,12 @@ public class Executeur {
         //analyste.afficherProgramme();
         //analyste.analyserLexing(Analyste.Precision.TOUT_EN_MEME_TEMPS, true);
 
-        Executeur executeur = new Executeur();
-        executeur.debug = true;
+        Executor executor = new Executor();
+        executor.debug = true;
         Object a;
-        if (!(a = executeur.compiler(lines, true)).equals("[]")) System.out.println(a);
+        if (!(a = executor.compiler(lines, true)).equals("[]")) System.out.println(a);
         // executeur.printCompileDict();
-        System.out.println(executeur.executerMain(false));
+        System.out.println(executor.executerMain(false));
     }
 
     public static void printCompiledCode(String code) {
@@ -165,7 +165,7 @@ public class Executeur {
 
             for (String coord : ordreCoord) {
                 String prog = coordCompileDict.get(scope).getOrDefault(coord,
-                        new Programme() {
+                        new Statement() {
                             @Override
                             public Object execute() {
                                 return null;
@@ -191,14 +191,14 @@ public class Executeur {
             Data dataToGet = new Data(Data.Id.GET).addParam(dataName);
             for (var param : additionnalParams)
                 dataToGet.addParam(param);
-            throw new ASErreur.StopGetInfo(dataToGet);
+            throw new ASError.StopGetInfo(dataToGet);
         } else
             return this.dataResponse.pop();
     }
 
     public JSONObject getContext() {
         if (context == null)
-            throw new ASErreur.ErreurContexteAbsent("Il n'y a pas de contexte");
+            throw new ASError.ErreurContexteAbsent("Il n'y a pas de contexte");
         return context;
     }
 
@@ -224,14 +224,14 @@ public class Executeur {
      * @param coord <br><li>la coordonne d'une certaine ligne de code</li>
      * @return la position de la la ligne de code dans le code
      */
-    public Integer getLineFromCoord(Coordonnee coord) {
+    public Integer getLineFromCoord(Coordinate coord) {
         return coordCompileDict.get(coord.getScope()).get(coord.toString()).getNumLigne();
     }
 
     /**
      * @return le dictionnaire de coordonnees compilees
      */
-    public Hashtable<String, Hashtable<String, Programme>> obtenirCoordCompileDict() {
+    public Hashtable<String, Hashtable<String, Statement>> obtenirCoordCompileDict() {
         return coordCompileDict;
     }
 
@@ -265,8 +265,8 @@ public class Executeur {
     public String nouveauScope(String nomDuScope) {
         coordCompileDict.put(nomDuScope, new Hashtable<>());
         // peut-etre faire en sorte qu'il y ait une erreur si le scope existe deja
-        coordCompileTime.add(new Coordonnee("<0>" + nomDuScope));
-        coordCompileDict.get(nomDuScope).put("<0>" + nomDuScope, new Programme() {
+        coordCompileTime.add(new Coordinate("<0>" + nomDuScope));
+        coordCompileDict.get(nomDuScope).put("<0>" + nomDuScope, new Statement() {
             @Override
             public Object execute() {
                 return null;
@@ -296,7 +296,7 @@ public class Executeur {
     /**
      * @return la coordonne actuelle lors de l'execution du code
      */
-    public Coordonnee obtenirCoordRunTime() {
+    public Coordinate obtenirCoordRunTime() {
         return coordRunTime;
     }
 
@@ -417,10 +417,10 @@ public class Executeur {
                  * }
                  */
 
-                Programme ligneParsed;
+                Statement ligneParsed;
 
                 if (lineToken.isEmpty()) {
-                    ligneParsed = new Programme() {
+                    ligneParsed = new Statement() {
                         @Override
                         public Object execute() {
                             return null;
@@ -436,7 +436,7 @@ public class Executeur {
                 coordCompileDict.get(scopeActuel).put(coordActuelle, ligneParsed);
 
                 // accede a la fonction prochaineCoord du programme trouvee afin de definir la prochaine coordonnee
-                coordRunTime.setCoord(ligneParsed.prochaineCoord(new Coordonnee(coordActuelle), lineToken).toString());
+                coordRunTime.setCoord(ligneParsed.prochaineCoord(new Coordinate(coordActuelle), lineToken).toString());
                 coordActuelle = coordRunTime.toString();
                 scopeActuel = coordRunTime.getScope();
 
@@ -456,12 +456,12 @@ public class Executeur {
 
             // update la coordonnee
             coordCompileTime.set(coordCompileTime.size() - 1,
-                    new Coordonnee(coordRunTime.plusUn().toString())
+                    new Coordinate(coordRunTime.plusUn().toString())
             );
 
             // ajoute une ligne null à la fin pour signaler la fin de l'exécution
             if (i + 1 == lignes.length) {
-                Programme fin = new Programme.ProgrammeFin();
+                Statement fin = new Statement.StatementFin();
                 fin.setNumLigne(i + 1);
                 coordCompileDict.get(scopeActuel).put(coordRunTime.toString(), fin);
             }
@@ -496,7 +496,7 @@ public class Executeur {
         return new JSONArray();
     }
 
-    public Object executerScope(String scope, Hashtable<String, Hashtable<String, Programme>> coordCompileDict, String startCoord) {
+    public Object executerScope(String scope, Hashtable<String, Hashtable<String, Statement>> coordCompileDict, String startCoord) {
         if (coordCompileDict == null) coordCompileDict = this.coordCompileDict;
         if (startCoord == null) startCoord = "<0>" + scope;
 
@@ -504,14 +504,14 @@ public class Executeur {
         coordRunTime.setCoord(startCoord);
 
         Object resultat = "[]";
-        Programme ligneParsed = null;
+        Statement ligneParsed = null;
 
         while (executionActive && canExecute) {
             // System.out.println(coordRunTime);
             // get la ligne a executer dans le dictionnaire de coordonnees
             ligneParsed = coordCompileDict.get(scope).get(coordRunTime.toString());
 
-            if (ligneParsed instanceof Programme.ProgrammeFin) { // ne sera vrai que si cela est la derniere ligne du programme
+            if (ligneParsed instanceof Statement.StatementFin) { // ne sera vrai que si cela est la derniere ligne du programme
                 coordRunTime.setCoord(null);
                 break;
             }
@@ -568,7 +568,7 @@ public class Executeur {
             // on passe a la coordonnee suivante
             coordRunTime.plusUn();
         }
-        return (ligneParsed instanceof Programme.ProgrammeFin || !executionActive || resultat == null) ? datas.toString() : resultat;
+        return (ligneParsed instanceof Statement.StatementFin || !executionActive || resultat == null) ? datas.toString() : resultat;
     }
 
     /**
@@ -611,7 +611,7 @@ public class Executeur {
     }
 
     public Object resumeExecution() {
-        Coordonnee coordActuel = obtenirCoordRunTime();
+        Coordinate coordActuel = obtenirCoordRunTime();
         return executerScope(coordActuel.getScope(), null, coordActuel.toString());
     }
 

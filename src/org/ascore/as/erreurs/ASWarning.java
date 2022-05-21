@@ -2,7 +2,7 @@ package org.ascore.as.erreurs;
 
 import org.ascore.data_manager.Data;
 
-public interface ASAvertissement {
+public interface ASWarning {
     enum AvertissementType {
 
     }

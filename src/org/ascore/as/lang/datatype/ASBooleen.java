@@ -1,7 +1,7 @@
 package org.ascore.as.lang.datatype;
 
 import org.ascore.tokens.Token;
-import org.ascore.as.erreurs.ASErreur;
+import org.ascore.as.erreurs.ASError;
 
 import java.util.Objects;
 
@@ -9,7 +9,7 @@ public class ASBooleen implements ASObjet<Boolean> {
     private final boolean valeur;
 
     public ASBooleen(Token valeur) {
-        this.valeur = valeur.getValeur().equals("vrai");
+        this.valeur = valeur.getValue().equals("vrai");
     }
 
     public ASBooleen(ASObjet<?> valeur) {
@@ -24,7 +24,7 @@ public class ASBooleen implements ASObjet<Boolean> {
         this.valeur = switch (valeur) {
             case "vrai" -> true;
             case "faux" -> false;
-            default -> throw new ASErreur.ErreurType("La valeur " + valeur + " ne peut pas \u00EAtre convertie en bool\u00E9en.");
+            default -> throw new ASError.ErreurType("La valeur " + valeur + " ne peut pas \u00EAtre convertie en bool\u00E9en.");
         };
     }
 

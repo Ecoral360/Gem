@@ -1,4 +1,4 @@
-package org.ascore.executeur;
+package org.ascore.executor;
 
 
 import java.util.Objects;
@@ -8,16 +8,16 @@ import java.util.Objects;
  *
  * @author Mathis Laroche
  */
-public class Coordonnee {
+public class Coordinate {
     private String coord;
     private int numLigne;
 
-    public Coordonnee(String coord) {
+    public Coordinate(String coord) {
         this.coord = coord;
         this.numLigne = -1;
     }
 
-    Coordonnee(String coord, int ligne) {
+    Coordinate(String coord, int ligne) {
         this.coord = coord;
         this.numLigne = ligne;
     }
@@ -65,7 +65,7 @@ public class Coordonnee {
      * @param nomNouveauBloc <li>nom du bloc qui va remplacer le bloc actuel</li>
      * @return la nouvelle coordonnee avec le bloc remplacer
      */
-    public Coordonnee remplacerBlocActuel(String nomNouveauBloc) {
+    public Coordinate remplacerBlocActuel(String nomNouveauBloc) {
         finBloc();
         nouveauBloc(nomNouveauBloc);
         return this;
@@ -76,7 +76,7 @@ public class Coordonnee {
      *
      * @return la coordonnee avec le bloc recommencer
      */
-    public Coordonnee recommencerLeBlocActuel() {
+    public Coordinate recommencerLeBlocActuel() {
         finBloc();
         moinsUn();
         return this;
@@ -98,7 +98,7 @@ public class Coordonnee {
      * @param nom <li>nom du nouveau bloc</li>
      * @return la coordonne avec le nouveau bloc
      */
-    public Coordonnee nouveauBloc(String nom) {
+    public Coordinate nouveauBloc(String nom) {
         coord = "<0>" + nom + coord;
         return this;
     }
@@ -108,7 +108,7 @@ public class Coordonnee {
      *
      * @return la coordonnee avec le bloc actuel en moins
      */
-    public Coordonnee finBloc() {
+    public Coordinate finBloc() {
         coord = coord.replaceFirst("<\\d+>\\w+", "");
         return this;
     }
@@ -118,7 +118,7 @@ public class Coordonnee {
      *
      * @return la nouvelle coordonnee
      */
-    public Coordonnee plusUn() {
+    public Coordinate plusUn() {
         String premierNum = coord.substring(coord.indexOf("<") + 1, coord.indexOf(">"));
         int nextNum = Integer.parseInt(premierNum) + 1;
         coord = "<" + nextNum + coord.substring(coord.indexOf(">"));
@@ -130,7 +130,7 @@ public class Coordonnee {
      *
      * @return la nouvelle coordonnee
      */
-    public Coordonnee moinsUn() {
+    public Coordinate moinsUn() {
         String premierNum = coord.substring(coord.indexOf("<") + 1, coord.indexOf(">"));
         int nextNum = Integer.parseInt(premierNum) - 1;
         coord = "<" + nextNum + coord.substring(coord.indexOf(">"));
@@ -146,18 +146,18 @@ public class Coordonnee {
         return numLigne;
     }
 
-    public Coordonnee copy() {
-        return new Coordonnee(this.coord, this.numLigne);
+    public Coordinate copy() {
+        return new Coordinate(this.coord, this.numLigne);
     }
 
-    public Coordonnee copy(int numLigne) {
-        return new Coordonnee(this.coord, numLigne);
+    public Coordinate copy(int numLigne) {
+        return new Coordinate(this.coord, numLigne);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Coordonnee that)) return false;
+        if (!(o instanceof Coordinate that)) return false;
         return numLigne == that.numLigne &&
                 Objects.equals(coord, that.coord);
     }

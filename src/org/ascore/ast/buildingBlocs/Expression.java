@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * Une expression est un objet cr\u00E9e au <i>Compile time</i> et \u00E9valu\u00E9 au <i>Runtime</i> par un
- * {@link Programme}
+ * {@link Statement}
  *
  * @param <T> le type de l'objet retourn\u00E9 par l'expression lorsqu'\u00E9valuer
  * @author Mathis Laroche

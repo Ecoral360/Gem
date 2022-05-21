@@ -4,7 +4,7 @@ import org.ascore.as.lang.ASConstante;
 import org.ascore.as.lang.ASFonctionModule;
 import org.ascore.as.lang.ASVariable;
 import org.ascore.as.modules.core.ASModule;
-import org.ascore.executeur.Executeur;
+import org.ascore.executor.Executor;
 
 /**
  * Classe o\u00F9 sont d\u00E9finis les {@link ASFonctionModule fonctions} et les
@@ -14,7 +14,7 @@ import org.ascore.executeur.Executeur;
  */
 public class ModuleBuiltin {
 
-    public static ASModule charger(Executeur executeurInstance) {
+    public static ASModule charger(Executor executorInstance) {
         var fonctionsBuiltin = new ASFonctionModule[]{
                 // ajouter vos fonctions builtin ici
         };

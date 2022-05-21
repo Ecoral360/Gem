@@ -3,7 +3,7 @@ package org.ascore.ast.buildingBlocs.expressions;
 import org.ascore.as.lang.ASScope;
 import org.ascore.as.lang.datatype.ASObjet;
 import org.ascore.ast.buildingBlocs.Expression;
-import org.ascore.as.erreurs.ASErreur;
+import org.ascore.as.erreurs.ASError;
 
 import java.util.Objects;
 
@@ -37,7 +37,7 @@ public class Var implements Expression<ASObjet<?>> {
             // return ASObjet.VariableManager.obtenirVariable(this.nom).getValeurApresGetter();
             return ASScope.getCurrentScopeInstance().getVariable(nom).getValeurApresGetter();
         } catch (NullPointerException e) {
-            throw new ASErreur.ErreurVariableInconnue("La variable '" + this.nom + "' n'est pas d\u00E9clar\u00E9e dans ce scope.");
+            throw new ASError.ErreurVariableInconnue("La variable '" + this.nom + "' n'est pas d\u00E9clar\u00E9e dans ce scope.");
         }
     }
 

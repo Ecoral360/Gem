@@ -1,18 +1,7 @@
 package org.ascore.as;
 
-import org.ascore.ast.buildingBlocs.Expression;
-import org.ascore.ast.buildingBlocs.Programme;
-import org.ascore.executeur.Executeur;
+import org.ascore.executor.Executor;
 import org.ascore.generateurs.ast.AstGenerator;
-import org.ascore.tokens.Token;
-import org.ascore.as.lang.datatype.ASEntier;
-import org.ascore.ast.buildingBlocs.exemple.expressions.Addition;
-import org.ascore.ast.buildingBlocs.exemple.expressions.ExprEntier;
-import org.ascore.ast.buildingBlocs.exemple.programmes.Afficher;
-import org.ascore.generateurs.annotations.SyntaxeExpression;
-import org.ascore.generateurs.annotations.SyntaxeProgramme;
-
-import java.util.List;
 
 
 /**
@@ -22,44 +11,23 @@ import java.util.List;
  * @author Mathis Laroche
  */
 public class ASAst extends AstGenerator {
-    private final Executeur executeurInstance;
+    private final Executor executorInstance;
 
-    public ASAst(Executeur executeurInstance) {
+    public ASAst(Executor executorInstance) {
         reset();
-        extractFromInstance(this);
-        this.executeurInstance = executeurInstance;
+        addStatements();
+        addExpressions();
+        this.executorInstance = executorInstance;
     }
 
-    protected void ajouterProgrammes() {
-        // ajouter vos programmes ici
-
-    }
-
-    protected void ajouterExpressions() {
-        // ajouter vos expressions ici
+    protected void addStatements() {
+        // add your statements here
 
     }
 
-    //----------------- Programmes -----------------//
-    // ajouter vos programmes ici
+    protected void addExpressions() {
+        // add your expressions here
 
-    @SyntaxeProgramme("SHOW expression")
-    public Programme afficher(List<Object> p, Integer idxVariante) {
-        return new Afficher((Expression<?>) p.get(1), executeurInstance);
-    }
-
-    //----------------- Expressions -----------------//
-    // ajouter vos expressions ici
-
-    @SyntaxeExpression("ENTIER")
-    public ExprEntier entier(List<Object> p, Integer idxVariante) {
-        return new ExprEntier(new ASEntier((Token) p.get(0)));
-    }
-
-
-    @SyntaxeExpression("expression PLUS expression")
-    public Addition addition(List<Object> p, Integer idxVariante) {
-        return new Addition((ExprEntier) p.get(0), (ExprEntier) p.get(2));
     }
 }
 

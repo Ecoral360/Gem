@@ -1,6 +1,6 @@
 package org.ascore.as.lang.datatype;
 
-import org.ascore.as.erreurs.ASErreur;
+import org.ascore.as.erreurs.ASError;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +40,7 @@ public class ASListe implements ASIterable<Object> {
         if (!(nouvelElement instanceof ASPaire nouvellePaire))
             return;
         if (valeur.stream().anyMatch(val -> val instanceof ASPaire paire && paire.clef().equals(nouvellePaire.clef()))) {
-            throw new ASErreur.ErreurClefDupliquee("La clef " + nouvellePaire.clef() + " existe d\u00E9j\u00e0 dans le dictionnaire ou la liste");
+            throw new ASError.ErreurClefDupliquee("La clef " + nouvellePaire.clef() + " existe d\u00E9j\u00e0 dans le dictionnaire ou la liste");
         }
     }
 
@@ -49,7 +49,7 @@ public class ASListe implements ASIterable<Object> {
                 .map(val -> val instanceof ASPaire paire ? paire.clef().getValue() : null)
                 .filter(Objects::nonNull).toList();
         if (clefs.stream().distinct().count() != clefs.size()) {
-            throw new ASErreur.ErreurClefDupliquee("Il y a au moins une clef dupliqu\u00E9e dans le dictionnaire ou la liste");
+            throw new ASError.ErreurClefDupliquee("Il y a au moins une clef dupliqu\u00E9e dans le dictionnaire ou la liste");
         }
     }
 

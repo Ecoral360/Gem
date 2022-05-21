@@ -1,11 +1,11 @@
 package org.ascore.as.lang.datatype;
 
-import org.ascore.executeur.Coordonnee;
+import org.ascore.executor.Coordinate;
 import org.ascore.as.lang.ASParametre;
 import org.ascore.as.lang.ASScope;
 import org.ascore.as.lang.ASType;
-import org.ascore.as.erreurs.ASErreur;
-import org.ascore.executeur.Executeur;
+import org.ascore.as.erreurs.ASError;
+import org.ascore.executor.Executor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +18,7 @@ public class ASFonction implements ASObjet<Object> {
     private final String nom;
     private ASScope scope;
     private String coordBlocName;
-    private final Executeur executeurInstance;
+    private final Executor executorInstance;
 
     /**
      * @param nom        <li>
@@ -36,12 +36,12 @@ public class ASFonction implements ASObjet<Object> {
      *                   Mettre <b>null</b> si le type du retour n'a pas de type forcee
      *                   </li>
      */
-    public ASFonction(String nom, ASType typeRetour, Executeur executeurInstance) {
+    public ASFonction(String nom, ASType typeRetour, Executor executorInstance) {
         this.nom = nom;
         this.coordBlocName = "fonc_";
         this.typeRetour = typeRetour;
         this.parametres = new ASParametre[0];
-        this.executeurInstance = executeurInstance;
+        this.executorInstance = executorInstance;
     }
 
     /**
@@ -61,12 +61,12 @@ public class ASFonction implements ASObjet<Object> {
      *                   Mettre <b>null</b> si le type du retour n'a pas de type forcee
      *                   </li>
      */
-    public ASFonction(String nom, ASParametre[] parametres, ASType typeRetour, Executeur executeurInstance) {
+    public ASFonction(String nom, ASParametre[] parametres, ASType typeRetour, Executor executorInstance) {
         this.nom = nom;
         this.coordBlocName = "fonc_";
         this.parametres = parametres;
         this.typeRetour = typeRetour;
-        this.executeurInstance = executeurInstance;
+        this.executorInstance = executorInstance;
     }
 
     public String getNom() {
@@ -100,19 +100,19 @@ public class ASFonction implements ASObjet<Object> {
 
         if (paramsValeurs.size() < nonDefaultParams || paramsValeurs.size() > this.parametres.length) {
             if (nonDefaultParams == this.parametres.length) {
-                throw new ASErreur.ErreurAppelFonction(this.nom, "Le nombre de param\u00E8tres donn\u00E9s est '" + paramsValeurs.size() +
-                        "' alors que la fonction en prend '" + this.parametres.length + "'");
+                throw new ASError.ErreurAppelFonction(this.nom, "Le nombre de param\u00E8tres donn\u00E9s est '" + paramsValeurs.size() +
+                                                                "' alors que la fonction en prend '" + this.parametres.length + "'");
             } else {
-                throw new ASErreur.ErreurAppelFonction(this.nom, "Le nombre de param\u00E8tres donn\u00E9s est '" + paramsValeurs.size() +
-                        "' alors que la fonction en prend entre '" + nonDefaultParams + "' et '" + this.parametres.length + "'");
+                throw new ASError.ErreurAppelFonction(this.nom, "Le nombre de param\u00E8tres donn\u00E9s est '" + paramsValeurs.size() +
+                                                                "' alors que la fonction en prend entre '" + nonDefaultParams + "' et '" + this.parametres.length + "'");
             }
 
         }
         for (int i = 0; i < paramsValeurs.size(); i++) {
             ASParametre parametre = this.parametres[i];
             if (parametre.getType().noMatch(((ASObjet<?>) paramsValeurs.get(i)).obtenirNomType())) {
-                throw new ASErreur.ErreurType("Le param\u00E8tres '" + parametre.getNom() + "' est de type '" + parametre.getType().nom() +
-                        "', mais l'argument pass\u00E9 est de type '" + ((ASObjet<?>) paramsValeurs.get(i)).obtenirNomType() + "'.");
+                throw new ASError.ErreurType("Le param\u00E8tres '" + parametre.getNom() + "' est de type '" + parametre.getType().nom() +
+                                             "', mais l'argument pass\u00E9 est de type '" + ((ASObjet<?>) paramsValeurs.get(i)).obtenirNomType() + "'.");
             }
         }
         return true;
@@ -163,7 +163,7 @@ public class ASFonction implements ASObjet<Object> {
     public static class FonctionInstance implements ASObjet<Object> {
         private final ASFonction fonction;
         private final ASScope.ScopeInstance scopeInstance;
-        private Coordonnee coordReprise = null;
+        private Coordinate coordReprise = null;
 
         public FonctionInstance(ASFonction fonction) {
             this.fonction = fonction;
@@ -180,8 +180,8 @@ public class ASFonction implements ASObjet<Object> {
 
                     } else {
                         if (param.getValeurParDefaut() == null) {
-                            throw new ASErreur.ErreurAppelFonction(fonction.nom, "L'argument: " + param.getNom() + " n'a pas reçu de valeur" +
-                                    "et ne poss\u00E8de aucune valeur par d\u00E9faut.");
+                            throw new ASError.ErreurAppelFonction(fonction.nom, "L'argument: " + param.getNom() + " n'a pas reçu de valeur" +
+                                                                                "et ne poss\u00E8de aucune valeur par d\u00E9faut.");
                         }
                     }
                 }
@@ -190,14 +190,14 @@ public class ASFonction implements ASObjet<Object> {
 
             Object valeur;
             ASObjet<?> asValeur;
-            Coordonnee ancienneCoord = fonction.executeurInstance.obtenirCoordRunTime().copy();
+            Coordinate ancienneCoord = fonction.executorInstance.obtenirCoordRunTime().copy();
 
-            valeur = fonction.executeurInstance.executerScope(fonction.coordBlocName + fonction.nom, null, coordReprise == null ? null : coordReprise.toString());
+            valeur = fonction.executorInstance.executerScope(fonction.coordBlocName + fonction.nom, null, coordReprise == null ? null : coordReprise.toString());
             if (valeur instanceof String s) {
                 //System.out.println("valeur: " + valeur);
-                coordReprise = fonction.executeurInstance.obtenirCoordRunTime().copy();
-                fonction.executeurInstance.setCoordRunTime(ancienneCoord.toString());
-                throw new ASErreur.StopSendData(s);
+                coordReprise = fonction.executorInstance.obtenirCoordRunTime().copy();
+                fonction.executorInstance.setCoordRunTime(ancienneCoord.toString());
+                throw new ASError.StopSendData(s);
 
             } else {
                 asValeur = (ASObjet<?>) valeur;
@@ -207,12 +207,12 @@ public class ASFonction implements ASObjet<Object> {
 
             /*Boucle.sortirScope(fonction.executeurInstance.obtenirCoordRunTime().toString());*/
 
-            fonction.executeurInstance.setCoordRunTime(ancienneCoord.toString());
+            fonction.executorInstance.setCoordRunTime(ancienneCoord.toString());
             ASScope.popCurrentScopeInstance();
 
             if (asValeur == null || fonction.typeRetour.noMatch(asValeur.obtenirNomType())) {
-                throw new ASErreur.ErreurType("Le type retourner ' " + (asValeur == null ? "vide" : asValeur.obtenirNomType()) + " ' ne correspond pas "
-                        + "au type de retour pr\u00E9cis\u00E9 dans la d\u00E9claration de la fonction ' " + fonction.typeRetour.nom() + " '.");
+                throw new ASError.ErreurType("Le type retourner ' " + (asValeur == null ? "vide" : asValeur.obtenirNomType()) + " ' ne correspond pas "
+                                             + "au type de retour pr\u00E9cis\u00E9 dans la d\u00E9claration de la fonction ' " + fonction.typeRetour.nom() + " '.");
 
             }
             return asValeur;

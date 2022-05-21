@@ -4,9 +4,9 @@ import org.ascore.as.lang.ASConstante;
 import org.ascore.as.lang.ASFonctionModule;
 import org.ascore.as.lang.ASVariable;
 import org.ascore.as.modules.core.ASModule;
-import org.ascore.ast.buildingBlocs.Programme;
+import org.ascore.ast.buildingBlocs.Statement;
 import org.ascore.ast.buildingBlocs.expressions.Var;
-import org.ascore.executeur.Executeur;
+import org.ascore.executor.Executor;
 
 import javax.lang.model.type.NullType;
 import java.util.ArrayList;
@@ -14,12 +14,12 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Exemple d'un {@link Programme} responsable de charger un module au <i>Compile time</i> selon le nom de la variable
+ * Exemple d'un {@link Statement} responsable de charger un module au <i>Compile time</i> selon le nom de la variable
  * qui lui a \u00E9t\u00E9 pr\u00E9cis\u00E9e
  *
  * @author Mathis Laroche
  */
-public class Utiliser extends Programme {
+public class Utiliser extends Statement {
     private final Var module;
     private final List<Var> sous_modules;
 
@@ -28,10 +28,10 @@ public class Utiliser extends Programme {
      * @param sous_modules      array des noms des {@link ASFonctionModule fonctions} et des
      *                          {@link ASVariable variables}/{@link ASConstante constantes}
      *                          \u00e0 charger dans le module
-     * @param executeurInstance l'ex\u00E9cuteur actuel
+     * @param executorInstance l'ex\u00E9cuteur actuel
      */
-    public Utiliser(Var module, Var[] sous_modules, Executeur executeurInstance) {
-        super(executeurInstance);
+    public Utiliser(Var module, Var[] sous_modules, Executor executorInstance) {
+        super(executorInstance);
         this.module = module;
         this.sous_modules = Arrays.asList(sous_modules);
         this.chargerModule();
@@ -39,10 +39,10 @@ public class Utiliser extends Programme {
 
     /**
      * @param module            nom du module pr\u00E9sent \u00e0 l'int\u00E9rieur d'une expression {@link Var}
-     * @param executeurInstance l'ex\u00E9cuteur actuel
+     * @param executorInstance l'ex\u00E9cuteur actuel
      */
-    public Utiliser(Var module, Executeur executeurInstance) {
-        super(executeurInstance);
+    public Utiliser(Var module, Executor executorInstance) {
+        super(executorInstance);
         this.module = module;
         this.sous_modules = new ArrayList<>();
         this.chargerModule();
@@ -54,9 +54,9 @@ public class Utiliser extends Programme {
      */
     private void chargerModule() {
         if (sous_modules.isEmpty()) {
-            executeurInstance.getAsModuleManager().utiliserModule(module.getNom());
+            executorInstance.getAsModuleManager().utiliserModule(module.getNom());
         } else {
-            executeurInstance.getAsModuleManager().utiliserModule(module.getNom(), sous_modules.stream().map(Var::getNom).toArray(String[]::new));
+            executorInstance.getAsModuleManager().utiliserModule(module.getNom(), sous_modules.stream().map(Var::getNom).toArray(String[]::new));
         }
     }
 

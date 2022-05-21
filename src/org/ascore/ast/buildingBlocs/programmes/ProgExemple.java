@@ -1,8 +1,8 @@
 package org.ascore.ast.buildingBlocs.programmes;
 
-import org.ascore.ast.buildingBlocs.Programme;
-import org.ascore.executeur.Coordonnee;
-import org.ascore.executeur.Executeur;
+import org.ascore.ast.buildingBlocs.Statement;
+import org.ascore.executor.Coordinate;
+import org.ascore.executor.Executor;
 import org.ascore.tokens.Token;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @author Mathis Laroche
  * @see Declarer
  */
-public class ProgExemple extends Programme {
+public class ProgExemple extends Statement {
 
     /**
      * Si le programme n'a pas besoin d'avoir acc\u00E8s \u00e0 l'ex\u00E9cuteur lorsque la m\u00E9thode {@link #execute()}
@@ -29,10 +29,10 @@ public class ProgExemple extends Programme {
      * Si le programme doit avoir acc\u00E8s \u00e0 l'ex\u00E9cuteur lorsque la m\u00E9thode {@link #execute()}
      * est appel\u00E9e
      *
-     * @param executeurInstance l'ex\u00E9cuteur actuel
+     * @param executorInstance l'ex\u00E9cuteur actuel
      */
-    public ProgExemple(@NotNull Executeur executeurInstance) {
-        super(executeurInstance);
+    public ProgExemple(@NotNull Executor executorInstance) {
+        super(executorInstance);
     }
 
     /**
@@ -62,14 +62,14 @@ public class ProgExemple extends Programme {
     /**
      * L'override de cette m\u00E9thode n'est pas obligatoire, mais est n\u00E9cessaire
      * si le but est de changer la coordonn\u00E9e de la prochaine ligne \u00e0 compiler par
-     * {@link Executeur l'executeur}
+     * {@link Executor l'executeur}
      *
      * @param coord coordonn\u00E9e actuelle
      * @param ligne ligne actuelle tokenized
      * @return la coordonn\u00E9e de la prochaine ligne \u00e0 compiler
      */
     @Override
-    public Coordonnee prochaineCoord(Coordonnee coord, List<Token> ligne) {
+    public Coordinate prochaineCoord(Coordinate coord, List<Token> ligne) {
         return super.prochaineCoord(coord, ligne);
     }
 }

@@ -55,7 +55,7 @@ public record Analyste(String[] lignes, ASLexer lexer) {
         var thirdLine = new StringBuilder();
 
         ligneLexed.forEach(token -> {
-            String val = token.getValeur();
+            String val = token.getValue();
             String nom = token.getNom();
             String regle = token.getRegleParent().getPattern();
 

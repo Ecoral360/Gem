@@ -1,4 +1,4 @@
-package org.ascore.executeur;
+package org.ascore.executor;
 
 import java.util.Arrays;
 import java.util.List;

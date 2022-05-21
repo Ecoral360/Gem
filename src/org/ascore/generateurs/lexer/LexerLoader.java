@@ -17,7 +17,7 @@ public class LexerLoader extends LexerGenerator {
     private final Map<String, ?> dict;
 
     public LexerLoader(String fileName) {
-        if (fileName == null) fileName = "ascore/regle_et_grammaire/Grammaire.yaml";
+        if (fileName == null) fileName = "ascore/grammar_rules/Grammar.yaml";
 
         Yaml yaml = new Yaml();
         InputStream input = this.getClass().getClassLoader().getResourceAsStream(fileName);
@@ -27,7 +27,10 @@ public class LexerLoader extends LexerGenerator {
 
     @SuppressWarnings("unchecked")
     public void load() {
-        Map<String, ?> regles_a_ajouter = (Map<String, ?>) dict.get("Ajouter");
+        var regles_a_ajouter = (Map<String, ?>) dict.get("Ajouter");
+        if (regles_a_ajouter == null) {
+            regles_a_ajouter = (Map<String, ?>) dict.get("Add");
+        }
 
         for (String toAdd : regles_a_ajouter.keySet()) {
             if (regles_a_ajouter.get(toAdd) instanceof Map<?, ?>) {
@@ -40,7 +43,10 @@ public class LexerLoader extends LexerGenerator {
             }
         }
 
-        List<String> regles_a_ignorer = (List<String>) dict.get("Ignorer");
+        var regles_a_ignorer = (List<String>) dict.get("Ignorer");
+        if (regles_a_ignorer == null) {
+            regles_a_ignorer = (List<String>) dict.get("Ignore");
+        }
         regles_a_ignorer.forEach(this::ignorerRegle);
     }
 }

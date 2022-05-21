@@ -10,12 +10,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 
-/*
- *
- * Les explications vont être rajoutées quand j'aurai la motivation de les écrire XD
- *
- */
-
 /**
  * Classe charg\u00E9e de transformer un {@link String} en {@link List}<{@link Token}>
  *

@@ -11,7 +11,7 @@ public class ASTexte implements ASIterable<String> {
     private final String valeur;
 
     public ASTexte(Token valeur) {
-        this.valeur = valeur.getValeur().substring(1, valeur.getValeur().length() - 1);
+        this.valeur = valeur.getValue().substring(1, valeur.getValue().length() - 1);
     }
 
     public ASTexte(Object valeur) {

@@ -4,10 +4,10 @@ import org.ascore.`as`.lang.ASFonctionModule
 import org.ascore.`as`.lang.ASParametre
 import org.ascore.`as`.lang.ASTypeBuiltin
 import org.ascore.`as`.lang.datatype.ASObjet
-import org.ascore.executeur.Executeur
+import org.ascore.executor.Executor
 
 interface ASModuleFactory {
-    fun charger(executeurInstance: Executeur): ASModule
+    fun charger(executorInstance: Executor): ASModule
 
     fun fonction(
         nom: String,

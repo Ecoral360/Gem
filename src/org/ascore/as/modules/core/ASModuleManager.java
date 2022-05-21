@@ -5,8 +5,8 @@ import org.ascore.as.lang.ASConstante;
 import org.ascore.as.lang.ASScope;
 import org.ascore.as.lang.datatype.ASListe;
 import org.ascore.as.lang.datatype.ASTexte;
-import org.ascore.executeur.Executeur;
-import org.ascore.as.erreurs.ASErreur;
+import org.ascore.executor.Executor;
+import org.ascore.as.erreurs.ASError;
 import org.ascore.as.modules.EnumModule;
 
 import java.util.*;
@@ -16,7 +16,7 @@ import java.util.*;
  *
  * @author Mathis Laroche
  */
-public record ASModuleManager(Executeur executeurInstance) {
+public record ASModuleManager(Executor executorInstance) {
     private final static Hashtable<EnumModule, ASModuleFactory> MODULE_FACTORY = new Hashtable<>();
     /*
     TABLE DES MATIERES:
@@ -32,7 +32,7 @@ public record ASModuleManager(Executeur executeurInstance) {
     }
 
     public ASModule getModuleBuiltins() {
-        return MODULE_FACTORY.get(EnumModule.builtins).charger(executeurInstance);
+        return MODULE_FACTORY.get(EnumModule.builtins).charger(executorInstance);
     }
 
     public void utiliserModuleBuitlins() {
@@ -48,7 +48,7 @@ public record ASModuleManager(Executeur executeurInstance) {
 
     public void utiliserModule(String nomModule) {
         if (nomModule.equals("builtins")) {
-            new ASErreur.AlerteUtiliserBuiltins("Il est inutile d'utiliser builtins, puisqu'il est utilise par defaut");
+            new ASError.AlerteUtiliserBuiltins("Il est inutile d'utiliser builtins, puisqu'il est utilise par defaut");
             return;
         }
 
@@ -73,7 +73,7 @@ public record ASModuleManager(Executeur executeurInstance) {
      */
     public void utiliserModule(String nomModule, String[] methodes) {
         if (nomModule.equals("builtins")) {
-            new ASErreur.AlerteUtiliserBuiltins("Il est inutile d'utiliser builtins, puisque le module builtins est utilise par defaut");
+            new ASError.AlerteUtiliserBuiltins("Il est inutile d'utiliser builtins, puisque le module builtins est utilise par defaut");
             return;
         }
 
@@ -85,8 +85,8 @@ public record ASModuleManager(Executeur executeurInstance) {
         fctEtConstPasDansModule.removeAll(module.getNomsConstantesEtFonctions());
 
         if (fctEtConstPasDansModule.size() > 0)
-            throw new ASErreur.ErreurModule("Le module '" + nomModule + "' ne contient pas les fonctions ou les constantes: "
-                    + fctEtConstPasDansModule.toString()
+            throw new ASError.ErreurModule("Le module '" + nomModule + "' ne contient pas les fonctions ou les constantes: "
+                                           + fctEtConstPasDansModule.toString()
                     .replaceAll("\\[|]", ""));
 
         module.utiliser(nomsFctEtConstDemandees);
@@ -102,9 +102,9 @@ public record ASModuleManager(Executeur executeurInstance) {
         try {
             module = MODULE_FACTORY.get(EnumModule.valueOf(nomModule));
         } catch (IllegalArgumentException err) {
-            throw new ASErreur.ErreurModule("Le module '" + nomModule + "' n'existe pas");
+            throw new ASError.ErreurModule("Le module '" + nomModule + "' n'existe pas");
         }
-        return module.charger(executeurInstance);
+        return module.charger(executorInstance);
     }
 }
 

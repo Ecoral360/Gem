@@ -1,5 +1,5 @@
 import org.json.JSONArray;
-import org.ascore.executeur.Executeur;
+import org.ascore.executor.Executor;
 
 public class Main {
     private static final String CODE = """
@@ -7,13 +7,13 @@ public class Main {
 
 
     public static void main(String[] args) {
-        Executeur executeur = new Executeur();
-        JSONArray compilationResult = executeur.compiler(CODE.split("\n"), true);
+        Executor executor = new Executor();
+        JSONArray compilationResult = executor.compiler(CODE.split("\n"), true);
         if (compilationResult.length() != 0) {
             System.out.println(compilationResult);
             return;
         }
-        JSONArray executionResult = executeur.executerMain(false);
+        JSONArray executionResult = executor.executerMain(false);
         System.out.println(executionResult);
     }
 }

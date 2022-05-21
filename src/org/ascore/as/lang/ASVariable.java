@@ -2,7 +2,7 @@ package org.ascore.as.lang;
 
 import org.ascore.as.lang.datatype.ASObjet;
 import org.ascore.as.lang.managers.ASFonctionManager;
-import org.ascore.as.erreurs.ASErreur;
+import org.ascore.as.erreurs.ASError;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -25,13 +25,13 @@ public class ASVariable implements ASObjet<Object> {
 
     private boolean nouvelleValeurValide(ASObjet<?> nouvelleValeur) {
         if (getType().noMatch(nouvelleValeur.obtenirNomType())) {
-            throw new ASErreur.ErreurAssignement("La variable '" +
-                    nom +
-                    "' est de type *" +
-                    obtenirNomType() +
-                    "*. Elle ne peut pas prendre une valeur de type *" +
-                    nouvelleValeur.obtenirNomType() +
-                    "*.");
+            throw new ASError.ErreurAssignement("La variable '" +
+                                                nom +
+                                                "' est de type *" +
+                                                obtenirNomType() +
+                                                "*. Elle ne peut pas prendre une valeur de type *" +
+                                                nouvelleValeur.obtenirNomType() +
+                                                "*.");
         }
         return true;
     }
@@ -80,7 +80,7 @@ public class ASVariable implements ASObjet<Object> {
 
     public ASVariable setReadOnly() {
         this.setter = (valeur) -> {
-            throw new ASErreur.ErreurAssignement("Cette variable est en lecture seule: elle ne peut pas \u00EAtre modifi\u00E9e");
+            throw new ASError.ErreurAssignement("Cette variable est en lecture seule: elle ne peut pas \u00EAtre modifi\u00E9e");
         };
         this.readOnly = true;
         return this;
@@ -118,7 +118,7 @@ public class ASVariable implements ASObjet<Object> {
 
     public ASObjet<?> getValeurApresGetter() {
         if (this.valeur == null) {
-            throw new ASErreur.ErreurAssignement("La variable '" + nom + "' est utilis\u00E9e avant d'\u00EAtre d\u00E9clar\u00E9e");
+            throw new ASError.ErreurAssignement("La variable '" + nom + "' est utilis\u00E9e avant d'\u00EAtre d\u00E9clar\u00E9e");
         }
         if (this.getter != null) {
             return this.getter.get();
@@ -129,7 +129,7 @@ public class ASVariable implements ASObjet<Object> {
     @Override
     public Object getValue() {
         if (this.valeur == null) {
-            throw new ASErreur.ErreurAssignement("La variable '" + nom + "' est utilis\u00E9e avant d'\u00EAtre d\u00E9clar\u00E9e");
+            throw new ASError.ErreurAssignement("La variable '" + nom + "' est utilis\u00E9e avant d'\u00EAtre d\u00E9clar\u00E9e");
         }
         if (this.getter != null) {
             return this.getter.get().getValue();

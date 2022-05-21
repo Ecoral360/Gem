@@ -1,22 +1,22 @@
 package org.ascore.ast.buildingBlocs.programmes;
 
 
-import org.ascore.as.erreurs.ASErreur;
+import org.ascore.as.erreurs.ASError;
 import org.ascore.as.lang.*;
 import org.ascore.as.lang.datatype.ASNul;
 import org.ascore.as.lang.datatype.ASObjet;
 import org.ascore.ast.buildingBlocs.Expression;
-import org.ascore.ast.buildingBlocs.Programme;
+import org.ascore.ast.buildingBlocs.Statement;
 import org.ascore.ast.buildingBlocs.expressions.Var;
 import org.uselessfun.ascore.as.lang.*;
 
 /**
- * Exemple d'un {@link Programme} charg\u00E9 de d\u00E9clarer une variable
+ * Exemple d'un {@link Statement} charg\u00E9 de d\u00E9clarer une variable
  * au <i>Compile time</i> et de lui assigner sa valeur par d\u00E9faut au <i>Runtime</i>
  *
  * @author Mathis Laroche
  */
-public class Declarer extends Programme {
+public class Declarer extends Statement {
     private final Expression<?> valeur;
     private final boolean constante;
     private final ASType type;
@@ -38,7 +38,7 @@ public class Declarer extends Programme {
         if (expr instanceof Var) {
             var = (Var) expr;
         } else {
-            throw new ASErreur.ErreurSyntaxe("Seul les variables peuvent \u00EAtre d\u00E9clar\u00E9e, pas " + expr);
+            throw new ASError.ErreurSyntaxe("Seul les variables peuvent \u00EAtre d\u00E9clar\u00E9e, pas " + expr);
         }
 
         this.valeur = valeur;
@@ -57,7 +57,7 @@ public class Declarer extends Programme {
 
         // si la variable existe déjà et que c'est une constante, lance une erreur, car on ne peut pas modifier une constante
         if (varObj != null)
-            throw new ASErreur.ErreurAssignement("La variable '" + var.getNom() + "' a d\u00E9j\u00E0 \u00E9t\u00E9 d\u00E9clar\u00E9e");
+            throw new ASError.ErreurAssignement("La variable '" + var.getNom() + "' a d\u00E9j\u00E0 \u00E9t\u00E9 d\u00E9clar\u00E9e");
 
         // si le mot "const" est présent dans l'assignement de la variable, on crée la constante
         // sinon si la variable a été déclarée avec "var", on crée la variable

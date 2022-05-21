@@ -1,6 +1,6 @@
 package org.ascore.as.erreurs;
 
-import org.ascore.executeur.Executeur;
+import org.ascore.executor.Executor;
 import org.ascore.data_manager.Data;
 
 /**
@@ -8,12 +8,7 @@ import org.ascore.data_manager.Data;
  *
  * @author Mathis
  */
-public interface ASErreur {
-
-    enum Erreurs {
-        ErreurZeroExposantZero;
-
-    }
+public interface ASError {
 
     class ErreurAliveScript extends RuntimeException {
         private final String nomErreur;
@@ -23,8 +18,8 @@ public interface ASErreur {
             this.nomErreur = nomErreur;
         }
 
-        public Data getAsData(Executeur executeurInstance) {
-            int ligne = executeurInstance.getLineFromCoord(executeurInstance.obtenirCoordRunTime()) + 1;
+        public Data getAsData(Executor executorInstance) {
+            int ligne = executorInstance.getLineFromCoord(executorInstance.obtenirCoordRunTime()) + 1;
             return new Data(Data.Id.ERREUR).addParam(nomErreur).addParam(super.getMessage()).addParam(ligne);
         }
 
@@ -32,15 +27,15 @@ public interface ASErreur {
             return new Data(Data.Id.ERREUR).addParam(nomErreur).addParam(super.getMessage()).addParam(ligne);
         }
 
-        public void afficher(Executeur executeurInstance) {
-            int ligne = executeurInstance.getLineFromCoord(executeurInstance.obtenirCoordRunTime()) + 1;
-            executeurInstance.ecrire(this.nomErreur + " (à la ligne " + ligne
-                    + ") -> " + super.getMessage());
+        public void afficher(Executor executorInstance) {
+            int ligne = executorInstance.getLineFromCoord(executorInstance.obtenirCoordRunTime()) + 1;
+            executorInstance.ecrire(this.nomErreur + " (à la ligne " + ligne
+                                    + ") -> " + super.getMessage());
         }
 
-        public void afficher(Executeur executeurInstance, int ligne) {
-            executeurInstance.ecrire(this.nomErreur + " (à la ligne " + ligne
-                    + ") -> " + super.getMessage());
+        public void afficher(Executor executorInstance, int ligne) {
+            executorInstance.ecrire(this.nomErreur + " (à la ligne " + ligne
+                                    + ") -> " + super.getMessage());
         }
 
         public String getNomErreur() {
@@ -249,10 +244,10 @@ public interface ASErreur {
             this.message = message;
         }
 
-        public void afficher(Executeur executeurInstance) {
-            int ligne = executeurInstance.getLineFromCoord(executeurInstance.obtenirCoordRunTime()) + 1;
-            executeurInstance.ecrire("Durant l'execution à la ligne " + ligne
-                    + " -> " + this.getClass().getSimpleName() + " : " + this.message);
+        public void afficher(Executor executorInstance) {
+            int ligne = executorInstance.getLineFromCoord(executorInstance.obtenirCoordRunTime()) + 1;
+            executorInstance.ecrire("Durant l'execution à la ligne " + ligne
+                                    + " -> " + this.getClass().getSimpleName() + " : " + this.message);
         }
     }
 

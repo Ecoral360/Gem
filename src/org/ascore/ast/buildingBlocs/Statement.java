@@ -1,8 +1,8 @@
 package org.ascore.ast.buildingBlocs;
 
-import org.ascore.executeur.Coordonnee;
+import org.ascore.executor.Coordinate;
 import org.ascore.tokens.Token;
-import org.ascore.executeur.Executeur;
+import org.ascore.executor.Executor;
 import org.jetbrains.annotations.NotNull;
 
 import javax.lang.model.type.NullType;
@@ -17,20 +17,20 @@ import java.util.List;
  *
  * @author Mathis Laroche
  */
-public abstract class Programme implements Serializable {
-    protected final Executeur executeurInstance;
+public abstract class Statement implements Serializable {
+    protected final Executor executorInstance;
     private int numLigne = -1;
 
-    protected Programme() {
-        this.executeurInstance = null;
+    protected Statement() {
+        this.executorInstance = null;
     }
 
-    protected Programme(@NotNull Executeur executeurInstance) {
-        this.executeurInstance = executeurInstance;
+    protected Statement(@NotNull Executor executorInstance) {
+        this.executorInstance = executorInstance;
     }
 
-    public static Programme evalExpression(Expression<?> expression, String toString) {
-        return new Programme() {
+    public static Statement evalExpression(Expression<?> expression, String toString) {
+        return new Statement() {
             @Override
             public Object execute() {
                 expression.eval();
@@ -52,13 +52,13 @@ public abstract class Programme implements Serializable {
     /**
      * L'override de cette m\u00E9thode n'est pas obligatoire, mais est n\u00E9cessaire
      * si le but est de changer la coordonn\u00E9e de la prochaine ligne \u00e0 compiler par
-     * {@link Executeur l'executeur}
+     * {@link Executor l'executeur}
      *
      * @param coord coordonn\u00E9e actuelle
      * @param ligne ligne actuelle tokenized
      * @return la coordonn\u00E9e de la prochaine ligne \u00e0 compiler
      */
-    public Coordonnee prochaineCoord(Coordonnee coord, List<Token> ligne) {
+    public Coordinate prochaineCoord(Coordinate coord, List<Token> ligne) {
         return coord;
     }
 
@@ -78,7 +78,7 @@ public abstract class Programme implements Serializable {
     /**
      * INDIQUE LA FIN DU PROGRAMME
      */
-    public static class ProgrammeFin extends Programme {
+    public static class StatementFin extends Statement {
         @Override
         public NullType execute() {
             return null;

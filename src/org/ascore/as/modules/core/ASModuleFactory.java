@@ -1,10 +1,10 @@
 package org.ascore.as.modules.core;
 
-import org.ascore.executeur.Executeur;
+import org.ascore.executor.Executor;
 
 @FunctionalInterface
 public interface ASModuleFactory {
 
-    ASModule charger(Executeur executeurInstance);
+    ASModule charger(Executor executorInstance);
 
 }

@@ -58,15 +58,15 @@ public abstract class Statement implements Serializable {
      * @param ligne ligne actuelle tokenized
      * @return la coordonn\u00E9e de la prochaine ligne \u00e0 compiler
      */
-    public Coordinate prochaineCoord(Coordinate coord, List<Token> ligne) {
+    public Coordinate getNextCoordinate(Coordinate coord, List<Token> ligne) {
         return coord;
     }
 
-    public int getNumLigne() {
+    public int getNumLine() {
         return numLigne;
     }
 
-    public void setNumLigne(int numLigne) {
+    public void setNumLine(int numLigne) {
         this.numLigne = numLigne;
     }
 
@@ -78,7 +78,7 @@ public abstract class Statement implements Serializable {
     /**
      * INDIQUE LA FIN DU PROGRAMME
      */
-    public static class StatementFin extends Statement {
+    public static class EndOfProgramStatement extends Statement {
         @Override
         public NullType execute() {
             return null;

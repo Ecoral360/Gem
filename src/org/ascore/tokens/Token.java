@@ -1,7 +1,7 @@
 package org.ascore.tokens;
 
 
-import org.ascore.generateurs.lexer.Regle;
+import org.ascore.generateurs.lexer.TokenRule;
 
 import java.util.Objects;
 
@@ -13,24 +13,20 @@ import java.util.Objects;
 
 public class Token {
 
-    private final String nom, valeur, categorie;
-    private final int debut;
-    private final Regle regleParent;
+    private final String name, value, category;
+    private final int start;
+    private final TokenRule tokenRuleParent;
 
-    public Token(String nom, String valeur, String categorie, int debut, Regle regleParent) {
-        this.nom = nom;
-        this.valeur = valeur;
-        this.categorie = categorie;
-        this.debut = debut;
-        this.regleParent = regleParent;
+    public Token(String name, String value, String category, int start, TokenRule tokenRuleParent) {
+        this.name = name;
+        this.value = value;
+        this.category = category;
+        this.start = start;
+        this.tokenRuleParent = tokenRuleParent;
     }
 
-    public Token(String nom, String valeur, String categorie, int debut) {
-        this.nom = nom;
-        this.valeur = valeur;
-        this.categorie = categorie;
-        this.debut = debut;
-        this.regleParent = null;
+    public Token(String name, String value, String category, int start) {
+        this(name, value, category, start, null);
     }
 
     public static Token withName(String name) {
@@ -45,52 +41,52 @@ public class Token {
         return new Token(null, value, null, -1);
     }
 
-    public String getCategorie() {
-        return this.categorie;
+    public String getCategory() {
+        return this.category;
     }
 
-    public String getNom() {
-        return this.nom;
+    public String getName() {
+        return this.name;
     }
 
     public String getValue() {
-        return this.valeur;
+        return this.value;
     }
 
     public int getStart() {
-        return this.debut;
+        return this.start;
     }
 
-    public Regle getRegleParent() {
-        return regleParent;
+    public TokenRule getTokenRuleParent() {
+        return tokenRuleParent;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Token token)) return false;
-        if (token.getNom() != null && nom != null)
-            return Objects.equals(nom, token.nom);
-        if (token.getCategorie() != null && categorie != null)
-            return Objects.equals(categorie, token.categorie);
-        if (token.getValue() != null && valeur != null)
-            return Objects.equals(valeur, token.valeur);
+        if (token.getName() != null && name != null)
+            return Objects.equals(name, token.name);
+        if (token.getCategory() != null && category != null)
+            return Objects.equals(category, token.category);
+        if (token.getValue() != null && value != null)
+            return Objects.equals(value, token.value);
         return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nom);
+        return Objects.hash(name);
     }
 
     @Override
     public String toString() {
         return "Token{" +
-               "nom='" + nom + '\'' +
-               ", valeur='" + valeur + '\'' +
-               (!categorie.isBlank() ? ", categorie='" + categorie + '\'' : "") +
-               ", debut=" + debut +
-               (regleParent != null ? ", pattern=" + regleParent.getPattern() : "") +
+               "nom='" + name + '\'' +
+               ", valeur='" + value + '\'' +
+               (!category.isBlank() ? ", categorie='" + category + '\'' : "") +
+               ", debut=" + start +
+               (tokenRuleParent != null ? ", pattern=" + tokenRuleParent.getPattern() : "") +
                '}';
     }
 }

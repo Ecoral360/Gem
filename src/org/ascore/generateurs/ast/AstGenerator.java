@@ -4,7 +4,7 @@ import org.ascore.as.erreurs.ASError;
 import org.ascore.ast.Ast;
 import org.ascore.ast.buildingBlocs.Expression;
 import org.ascore.ast.buildingBlocs.Statement;
-import org.ascore.generateurs.lexer.Regle;
+import org.ascore.generateurs.lexer.TokenRule;
 import org.ascore.tokens.Token;
 
 import java.util.*;
@@ -29,7 +29,7 @@ public class AstGenerator {
         int crochets = 0;
 
         for (Token token : expressionArray) {
-            switch (token.getNom()) {
+            switch (token.getName()) {
                 case "PARENT_OUV" -> parentheses++;
                 case "PARENT_FERM" -> parentheses--;
 
@@ -161,7 +161,7 @@ public class AstGenerator {
                     List<String> expressionNom = new ArrayList<>();
 
                     for (Object expr : expressionArray) {
-                        expressionNom.add(expr instanceof Token token ? token.getNom() : "expression");
+                        expressionNom.add(expr instanceof Token token ? token.getName() : "expression");
                     }
                     Matcher match = sameStructureExpression(String.join(" ", expressionNom.subList(i, expressionNom.size())), regleSyntaxe);
                     if (regleSyntaxe.contains("#expression") && match.find()) {
@@ -251,7 +251,7 @@ public class AstGenerator {
         for (String option : pattern.split("~")) {
             for (String motClef : option.split(" ")) {  // on divise le pattern en mot clef afin d'evaluer ceux qui sont des categories (une categorie est entouree par des {})
                 if (motClef.startsWith("{") && motClef.endsWith("}")) {  // on test si le mot clef est une categorie
-                    ArrayList<String> membresCategorie = Regle.getMembreCategorie(motClef.substring(1, motClef.length() - 1)); // on va chercher les membres de la categorie (toutes les regles)
+                    ArrayList<String> membresCategorie = TokenRule.getMembreCategorie(motClef.substring(1, motClef.length() - 1)); // on va chercher les membres de la categorie (toutes les regles)
                     if (membresCategorie == null) {
                         throw new Error("La categorie: '" + pattern + "' n'existe pas");    // si la categorie n'existe pas, on lance une erreur
                     } else {
@@ -425,7 +425,7 @@ public class AstGenerator {
     public Map.Entry<Integer, String> getStatementOrThrow(List<Token> listToken) {
         String programmeTrouve = null;
         List<String> structureLine = new ArrayList<>();
-        listToken.forEach(e -> structureLine.add(e.getNom()));
+        listToken.forEach(e -> structureLine.add(e.getName()));
         int idxVariante = 0;
 
         int nbTokenProgrammeTrouvee = 0;
@@ -463,7 +463,7 @@ public class AstGenerator {
     private Map.Entry<ArrayList<Token>, ArrayList<ArrayList<Token>>> getDivisionExpressionsStatement(List<Token> listToken, String programme, Integer idxVariante) {
         programme = programme.split("~")[idxVariante];
         ArrayList<String> structureLine = new ArrayList<>();
-        listToken.forEach(e -> structureLine.add(e.getNom()));
+        listToken.forEach(e -> structureLine.add(e.getName()));
 
         ArrayList<String> structureProgramme = new ArrayList<>(Arrays.asList(programme.split(" ")));
         // structureProgramme.removeIf(e -> e.equals("expression") || e.equals("#expression"));

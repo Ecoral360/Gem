@@ -56,8 +56,8 @@ public record Analyste(String[] lignes, ASLexer lexer) {
 
         ligneLexed.forEach(token -> {
             String val = token.getValue();
-            String nom = token.getNom();
-            String regle = token.getRegleParent().getPattern();
+            String nom = token.getName();
+            String regle = token.getTokenRuleParent().getPattern();
 
             String format = "%1$-" + (max(max(nom.length(), regle.length()), val.length()) + 3) + "s";
 

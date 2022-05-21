@@ -11,13 +11,13 @@ import java.util.Hashtable;
  *
  * @author Mathis Laroche
  */
-public class Regle {
+public class TokenRule {
 
     static private final Hashtable<String, ArrayList<String>> categories = new Hashtable<>();
 
     private final String nom, pattern, categorie;
 
-    public Regle(String nom, String pattern, String categorie) {
+    public TokenRule(String nom, String pattern, String categorie) {
         this.nom = nom;
         this.pattern = pattern;
         this.categorie = categorie;
@@ -26,7 +26,7 @@ public class Regle {
         categories.get(categorie).add(nom);
     }
 
-    public Regle(String pattern) {
+    public TokenRule(String pattern) {
         this.categorie = null;
         this.pattern = pattern;
         this.nom = null;

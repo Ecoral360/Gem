@@ -16,24 +16,24 @@ import java.util.stream.Collectors;
  * @author Mathis Laroche
  */
 public class LexerGenerator {
-    static private final ArrayList<Regle> reglesIgnorees = new ArrayList<>();
-    static private ArrayList<Regle> reglesAjoutees = new ArrayList<>();
+    static private final ArrayList<TokenRule> REGLES_IGNOREES = new ArrayList<>();
+    static private ArrayList<TokenRule> reglesAjoutees = new ArrayList<>();
 
     public LexerGenerator() {
         reglesAjoutees.clear();
-        reglesIgnorees.clear();
-        Regle.reset();
+        REGLES_IGNOREES.clear();
+        TokenRule.reset();
     }
 
     protected void ajouterRegle(String nom, String pattern, String categorie) {
-        reglesAjoutees.add(new Regle(nom, pattern, categorie));
+        reglesAjoutees.add(new TokenRule(nom, pattern, categorie));
     }
 
     protected void sortRegle() {
-        ArrayList<Regle> nomVars = reglesAjoutees.stream().filter(r -> r.getNom().equals("NOM_VARIABLE")).collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<TokenRule> nomVars = reglesAjoutees.stream().filter(r -> r.getNom().equals("NOM_VARIABLE")).collect(Collectors.toCollection(ArrayList::new));
         reglesAjoutees = reglesAjoutees.stream().filter(r -> !r.getNom().equals("NOM_VARIABLE")).collect(Collectors.toCollection(ArrayList::new));
 
-        Comparator<Regle> longueurRegle = (o1, o2) -> o2.getPattern().length() - o1.getPattern().length();
+        Comparator<TokenRule> longueurRegle = (o1, o2) -> o2.getPattern().length() - o1.getPattern().length();
 
         reglesAjoutees.sort(longueurRegle);
         nomVars.sort(longueurRegle);
@@ -43,15 +43,15 @@ public class LexerGenerator {
     }
 
     protected void ignorerRegle(String pattern) {
-        reglesIgnorees.add(new Regle(pattern));
+        REGLES_IGNOREES.add(new TokenRule(pattern));
     }
 
-    public ArrayList<Regle> getReglesAjoutees() {
+    public ArrayList<TokenRule> getReglesAjoutees() {
         return reglesAjoutees;
     }
 
-    public ArrayList<Regle> getReglesIgnorees() {
-        return reglesIgnorees;
+    public ArrayList<TokenRule> getReglesIgnorees() {
+        return REGLES_IGNOREES;
     }
 
 
@@ -67,12 +67,12 @@ public class LexerGenerator {
             idx = this.prochainIndexValide(idx, s);
 
             boolean trouve = false;
-            for (Regle regle : this.getReglesAjoutees()) {
-                Matcher match = Pattern.compile(regle.getPattern()).matcher(s);
+            for (TokenRule tokenRule : this.getReglesAjoutees()) {
+                Matcher match = Pattern.compile(tokenRule.getPattern()).matcher(s);
                 if (match.find(idx) && match.start() == idx) {
                     debut = match.start();
                     idx = match.end();
-                    tokenList.add(regle.makeToken(s.substring(match.start(), match.end()), debut));
+                    tokenList.add(tokenRule.makeToken(s.substring(match.start(), match.end()), debut));
                     trouve = true;
                     break;
                 }
@@ -91,8 +91,8 @@ public class LexerGenerator {
     private int prochainIndexValide(int idx, String s) {
         while (true) {
             boolean trouve = false;
-            for (Regle regle : this.getReglesIgnorees()) {
-                Matcher match = Pattern.compile(regle.getPattern()).matcher(s);
+            for (TokenRule tokenRule : this.getReglesIgnorees()) {
+                Matcher match = Pattern.compile(tokenRule.getPattern()).matcher(s);
                 if (match.find(idx) && match.start() == idx) {
                     trouve = true;
                     idx = match.end();

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Classe responsable de charger les {@link Regle} du langage avec lesquelles seront contruits les
+ * Classe responsable de charger les {@link TokenRule} du langage avec lesquelles seront contruits les
  * {@link Token Token}
  *
  * @author Mathis Laroche

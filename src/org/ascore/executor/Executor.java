@@ -160,7 +160,7 @@ public class Executor {
             System.out.print("\n" + scope + ":\n");
             String[] ordreCoord = coordCompileDict.get(scope).keySet()
                     .stream()
-                    .sorted(Comparator.comparingInt(coord -> coordCompileDict.get(scope).get(coord).getNumLigne()))
+                    .sorted(Comparator.comparingInt(coord -> coordCompileDict.get(scope).get(coord).getNumLine()))
                     .toArray(String[]::new);
 
             for (String coord : ordreCoord) {
@@ -225,7 +225,7 @@ public class Executor {
      * @return la position de la la ligne de code dans le code
      */
     public Integer getLineFromCoord(Coordinate coord) {
-        return coordCompileDict.get(coord.getScope()).get(coord.toString()).getNumLigne();
+        return coordCompileDict.get(coord.getScope()).get(coord.toString()).getNumLine();
     }
 
     /**
@@ -430,13 +430,13 @@ public class Executor {
                     ligneParsed = ast.parse(lineToken);
                 }
 
-                ligneParsed.setNumLigne(i);
+                ligneParsed.setNumLine(i);
 
                 // met ligneParsed dans le dictionnaire de coordonne
                 coordCompileDict.get(scopeActuel).put(coordActuelle, ligneParsed);
 
                 // accede a la fonction prochaineCoord du programme trouvee afin de definir la prochaine coordonnee
-                coordRunTime.setCoord(ligneParsed.prochaineCoord(new Coordinate(coordActuelle), lineToken).toString());
+                coordRunTime.setCoord(ligneParsed.getNextCoordinate(new Coordinate(coordActuelle), lineToken).toString());
                 coordActuelle = coordRunTime.toString();
                 scopeActuel = coordRunTime.getScope();
 
@@ -461,8 +461,8 @@ public class Executor {
 
             // ajoute une ligne null à la fin pour signaler la fin de l'exécution
             if (i + 1 == lignes.length) {
-                Statement fin = new Statement.StatementFin();
-                fin.setNumLigne(i + 1);
+                Statement fin = new Statement.EndOfProgramStatement();
+                fin.setNumLine(i + 1);
                 coordCompileDict.get(scopeActuel).put(coordRunTime.toString(), fin);
             }
         }
@@ -511,7 +511,7 @@ public class Executor {
             // get la ligne a executer dans le dictionnaire de coordonnees
             ligneParsed = coordCompileDict.get(scope).get(coordRunTime.toString());
 
-            if (ligneParsed instanceof Statement.StatementFin) { // ne sera vrai que si cela est la derniere ligne du programme
+            if (ligneParsed instanceof Statement.EndOfProgramStatement) { // ne sera vrai que si cela est la derniere ligne du programme
                 coordRunTime.setCoord(null);
                 break;
             }
@@ -568,7 +568,7 @@ public class Executor {
             // on passe a la coordonnee suivante
             coordRunTime.plusUn();
         }
-        return (ligneParsed instanceof Statement.StatementFin || !executionActive || resultat == null) ? datas.toString() : resultat;
+        return (ligneParsed instanceof Statement.EndOfProgramStatement || !executionActive || resultat == null) ? datas.toString() : resultat;
     }
 
     /**

@@ -10,7 +10,7 @@ import java.util.function.Function;
  * @author Mathis Laroche
  */
 public abstract class Ast<T> implements BiFunction<List<Object>, Integer, T> {
-    private final Hashtable<String, Ast<?>> sous_asts = new Hashtable<>();
+    private final Hashtable<String, Ast<?>> subAsts = new Hashtable<>();
     private int importance;
 
     public Ast() {
@@ -22,18 +22,18 @@ public abstract class Ast<T> implements BiFunction<List<Object>, Integer, T> {
     }
 
     @SafeVarargs
-    public Ast(Map.Entry<String, Ast<?>>... sous_asts) {
+    public Ast(Map.Entry<String, Ast<?>>... subAsts) {
         this();
-        for (var sous_ast : sous_asts) {
-            this.sous_asts.put(sous_ast.getKey(), sous_ast.getValue());
+        for (var sous_ast : subAsts) {
+            this.subAsts.put(sous_ast.getKey(), sous_ast.getValue());
         }
     }
 
     @SafeVarargs
-    public Ast(int importance, Map.Entry<String, Ast<?>>... sous_asts) {
+    public Ast(int importance, Map.Entry<String, Ast<?>>... subAsts) {
         this(importance);
-        for (var sous_ast : sous_asts) {
-            this.sous_asts.put(sous_ast.getKey(), sous_ast.getValue());
+        for (var sous_ast : subAsts) {
+            this.subAsts.put(sous_ast.getKey(), sous_ast.getValue());
         }
     }
 
@@ -75,7 +75,7 @@ public abstract class Ast<T> implements BiFunction<List<Object>, Integer, T> {
 
 
     public Hashtable<String, Ast<?>> getSousAst() {
-        return this.sous_asts;
+        return this.subAsts;
     }
 
     public int getImportance() {

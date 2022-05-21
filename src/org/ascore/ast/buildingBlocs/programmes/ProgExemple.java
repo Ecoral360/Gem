@@ -69,7 +69,7 @@ public class ProgExemple extends Statement {
      * @return la coordonn\u00E9e de la prochaine ligne \u00e0 compiler
      */
     @Override
-    public Coordinate prochaineCoord(Coordinate coord, List<Token> ligne) {
-        return super.prochaineCoord(coord, ligne);
+    public Coordinate getNextCoordinate(Coordinate coord, List<Token> ligne) {
+        return super.getNextCoordinate(coord, ligne);
     }
 }

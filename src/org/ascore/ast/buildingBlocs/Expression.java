@@ -20,7 +20,7 @@ public interface Expression<T extends ASObjet<?>> extends Serializable {
      */
     T eval();
 
-    class ExpressionVide implements Expression<ASObjet<?>> {
+    class EmptyExpression implements Expression<ASObjet<?>> {
 
         @Override
         public ASObjet<?> eval() {

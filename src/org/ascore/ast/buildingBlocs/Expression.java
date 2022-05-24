@@ -1,6 +1,7 @@
 package org.ascore.ast.buildingBlocs;
 
 import org.ascore.as.lang.datatype.ASObjet;
+import org.ascore.as.lang.datatype.ASTexte;
 
 import java.io.Serializable;
 
@@ -20,11 +21,35 @@ public interface Expression<T extends ASObjet<?>> extends Serializable {
      */
     T eval();
 
+
+    class SimpleExpression implements Expression<ASObjet<?>> {
+        private final String repr;
+
+        public SimpleExpression(String repr) {
+            this.repr = repr;
+        }
+
+        @Override
+        public ASObjet<?> eval() {
+            return new ASTexte(repr);
+        }
+
+        @Override
+        public String toString() {
+            return repr;
+        }
+    }
+
     class EmptyExpression implements Expression<ASObjet<?>> {
 
         @Override
         public ASObjet<?> eval() {
-            return null;
+            return new ASTexte("\n");
+        }
+
+        @Override
+        public String toString() {
+            return "\n";
         }
     }
 }

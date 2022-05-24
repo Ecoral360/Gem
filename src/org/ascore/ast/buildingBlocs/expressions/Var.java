@@ -1,11 +1,10 @@
 package org.ascore.ast.buildingBlocs.expressions;
 
-import org.ascore.as.lang.ASScope;
-import org.ascore.as.lang.datatype.ASObjet;
-import org.ascore.ast.buildingBlocs.Expression;
 import org.ascore.as.erreurs.ASError;
-
-import java.util.Objects;
+import org.ascore.as.lang.datatype.ASNombre;
+import org.ascore.as.lang.datatype.ASObjet;
+import org.ascore.as.lang.datatype.ASTexte;
+import org.ascore.ast.buildingBlocs.Expression;
 
 /**
  * Exemple d'une expression charg\u00E9e de retourner la valeur d'une variable au Runtime
@@ -35,7 +34,11 @@ public class Var implements Expression<ASObjet<?>> {
     public ASObjet<?> eval() {
         try {
             // return ASObjet.VariableManager.obtenirVariable(this.nom).getValeurApresGetter();
-            return ASScope.getCurrentScopeInstance().getVariable(nom).getValeurApresGetter();
+            // ASScope.getCurrentScopeInstance().getVariable(nom);
+            if (ASNombre.estNumerique(nom)) {
+                return new ASTexte("#" + nom);
+            }
+            return new ASTexte("#<" + nom + ">");
         } catch (NullPointerException e) {
             throw new ASError.ErreurVariableInconnue("La variable '" + this.nom + "' n'est pas d\u00E9clar\u00E9e dans ce scope.");
         }
@@ -43,22 +46,10 @@ public class Var implements Expression<ASObjet<?>> {
 
     @Override
     public String toString() {
-        return "Var{" +
-                "nom='" + nom + '\'' +
-                '}';
+        if (ASNombre.estNumerique(nom)) {
+            return "#" + nom;
+        }
+        return "#<" + nom + ">";
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Var var)) return false;
-        return nom.equals(var.nom);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(nom);
-    }
-
 }
 

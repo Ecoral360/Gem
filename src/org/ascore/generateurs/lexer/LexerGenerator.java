@@ -72,7 +72,11 @@ public class LexerGenerator {
                 if (match.find(idx) && match.start() == idx) {
                     debut = match.start();
                     idx = match.end();
-                    tokenList.add(tokenRule.makeToken(s.substring(match.start(), match.end()), debut));
+                    String[] valueGroups = new String[match.groupCount()];
+                    for (int i = 0; i < match.groupCount(); i++) {
+                        valueGroups[i] = match.group(i + 1);
+                    }
+                    tokenList.add(tokenRule.makeToken(s.substring(match.start(), match.end()), debut, valueGroups));
                     trouve = true;
                     break;
                 }

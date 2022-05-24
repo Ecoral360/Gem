@@ -46,20 +46,26 @@ public class AstGenerator {
         //System.out.println(Arrays.toString(expressionArray));
 
         switch (Integer.compare(parentheses, 0)) {
-            case -1 -> throw new ASError.ErreurSyntaxe(-parentheses + " parenth\u00E8se" + pluriel + " ouvrante" + pluriel + " '(' manquante" + pluriel);
-            case 1 -> throw new ASError.ErreurSyntaxe(parentheses + " parenth\u00E8se" + pluriel + " fermante" + pluriel + " ')' manquante" + pluriel);
+            case -1 ->
+                    throw new ASError.ErreurSyntaxe(-parentheses + " parenth\u00E8se" + pluriel + " ouvrante" + pluriel + " '(' manquante" + pluriel);
+            case 1 ->
+                    throw new ASError.ErreurSyntaxe(parentheses + " parenth\u00E8se" + pluriel + " fermante" + pluriel + " ')' manquante" + pluriel);
         }
 
         pluriel = Math.abs(braces) > 1 ? "s" : "";
         switch (Integer.compare(braces, 0)) {
-            case -1 -> throw new ASError.ErreurSyntaxe(-braces + " accolade" + pluriel + " ouvrante" + pluriel + " '{' manquante" + pluriel);
-            case 1 -> throw new ASError.ErreurSyntaxe(braces + " accolade" + pluriel + " fermante" + pluriel + " '}' manquante" + pluriel);
+            case -1 ->
+                    throw new ASError.ErreurSyntaxe(-braces + " accolade" + pluriel + " ouvrante" + pluriel + " '{' manquante" + pluriel);
+            case 1 ->
+                    throw new ASError.ErreurSyntaxe(braces + " accolade" + pluriel + " fermante" + pluriel + " '}' manquante" + pluriel);
         }
 
         pluriel = Math.abs(crochets) > 1 ? "s" : "";
         switch (Integer.compare(crochets, 0)) {
-            case -1 -> throw new ASError.ErreurSyntaxe(-crochets + " crochet" + pluriel + " ouvrant" + pluriel + " '[' manquant" + pluriel);
-            case 1 -> throw new ASError.ErreurSyntaxe(crochets + " crochet" + pluriel + " fermant" + pluriel + " ']' manquant" + pluriel);
+            case -1 ->
+                    throw new ASError.ErreurSyntaxe(-crochets + " crochet" + pluriel + " ouvrant" + pluriel + " '[' manquant" + pluriel);
+            case 1 ->
+                    throw new ASError.ErreurSyntaxe(crochets + " crochet" + pluriel + " fermant" + pluriel + " ']' manquant" + pluriel);
         }
 
     }
@@ -195,9 +201,9 @@ public class AstGenerator {
 
                         if (sameStructureExpression(String.join(" ", expressionNom.subList(debut, exprLength)), regleSyntaxe).matches()) {
                             if ((regleSyntaxe.startsWith("expression") &&
-                                 (!(expressionArray.get(debut) instanceof Expression<?>))
-                                 ||
-                                 expressionArray.get(debut) == null)
+                                    (!(expressionArray.get(debut) instanceof Expression<?>))
+                                    ||
+                                    expressionArray.get(debut) == null)
                             ) {
                                 i++;
                                 continue;
@@ -405,7 +411,21 @@ public class AstGenerator {
         Iterator<?> expressionIt = arbre.iterator();
         Iterator<Token> programmeIt = programmeToken.iterator();
 
-        finalLine.replaceAll(e -> e.equals("expression") ? expressionIt.hasNext() ? expressionIt.next() : null : programmeIt.hasNext() ? programmeIt.next() : null);
+        ArrayList<Object> finalizedLine = new ArrayList<>();
+
+        try {
+            for (Object e : finalLine) {
+                if (e.equals("expression")) {
+                    finalizedLine.add(expressionIt.next());
+                } else if (e.equals("#expression")) {
+                    expressionIt.forEachRemaining(finalizedLine::add);
+                } else {
+                    finalizedLine.add(programmeIt.next());
+                }
+            }
+        } catch (NoSuchElementException e) {
+            throw new ASError.ErreurSyntaxe("Syntaxe invalide. " + e);
+        }
 
         //System.out.println(finalLine);
         if (expressionIt.hasNext()) {
@@ -414,7 +434,7 @@ public class AstGenerator {
 
         return (Statement) programmesDict
                 .get(programmeEtVariante)
-                .apply(finalLine, idxVariante);
+                .apply(finalizedLine, idxVariante);
     }
 
     /**

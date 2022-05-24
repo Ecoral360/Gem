@@ -1,4 +1,4 @@
-package org.ascore.ast.buildingBlocs.programmes;
+package org.ascore.ast.buildingBlocs.statements;
 
 import org.ascore.as.lang.ASConstante;
 import org.ascore.as.lang.ASFonctionModule;

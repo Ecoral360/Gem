@@ -190,12 +190,12 @@ public class ASFonction implements ASObjet<Object> {
 
             Object valeur;
             ASObjet<?> asValeur;
-            Coordinate ancienneCoord = fonction.executorInstance.obtenirCoordRunTime().copy();
+            Coordinate ancienneCoord = fonction.executorInstance.getRuntimeCoord().copy();
 
             valeur = fonction.executorInstance.executerScope(fonction.coordBlocName + fonction.nom, null, coordReprise == null ? null : coordReprise.toString());
             if (valeur instanceof String s) {
                 //System.out.println("valeur: " + valeur);
-                coordReprise = fonction.executorInstance.obtenirCoordRunTime().copy();
+                coordReprise = fonction.executorInstance.getRuntimeCoord().copy();
                 fonction.executorInstance.setCoordRunTime(ancienneCoord.toString());
                 throw new ASError.StopSendData(s);
 

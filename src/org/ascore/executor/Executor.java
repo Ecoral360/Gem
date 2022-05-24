@@ -1,15 +1,15 @@
 package org.ascore.executor;
 
-import org.ascore.as.lang.ASScope;
-import org.ascore.as.lang.managers.ASFonctionManager;
-import org.ascore.ast.buildingBlocs.Statement;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.ascore.as.ASAst;
 import org.ascore.as.ASLexer;
 import org.ascore.as.erreurs.ASError;
 import org.ascore.as.erreurs.ASError.*;
+import org.ascore.as.lang.ASScope;
+import org.ascore.as.lang.managers.ASFonctionManager;
 import org.ascore.as.modules.core.ASModuleManager;
+import org.ascore.ast.buildingBlocs.Statement;
 import org.ascore.data_manager.Data;
-import io.github.cdimascio.dotenv.Dotenv;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -55,6 +55,8 @@ public class Executor {
         MAX_DATA_BEFORE_SEND = Integer.parseInt(dotenv.get("MAX_DATA_BEFORE_SEND"));
     }
 
+    private final ExecutorState executorState = new ExecutorState();
+
     // lexer et parser
     private final ASLexer lexer;
     //------------------------ compilation -----------------------------//
@@ -67,6 +69,7 @@ public class Executor {
 
     // data explaining the actions to do to the com.server
     private final ArrayList<Data> datas = new ArrayList<>();
+
     // data stack used when the program asks the site for information
     private final Stack<Object> dataResponse = new Stack<>();
     //debug mode
@@ -186,6 +189,10 @@ public class Executor {
         return this.dataResponse;
     }
 
+    public ExecutorState getState() {
+        return executorState;
+    }
+
     public Object getDataResponseOrAsk(String dataName, Object... additionnalParams) {
         if (this.dataResponse.isEmpty()) {
             Data dataToGet = new Data(Data.Id.GET).addParam(dataName);
@@ -296,7 +303,7 @@ public class Executor {
     /**
      * @return la coordonne actuelle lors de l'execution du code
      */
-    public Coordinate obtenirCoordRunTime() {
+    public Coordinate getRuntimeCoord() {
         return coordRunTime;
     }
 
@@ -355,7 +362,7 @@ public class Executor {
         } else {
             // Si le code est different ou que la compilation est forcee, compiler les lignes
             //System.out.println(Arrays.toString(PreCompiler.preCompile(lignes)));
-            lignes = PreCompiler.preCompile(lignes);
+            // lignes = PreCompiler.preCompile(lignes);
             return compiler(lignes);
         }
     }
@@ -522,8 +529,11 @@ public class Executor {
                 // execution de la ligne et enregistrement du resultat dans la variable du meme nom
                 resultat = ligneParsed.execute();
 
-                if (resultat instanceof Data) {
-                    datas.add((Data) resultat);
+                if (resultat instanceof Data data) {
+                    datas.add(data);
+
+                } else if (resultat instanceof String s) {
+                    getState().getFinalCode().append(s).append("\n");
 
                 } else if (resultat != null && !coordRunTime.getScope().equals("main")) {
                     // ne sera vrai que si l'on retourne d'une fonction
@@ -611,7 +621,7 @@ public class Executor {
     }
 
     public Object resumeExecution() {
-        Coordinate coordActuel = obtenirCoordRunTime();
+        Coordinate coordActuel = getRuntimeCoord();
         return executerScope(coordActuel.getScope(), null, coordActuel.toString());
     }
 

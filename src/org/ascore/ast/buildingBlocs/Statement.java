@@ -1,13 +1,16 @@
 package org.ascore.ast.buildingBlocs;
 
 import org.ascore.executor.Coordinate;
-import org.ascore.tokens.Token;
 import org.ascore.executor.Executor;
+import org.ascore.executor.ExecutorState;
+import org.ascore.tokens.Token;
 import org.jetbrains.annotations.NotNull;
 
 import javax.lang.model.type.NullType;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Un programme est cr\u00E9e au <i>Compile time</i> et ex\u00E9cut\u00E9 au <i>Runtime</i>.
@@ -29,17 +32,37 @@ public abstract class Statement implements Serializable {
         this.executorInstance = executorInstance;
     }
 
+    protected ExecutorState executorState() {
+        if (executorInstance != null) {
+            return executorInstance.getState();
+        }
+        return null;
+    }
+
     public static Statement evalExpression(Expression<?> expression, String toString) {
         return new Statement() {
             @Override
             public Object execute() {
-                expression.eval();
-                return null;
+                return expression.eval().toString();
             }
 
             @Override
             public String toString() {
                 return toString;
+            }
+        };
+    }
+
+    public static Statement evalExpressions(Expression<?>[] expressions, String separator) {
+        return new Statement() {
+            @Override
+            public String execute() {
+                return Arrays.stream(expressions).map(Expression::eval).map(Object::toString).collect(Collectors.joining(separator));
+            }
+
+            @Override
+            public String toString() {
+                return execute();
             }
         };
     }

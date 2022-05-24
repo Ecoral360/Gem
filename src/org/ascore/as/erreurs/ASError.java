@@ -19,7 +19,7 @@ public interface ASError {
         }
 
         public Data getAsData(Executor executorInstance) {
-            int ligne = executorInstance.getLineFromCoord(executorInstance.obtenirCoordRunTime()) + 1;
+            int ligne = executorInstance.getLineFromCoord(executorInstance.getRuntimeCoord()) + 1;
             return new Data(Data.Id.ERREUR).addParam(nomErreur).addParam(super.getMessage()).addParam(ligne);
         }
 
@@ -28,7 +28,7 @@ public interface ASError {
         }
 
         public void afficher(Executor executorInstance) {
-            int ligne = executorInstance.getLineFromCoord(executorInstance.obtenirCoordRunTime()) + 1;
+            int ligne = executorInstance.getLineFromCoord(executorInstance.getRuntimeCoord()) + 1;
             executorInstance.ecrire(this.nomErreur + " (à la ligne " + ligne
                                     + ") -> " + super.getMessage());
         }
@@ -245,7 +245,7 @@ public interface ASError {
         }
 
         public void afficher(Executor executorInstance) {
-            int ligne = executorInstance.getLineFromCoord(executorInstance.obtenirCoordRunTime()) + 1;
+            int ligne = executorInstance.getLineFromCoord(executorInstance.getRuntimeCoord()) + 1;
             executorInstance.ecrire("Durant l'execution à la ligne " + ligne
                                     + " -> " + this.getClass().getSimpleName() + " : " + this.message);
         }

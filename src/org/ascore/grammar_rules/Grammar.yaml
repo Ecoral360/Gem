@@ -1,11 +1,64 @@
-Ajouter:
-  SHOW: '\bshow\b'  # règle SHOW avec pattern '\bshow\b'
+Add:
 
-  donnee: # catégorie 'donnee'
-    ENTIER: '\d+'  # règle ENTIER avec pattern '\d+' dans la catégorie 'donnee'
-    TEXTE: '".*?"' # règle TEXTE avec pattern '".*?"' dans la catégorie 'donnee'
+  data_type:
+    NUMBER: '(-)?(\d+(\.\d*)?)'
 
-  PLUS: '\+'  # règle PLUS avec pattern '\+'
+  conditionals:
+    __postfix__: '(?:<(.*?)>)?'
+    IF: '@(if)'
+    ELIF: '@(elif)'
+    ELSE: '@(else)'
 
-Ignorer:
-  - '\s+' # pattern à ignorer '\+'
+  loops:
+    __postfix__: '(?:<(.*?)>)?'
+    WHILE: '@(while)'
+    DO: '@(do)'
+    FOR: '@(for)'
+    REPEAT: '@(repeat)'
+    LOOP: '@(loop)'
+    FOREACH: '@(foreach)'
+
+  subroutines:
+    __postfix__: '(?:<(.*?)>)?'
+    SUB: '@(sub)'
+    RETURN: '@(return)'
+    CALL: '@(call)'
+
+  arithmetic:
+    ADD: '\+'
+    POW: '\*\*'
+    MUL: '\*{1}'
+    SUBTRACT: "-"
+    DIV: '\/'
+    MOD: "MOD"
+
+  assignments:
+    ASSIGNMENT: "="
+    PLUS_ASSIGNMENT: '\+='
+    POW_ASSIGNMENT: '\*\*='
+    MUL_ASSIGNMENT: '\*{1}='
+    MOINS_ASSIGNMENT: "-="
+    DIV_ASSIGNMENT: '\/='
+    MOD_ASSIGNMENT: "MOD="
+
+  comparison:
+    EQUAL: "(={2})|(==)"
+    NOT_EQUAL: "!="
+    GREATER: ">"
+    LESSER: "<"
+    GREATER_EQUAL: ">="
+    LESSER_EQUAL: "<="
+
+  BRACKET_OPEN: '\{'
+  BRACKET_CLOSE: '\}'
+
+  variables:
+    GCODE_LOCAL_VARIABLE: '(?:#([1-30]))|(?:#<([a-zA-Z]+[a-zA-Z_\- ]*)>)'
+    GCODE_GLOBAL_VARIABLE: '(?:#<(_[a-zA-Z_]+[a-zA-Z_\- ]*)>)'
+    GEM_LOCAL_VARIABLE: '(?:\$([a-zA-Z]+[a-zA-Z_0-9]*))'
+    GEM_GLOBAL_VARIABLE: '(?:\$(_[a-zA-Z_0-9]*))'
+
+  GCODE: '[GMTOPXY]{1} *\d+\.?\d*'
+
+Ignore:
+  - '\s+'

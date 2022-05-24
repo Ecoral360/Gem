@@ -20,12 +20,10 @@ public class PreCompiler {
     public final static List<String> joinNextLine = Arrays.asList(
             ",",
             "(",
-            "{",
             "["
     );
 
     public final static List<String> joinPrevLine = Arrays.asList(
-            "}",
             "]",
             ")"
     );

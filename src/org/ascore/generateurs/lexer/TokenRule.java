@@ -56,8 +56,8 @@ public class TokenRule {
         return this.categorie;
     }
 
-    public Token makeToken(String valeur, int debut) {
-        return new Token(this.nom, valeur, this.categorie, debut, this);
+    public Token makeToken(String valeur, int debut, String... valueGroups) {
+        return new Token(this.nom, valeur, this.categorie, debut, this, valueGroups);
     }
 
     @Override

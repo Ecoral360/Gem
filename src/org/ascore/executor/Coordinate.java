@@ -66,8 +66,8 @@ public class Coordinate {
      * @return la nouvelle coordonnee avec le bloc remplacer
      */
     public Coordinate remplacerBlocActuel(String nomNouveauBloc) {
-        finBloc();
-        nouveauBloc(nomNouveauBloc);
+        endBlock();
+        makeBlock(nomNouveauBloc);
         return this;
     }
 
@@ -77,7 +77,7 @@ public class Coordinate {
      * @return la coordonnee avec le bloc recommencer
      */
     public Coordinate recommencerLeBlocActuel() {
-        finBloc();
+        endBlock();
         moinsUn();
         return this;
     }
@@ -87,7 +87,7 @@ public class Coordinate {
      */
     public void recommencerBoucleActuelle() {
         while (!getBlocActuel().equals(getBoucleActuelle()) && getBoucleActuelle() != null) {
-            finBloc();
+            endBlock();
         }
         recommencerLeBlocActuel();
     }
@@ -98,7 +98,7 @@ public class Coordinate {
      * @param nom <li>nom du nouveau bloc</li>
      * @return la coordonne avec le nouveau bloc
      */
-    public Coordinate nouveauBloc(String nom) {
+    public Coordinate makeBlock(String nom) {
         coord = "<0>" + nom + coord;
         return this;
     }
@@ -108,7 +108,7 @@ public class Coordinate {
      *
      * @return la coordonnee avec le bloc actuel en moins
      */
-    public Coordinate finBloc() {
+    public Coordinate endBlock() {
         coord = coord.replaceFirst("<\\d+>\\w+", "");
         return this;
     }

@@ -1,4 +1,4 @@
-package org.ascore.ast.buildingBlocs.programmes;
+package org.ascore.ast.buildingBlocs.statements;
 
 
 import org.ascore.as.erreurs.ASError;
@@ -8,7 +8,6 @@ import org.ascore.as.lang.datatype.ASObjet;
 import org.ascore.ast.buildingBlocs.Expression;
 import org.ascore.ast.buildingBlocs.Statement;
 import org.ascore.ast.buildingBlocs.expressions.Var;
-import org.uselessfun.ascore.as.lang.*;
 
 /**
  * Exemple d'un {@link Statement} charg\u00E9 de d\u00E9clarer une variable

@@ -2,7 +2,6 @@ package org.ascore.as.modules.core;
 
 import org.ascore.as.lang.*;
 import org.ascore.as.lang.managers.ASFonctionManager;
-import org.uselessfun.ascore.as.lang.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;

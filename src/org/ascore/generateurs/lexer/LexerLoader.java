@@ -17,7 +17,7 @@ public class LexerLoader extends LexerGenerator {
     private final Map<String, ?> dict;
 
     public LexerLoader(String fileName) {
-        if (fileName == null) fileName = "ascore/grammar_rules/Grammar.yaml";
+        if (fileName == null) fileName = "org/ascore/grammar_rules/Grammar.yaml";
 
         Yaml yaml = new Yaml();
         InputStream input = this.getClass().getClassLoader().getResourceAsStream(fileName);
@@ -34,9 +34,17 @@ public class LexerLoader extends LexerGenerator {
 
         for (String toAdd : regles_a_ajouter.keySet()) {
             if (regles_a_ajouter.get(toAdd) instanceof Map<?, ?>) {
-                Map<String, ?> categorie = (Map<String, ?>) regles_a_ajouter.get(toAdd);
+                Map<String, String> categorie = (Map<String, String>) regles_a_ajouter.get(toAdd);
+                if (categorie.containsKey("__prefix__")) {
+                    categorie.replaceAll((ruleName, rulePattern) -> categorie.get("__prefix__") + rulePattern);
+                    categorie.remove("__prefix__");
+                }
+                if (categorie.containsKey("__postfix__")) {
+                    categorie.replaceAll((ruleName, rulePattern) -> rulePattern + categorie.get("__postfix__"));
+                    categorie.remove("__postfix__");
+                }
                 for (String element : categorie.keySet()) {
-                    this.ajouterRegle(element, (String) categorie.get(element), toAdd);
+                    this.ajouterRegle(element, categorie.get(element), toAdd);
                 }
             } else {
                 this.ajouterRegle(toAdd, (String) regles_a_ajouter.get(toAdd), "");

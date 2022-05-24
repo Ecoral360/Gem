@@ -16,13 +16,15 @@ public class Token {
     private final String name, value, category;
     private final int start;
     private final TokenRule tokenRuleParent;
+    private final String[] valueGroups;
 
-    public Token(String name, String value, String category, int start, TokenRule tokenRuleParent) {
+    public Token(String name, String value, String category, int start, TokenRule tokenRuleParent, String... valueGroups) {
         this.name = name;
         this.value = value;
         this.category = category;
         this.start = start;
         this.tokenRuleParent = tokenRuleParent;
+        this.valueGroups = valueGroups;
     }
 
     public Token(String name, String value, String category, int start) {
@@ -51,6 +53,10 @@ public class Token {
 
     public String getValue() {
         return this.value;
+    }
+
+    public String[] getValueGroups() {
+        return valueGroups;
     }
 
     public int getStart() {
@@ -82,12 +88,12 @@ public class Token {
     @Override
     public String toString() {
         return "Token{" +
-               "nom='" + name + '\'' +
-               ", valeur='" + value + '\'' +
-               (!category.isBlank() ? ", categorie='" + category + '\'' : "") +
-               ", debut=" + start +
-               (tokenRuleParent != null ? ", pattern=" + tokenRuleParent.getPattern() : "") +
-               '}';
+                "nom='" + name + '\'' +
+                ", valeur='" + value + '\'' +
+                (!category.isBlank() ? ", categorie='" + category + '\'' : "") +
+                ", debut=" + start +
+                (tokenRuleParent != null ? ", pattern=" + tokenRuleParent.getPattern() : "") +
+                '}';
     }
 }
 

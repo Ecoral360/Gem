@@ -1,4 +1,4 @@
-package org.ascore.ast.buildingBlocs.programmes;
+package org.ascore.ast.buildingBlocs.statements;
 
 import org.ascore.ast.buildingBlocs.Statement;
 import org.ascore.executor.Coordinate;

@@ -4,7 +4,6 @@ import org.ascore.as.lang.ASFonctionModule;
 import org.ascore.as.lang.ASScope;
 import org.ascore.as.lang.ASType;
 import org.ascore.as.lang.ASVariable;
-import org.uselessfun.ascore.as.lang.*;
 
 public class ASFonctionManager {
 

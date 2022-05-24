@@ -36,9 +36,79 @@
 
 ### Replacing O-codes
 
-To replace O-codes in the program's control flow department, Gem introduces `@words`. 
+To replace O-codes in the program's control flow department, Gem introduces `@words`.
 
-- ### Subroutines
+General syntax for each `@word`:
+
+- `@word` + `<O-code>` (optional) + _complement_ (if needed)
+    - Ex: `@if 3 > $var` OR `@if<100> 3 > $var`
+    - Ex: `@else` OR `@else<100>`
+
+> Because it is tedious to write everything twice, the following explanations won't contain the manual `<O-code>`'s
+> syntax. However, remember that every time you see `@word`, you could change it to `@word<O-code>`
+
+- ### List of all `@words`
+    - Conditionals
+        - `@if` _condition_
+        - `@elif` _condition_
+        - `@else`
+    - Loops
+        - `@while` _condition_
+        - `@do`
+        - `@for` _$variable_ = _value_ : _condition_ : _expression_
+        - `@repeat` _expression_
+        - `@loop`
+        - `@foreach` _$variable_ `in` _range_
+    - Subroutines
+        - `@sub`
+        - `@return`
+        - `@call`
+
+- ### Conditionals (@if, @elif, and @else)
+  #### Definitions:
+    1. Solo if:
+        ```
+        @if condition {
+            ; if's body
+        }
+        ```
+    2. If-else:
+        ```
+        @if condition {
+            ; if's body
+        } @else {
+            ; else's body
+        }
+        ```
+    3. If-elif:
+        ```
+        @if condition1 {
+            ; if's body
+        } @elif condition2 {
+            ; first elif's body
+        } @elif condition3 {
+            ; second elif's body
+        } ...
+        ```
+    3. If-elif-else:
+        ```
+        @if condition1 {
+            ; if's body
+        } @elif condition2 {
+            ; first elif's body
+        } @elif condition3 {
+            ; second elif's body
+        } @else {
+            ; else's body
+        }
+        ```
+  #### Examples:
+    - TODO: write examples
+
+
+- ### Loops (@do, @while, @for, @foreach, @repeat, and @loop)
+
+- ### Subroutines (@sub, @return, and @call)
 
   #### Definitions:
 

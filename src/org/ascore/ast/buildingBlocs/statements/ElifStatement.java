@@ -23,13 +23,16 @@ public class ElifStatement extends Statement {
     @Override
     public String execute() {
         assert executorInstance != null;
-        var OCode = executorState().getOCodeManager().pushOCodeOrNewMinor(this.OCode);
+        var currentOCode = executorState().getOCodeManager().getCurrentOCode();
+        if (this.OCode != null && !this.OCode.equals(currentOCode)) {
+            throw new ASError.ErreurSyntaxe("The OCode of the elif statement must be the same as the OCode of the if statement");
+        }
         var currentBlock = executorInstance.getRuntimeCoord().getCurrentBlock();
         if (!currentBlock.equals("if") && !currentBlock.equals("elif")) {
             throw new ASError.ErreurSyntaxe("elif statement must follow an if or elif block");
         }
         executorInstance.getRuntimeCoord().replaceCurrentBlock("elif");
-        return "O" + OCode + " elseif " + condition;
+        return "O" + currentOCode + " elseif " + condition;
     }
 
     @Override

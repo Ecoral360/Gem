@@ -3,6 +3,7 @@ package org.ascore.as;
 import org.ascore.ast.buildingBlocs.Expression;
 import org.ascore.ast.buildingBlocs.Statement;
 import org.ascore.ast.buildingBlocs.expressions.BinComp;
+import org.ascore.ast.buildingBlocs.expressions.GcodeExpr;
 import org.ascore.ast.buildingBlocs.expressions.NumberExpr;
 import org.ascore.ast.buildingBlocs.expressions.Var;
 import org.ascore.ast.buildingBlocs.statements.ElifStatement;
@@ -76,16 +77,6 @@ public class ASAst extends AstGenerator {
 
     protected void addExpressions() {
 
-        // addExpression("COMMAND", p -> {
-        //     var groups = ((Token) p.get(0)).getValueGroups();
-        //     var OCode = groups.length > 1 ? groups[1] : null;
-        //     var command = (Expression<?>) p.get(1);
-//
-        //     return new BinComp(executorInstance, command, OCode);
-        // });
-
-        addExpression("GCODE", p -> new Expression.SimpleExpression(((Token) p.get(0)).getValue()));
-
         // add your expressions here
         addExpression("NUMBER", p -> new NumberExpr(((Token) p.get(0))));
 
@@ -103,6 +94,9 @@ public class ASAst extends AstGenerator {
             var operator = ((Token) p.get(1)).getName();
             return new BinComp(left, BinComp.Op.valueOf(operator), right);
         });
+
+        addExpression("GCODE expression",
+                p -> new GcodeExpr(((Token) p.get(0)).getValue(), (Expression<?>) p.get(1)));
     }
 }
 

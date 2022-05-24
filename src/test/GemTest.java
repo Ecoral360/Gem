@@ -5,14 +5,17 @@ import org.json.JSONArray;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
 public class GemTest {
     public static String CODE = """
-            @if $abc > 12 {
+            @if $gem-style-variable > 12 {
                 G00 X0 Y0
-            } @elif YES > 1 {
+            } @elif #<gcode-style variable> >= -1.5 {
                 
+            } @else {
+                                
             }
             """;
 
@@ -24,5 +27,6 @@ public class GemTest {
         JSONArray executionResult = executor.executerMain(false);
         System.out.println(executor.getState().getFinalCode());
         System.out.println(executionResult);
+        assertFalse(executionResult.toString().contains("\"id\":400"));
     }
 }

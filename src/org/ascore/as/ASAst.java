@@ -75,6 +75,15 @@ public class ASAst extends AstGenerator {
     }
 
     protected void addExpressions() {
+
+        // addExpression("COMMAND", p -> {
+        //     var groups = ((Token) p.get(0)).getValueGroups();
+        //     var OCode = groups.length > 1 ? groups[1] : null;
+        //     var command = (Expression<?>) p.get(1);
+//
+        //     return new BinComp(executorInstance, command, OCode);
+        // });
+
         addExpression("GCODE", p -> new Expression.SimpleExpression(((Token) p.get(0)).getValue()));
 
         // add your expressions here

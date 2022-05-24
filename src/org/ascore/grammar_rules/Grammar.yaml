@@ -52,9 +52,13 @@ Add:
   BRACKET_OPEN: '\{'
   BRACKET_CLOSE: '\}'
 
+  COMMAND: '(?:\((.*?)\))'
+
   variables:
-    GCODE_LOCAL_VARIABLE: '(?:#([1-30]))|(?:#<([a-zA-Z]+[a-zA-Z_\- ]*)>)'
+    GCODE_LOCAL_VARIABLE: '(?:#<([a-zA-Z]+[a-zA-Z_\- 0-9]*)>)'
+    GCODE_LOCAL_NUM_VARIABLE: '(?:#([1-30]+))'
     GCODE_GLOBAL_VARIABLE: '(?:#<(_[a-zA-Z_]+[a-zA-Z_\- ]*)>)'
+    GCODE_GLOBAL_NUM_VARIABLE: '(?:#([31-5000]+))'
     GEM_LOCAL_VARIABLE: '(?:\$([a-zA-Z]+[a-zA-Z_0-9]*))'
     GEM_GLOBAL_VARIABLE: '(?:\$(_[a-zA-Z_0-9]*))'
 
@@ -62,3 +66,4 @@ Add:
 
 Ignore:
   - '\s+'
+  - ';.*?$'

@@ -127,9 +127,12 @@ public class LexerGenerator {
                     match.start()));
             idx = match.end();
         }
+        throw new LexerError("Error while lexing.\n"
+                + "Unexpected token : " + match.group(0)
+                + "\n" + s + "\n"
+                + " ".repeat(match.start()) + "^".repeat(match.group(0).length()));
 
-        return idx;
-
+        // return idx;
     }
 }
 

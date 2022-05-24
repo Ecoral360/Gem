@@ -5,6 +5,8 @@ import org.ascore.ast.buildingBlocs.Statement;
 import org.ascore.ast.buildingBlocs.expressions.BinComp;
 import org.ascore.ast.buildingBlocs.expressions.NumberExpr;
 import org.ascore.ast.buildingBlocs.expressions.Var;
+import org.ascore.ast.buildingBlocs.statements.ElifStatement;
+import org.ascore.ast.buildingBlocs.statements.ElseStatement;
 import org.ascore.ast.buildingBlocs.statements.EndIfStatement;
 import org.ascore.ast.buildingBlocs.statements.IfStatement;
 import org.ascore.executor.Executor;
@@ -38,18 +40,42 @@ public class ASAst extends AstGenerator {
             return new IfStatement(executorInstance, condition, OCode);
         });
 
+        addStatement("ELIF expression BRACKET_OPEN~" +
+                        "BRACKET_CLOSE ELIF expression BRACKET_OPEN",
+                (p, idxVariant) -> {
+                    int idxElif = idxVariant;
+                    int idxExpr = idxElif + 1;
+                    var groups = ((Token) p.get(idxElif)).getValueGroups();
+                    var OCode = groups.length > 1 ? groups[1] : null;
+                    var condition = (Expression<?>) p.get(idxExpr);
+
+                    return new ElifStatement(executorInstance, condition, OCode);
+                });
+
+        addStatement("ELSE BRACKET_OPEN~" +
+                        "BRACKET_CLOSE ELSE BRACKET_OPEN",
+                (p, idxVariant) -> {
+                    int idxElse = idxVariant;
+                    var groups = ((Token) p.get(idxElse)).getValueGroups();
+                    var OCode = groups.length > 1 ? groups[1] : null;
+
+                    return new ElseStatement(executorInstance, OCode);
+                });
+
         addStatement("BRACKET_CLOSE", p ->
-                switch (executorInstance.getRuntimeCoord().getBlocActuel()) {
+                switch (executorInstance.getRuntimeCoord().getCurrentBlock()) {
                     case "if", "elif", "else" -> new EndIfStatement(executorInstance);
                     default -> throw new RuntimeException("BRACKET_CLOSE sans BRACKET_OPEN");
                 });
+
+        // TODO: 5/24/22 Declaration + Assignments
 
         addStatement("", p -> Statement.evalExpression(new Expression.EmptyExpression(), ""));
         addStatement("#expression", p -> Statement.evalExpressions(p.toArray(Expression[]::new), " "));
     }
 
     protected void addExpressions() {
-        addExpression("GCODE.*", p -> new Expression.SimpleExpression(((Token) p.get(0)).getValue()));
+        addExpression("GCODE", p -> new Expression.SimpleExpression(((Token) p.get(0)).getValue()));
 
         // add your expressions here
         addExpression("NUMBER", p -> new NumberExpr(((Token) p.get(0))));

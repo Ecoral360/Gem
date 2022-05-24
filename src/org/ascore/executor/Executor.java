@@ -474,8 +474,8 @@ public class Executor {
             }
         }
         try {
-            if (!coordRunTime.getBlocActuel().equals("main")) {
-                throw new ErreurFermeture(coordRunTime.getBlocActuel());
+            if (!coordRunTime.getCurrentBlock().equals("main")) {
+                throw new ErreurFermeture(coordRunTime.getCurrentBlock());
             }
             if (!ASFonctionManager.obtenirStructure().isBlank()) {
                 throw new ErreurFermeture(ASFonctionManager.obtenirStructure());

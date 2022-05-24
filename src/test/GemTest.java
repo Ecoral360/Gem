@@ -9,8 +9,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GemTest {
     public static String CODE = """
-            @if $abc == 12 {
+            @if $abc > 12 {
                 G00 X0 Y0
+            } @elif $a {
+            
             }
             """;
 

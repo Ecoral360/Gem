@@ -24,7 +24,7 @@ public class IfStatement extends Statement {
         assert executorInstance != null;
         var OCode = executorState().getOCodeManager().pushOCodeOrNewMinor(this.OCode);
         executorInstance.getRuntimeCoord().makeBlock("if");
-        return "O" + OCode + " if " + condition.toString();
+        return "O" + OCode + " if " + condition;
     }
 
     @Override

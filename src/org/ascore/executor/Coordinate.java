@@ -40,7 +40,7 @@ public class Coordinate {
     /**
      * @return le bloc le plus recent dans lequel se situe la coordonne
      */
-    public String getBlocActuel() {
+    public String getCurrentBlock() {
         if (coord.indexOf("<", 1) == -1) return getScope();
         else return coord.substring(coord.indexOf(">") + 1, coord.indexOf("<", 1));
     }
@@ -65,7 +65,7 @@ public class Coordinate {
      * @param nomNouveauBloc <li>nom du bloc qui va remplacer le bloc actuel</li>
      * @return la nouvelle coordonnee avec le bloc remplacer
      */
-    public Coordinate remplacerBlocActuel(String nomNouveauBloc) {
+    public Coordinate replaceCurrentBlock(String nomNouveauBloc) {
         endBlock();
         makeBlock(nomNouveauBloc);
         return this;
@@ -86,7 +86,7 @@ public class Coordinate {
      * recommence la boucle actuelle
      */
     public void recommencerBoucleActuelle() {
-        while (!getBlocActuel().equals(getBoucleActuelle()) && getBoucleActuelle() != null) {
+        while (!getCurrentBlock().equals(getBoucleActuelle()) && getBoucleActuelle() != null) {
             endBlock();
         }
         recommencerLeBlocActuel();

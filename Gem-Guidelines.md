@@ -27,50 +27,63 @@
 
 #### Assignments:
 
-- `variable = value`
+- `$variable = value`
+- `$variable [op]= value`
+    - Ex: `$variable += value`
+    - Ex: `$variable -= value`
+    - Ex: `$variable *= value`
+    - etc.
 
-### Subroutines
+### Replacing O-codes
 
-#### Definitions:
+To replace O-codes in the program's control flow department, Gem introduces `@words`. 
 
-1. Automatic O-code
+- ### Subroutines
 
-```
-    @sub name[$param1, $param2, ...] {
-        ; Subroutine's body
-    }
-```
+  #### Definitions:
 
-2. Manual O-code
+    1. Automatic O-code
 
-```
-    @sub<code> name[$param1, $param2, ...] {
-        ; Subroutine's body
-    }
-```
+    ```
+      @sub name[$param1, $param2, ...] {
+          ; Subroutine's body
+      }
+    ```
 
-#### Returning
+    2. Manual O-code
 
-- `@return value` OR `@return`
+    ```
+      @sub<code> name[$param1, $param2, ...] {
+          ; Subroutine's body
+      }
+    ```
 
-#### Calling
+  #### Returning:
+    - `@return value` OR `@return`
 
-- No parameters: `@call name`
-- With parameters: `@call name[arg1, arg2, ...]`
-    - `@call name[0, 2, 81]`
-    - `@call name[#val1, 2, #val4]`
-    - `@call name[#val1, 2, -#val4]`
-    - `@call name[#val1 * 3 - #val2, 2, -3]`
+  #### Calling:
+    - No parameters: `@call name`
+    - With parameters: `@call name[arg1, arg2, ...]`
+        - `@call name[0, 2, 81]`
+        - `@call name[#val1, 2, #val4]`
+        - `@call name[#val1, 2, -#val4]`
+        - `@call name[#val1 * 3 - #val2, 2, -3]`
 
-> **/!\ IMPORTANT /!\\**:  
-> Calling a function can be done in an assigments (`#abc = @call f[1, 2, 3]`) and the value the function
-> returns will be the one assigned to the variable.
-> However, a line of code can only contain **one function call**.  
-> Ex: `#abc = @call foo[1, 2] - @call bar[5, -2, 3]` is **not allowed**. Instead, you should do
-> ```
-> #abc = @call foo[1, 2]
-> #abc -= @call bar[5, -2, 3]
-> ```
+  > **/!\ IMPORTANT /!\\**:  
+  > Calling a function can be done in an assigments (`#abc = @call f[1, 2, 3]`) and the value the function
+  > returns will be the one assigned to the variable.
+  > However, a line of code can only contain **one function call**.  
+  > Ex: `#abc = @call foo[1, 2] - @call bar[5, -2, 3]` is **not allowed**. Instead, you should do
+  > ```
+  > #abc = @call foo[1, 2]
+  > #abc -= @call bar[5, -2, 3]
+  > ```
+
+### Replacing G-code's codes
+
+#### Modal codes:
+
+#### Non-modal codes:
 
 ## Example G-code vs Gem:
 
@@ -106,8 +119,8 @@ N0190 M08
 %
 O2468
 
-G00 G17 G20 G40 G80 G90 G94#
-!motion:fastest
+G00 G17 G20 G40 G80 G90 G94
+!motion:rapid/feed
 !plane:XY
 !unit:inch      
 !cutter-dcomp:none  ; Cutter Diameter Compensation

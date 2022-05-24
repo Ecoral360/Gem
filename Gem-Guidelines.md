@@ -3,16 +3,74 @@
 ## Objectives:
 
 - [ ] The output of any Gem program is valid G-code
-- [ ] There is a way to write raw G-code inside a Gem program
+- [ ] Any valid G-code program is a valid Gem program
 - [ ] Programs written in Gem are easy to read and understand
-- [ ] In Gem, line numbers are optionnal
-- [ ] Gem's syntax doesn't stray to far from G-code's syntax
 
 ## Syntax:
 
-1. Each program must start with `%`
-2. Comments are in parentheses `( ... )`
-3. Whitespaces are ignored
+- Program may start with `%`
+- Whitespaces are ignored
+
+### Comments
+
+- Single or multiline: in parentheses `(...)`
+- Single line: after `;`
+
+### Variables
+
+#### Names:
+
+- Local variables:
+    - `$NAME` or `#<NAME>`
+- Global variables:
+    - `$_NAME` or `#<_NAME>`
+
+#### Assignments:
+
+- `variable = value`
+
+### Subroutines
+
+#### Definitions:
+
+1. Automatic O-code
+
+```
+    @sub name[$param1, $param2, ...] {
+        ; Subroutine's body
+    }
+```
+
+2. Manual O-code
+
+```
+    @sub<code> name[$param1, $param2, ...] {
+        ; Subroutine's body
+    }
+```
+
+#### Returning
+
+- `@return value` OR `@return`
+
+#### Calling
+
+- No parameters: `@call name`
+- With parameters: `@call name[arg1, arg2, ...]`
+    - `@call name[0, 2, 81]`
+    - `@call name[#val1, 2, #val4]`
+    - `@call name[#val1, 2, -#val4]`
+    - `@call name[#val1 * 3 - #val2, 2, -3]`
+
+> **/!\ IMPORTANT /!\\**:  
+> Calling a function can be done in an assigments (`#abc = @call f[1, 2, 3]`) and the value the function
+> returns will be the one assigned to the variable.
+> However, a line of code can only contain **one function call**.  
+> Ex: `#abc = @call foo[1, 2] - @call bar[5, -2, 3]` is **not allowed**. Instead, you should do
+> ```
+> #abc = @call foo[1, 2]
+> #abc -= @call bar[5, -2, 3]
+> ```
 
 ## Example G-code vs Gem:
 
@@ -45,5 +103,98 @@ N0190 M08
 ### Gem:
 
 ```
-% 
+%
+O2468
+
+G00 G17 G20 G40 G80 G90 G94#
+!motion:fastest
+!plane:XY
+!unit:inch      
+!cutter-dcomp:none  ; Cutter Diameter Compensation
+!motion:no-cc       ; cancel canned cycles
+!feed-mode:minute
+
+
+G91 G30  X0. Y0. Z0. T01 M06
+S1400 M03
+G90 G54 X1.5 Y.5 (POINT A)
+G43 Z4. H01
+M08
+G81 X1.5 Y.5 Z-0.4253 R.1 F10. (G98 OU G99 SELON PIECE)
+X2. Y-0.5
+G80 M09
+G00 Z4. M05
+G91 G30 Z0.
+G91 G30 X0. Y0. T02 M06
+S1400 M03
+G90 G54 X1.5 Y.5 (POINT A)
+G43 Z4. H01
+M08
 ```
+
+### Gem:
+
+```
+@sub sum_or_sub[$decider, $x, $y] {
+    @if $decider == $_True {     ; sum
+        @return $x + $y
+    } @else {                    ; sub
+        @return $x - $y
+    }
+}
+
+$salut = @call sum_or_sub[1, 2, 3]
+```
+
+### G-code:
+
+```
+N010  #<_True> = 1
+N020  #<_False> = 0
+N030  
+N040  O100 sub     ; sum_or_sub
+N050      O110 if [#1 EQ #<_True>]
+N060          O100 return [#2 + #3]
+N070      O110 else
+N080          O100 return [#2 - #3]
+N090      O110 endif
+N100  O100 endsub  ; end sum_or_sub
+N110  
+N120  O100 call [1] [2] [3]
+N130  #<salut> = #<_value>
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

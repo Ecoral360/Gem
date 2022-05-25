@@ -34,10 +34,10 @@ Add:
 
   assignments:
     ASSIGNMENT: "="
-    PLUS_ASSIGNMENT: '\+='
+    ADD_ASSIGNMENT: '\+='
     POW_ASSIGNMENT: '\*{2}='
     MUL_ASSIGNMENT: '\*{1}='
-    MOINS_ASSIGNMENT: "-="
+    SUBTRACT_ASSIGNMENT: "-="
     DIV_ASSIGNMENT: '\/='
     MOD_ASSIGNMENT: "MOD="
 

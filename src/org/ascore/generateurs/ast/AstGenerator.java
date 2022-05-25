@@ -177,7 +177,7 @@ public class AstGenerator {
                         }
                         debut = i;
                         expressionNom = expressionNom.subList(debut, expressionNom.size());
-                        int fin = expressionNom.size();
+                        int fin = debut + expressionNom.size();
 
                         List<Object> expr = expressionArray.subList(debut, fin);
 

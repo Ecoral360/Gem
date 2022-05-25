@@ -35,7 +35,7 @@ Add:
   assignments:
     ASSIGNMENT: "="
     PLUS_ASSIGNMENT: '\+='
-    POW_ASSIGNMENT: '\*\*='
+    POW_ASSIGNMENT: '\*{2}='
     MUL_ASSIGNMENT: '\*{1}='
     MOINS_ASSIGNMENT: "-="
     DIV_ASSIGNMENT: '\/='
@@ -52,7 +52,10 @@ Add:
   BRACKET_OPEN: '\{'
   BRACKET_CLOSE: '\}'
 
-  COMMAND: '(?:\((.*?)\))'
+  CROCHET_OUV: '\['
+  CROCHET_FERM: '\]'
+
+  COMMAND: '(?:\(([A-Z]+),(.*?)\))'
 
   variables:
     GCODE_LOCAL_VARIABLE: '(?:#<([a-zA-Z]+[a-zA-Z_\- 0-9]*)>)'
@@ -66,5 +69,6 @@ Add:
 
 
 Ignore:
-  - '\s+'
   - ';.*?$'
+  - '\((?![A-Z]+,).*?\)'
+  - '\s+'

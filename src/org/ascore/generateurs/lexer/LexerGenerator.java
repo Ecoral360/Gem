@@ -66,6 +66,8 @@ public class LexerGenerator {
 
             idx = this.prochainIndexValide(idx, s);
 
+            if (idx == s.length()) break;
+
             boolean trouve = false;
             for (TokenRule tokenRule : this.getReglesAjoutees()) {
                 Matcher match = Pattern.compile(tokenRule.getPattern()).matcher(s);

@@ -2,17 +2,13 @@ package org.ascore.as;
 
 import org.ascore.ast.buildingBlocs.Expression;
 import org.ascore.ast.buildingBlocs.Statement;
-import org.ascore.ast.buildingBlocs.expressions.BinComp;
-import org.ascore.ast.buildingBlocs.expressions.GcodeExpr;
-import org.ascore.ast.buildingBlocs.expressions.NumberExpr;
-import org.ascore.ast.buildingBlocs.expressions.Var;
-import org.ascore.ast.buildingBlocs.statements.ElifStatement;
-import org.ascore.ast.buildingBlocs.statements.ElseStatement;
-import org.ascore.ast.buildingBlocs.statements.EndIfStatement;
-import org.ascore.ast.buildingBlocs.statements.IfStatement;
+import org.ascore.ast.buildingBlocs.expressions.*;
+import org.ascore.ast.buildingBlocs.statements.*;
 import org.ascore.executor.Executor;
 import org.ascore.generateurs.ast.AstGenerator;
 import org.ascore.tokens.Token;
+
+import java.util.ArrayList;
 
 
 /**
@@ -32,6 +28,22 @@ public class ASAst extends AstGenerator {
     }
 
     protected void addStatements() {
+
+        addStatement("COMMAND", p -> {
+            var groups = ((Token) p.get(0)).getValueGroups();
+            var command = groups[0];
+            var args = groups[1];
+            return new CommandStatement(executorInstance, command, args);
+        });
+
+        addStatement("expression {assignments} expression", p -> {
+            var variable = (Expression<?>) p.get(0);
+            var opName = ((Token) p.get(1)).getName();
+            BinOpExpr.Op op = opName.equals("ASSIGNMENT") ? null : BinOpExpr.Op.valueOf(opName.split("_")[0]);
+            var value = (Expression<?>) p.get(2);
+            return new AssignStatement(variable, op, value);
+        });
+
         // add your statements here
         addStatement("IF expression BRACKET_OPEN", p -> {
             var groups = ((Token) p.get(0)).getValueGroups();
@@ -93,6 +105,19 @@ public class ASAst extends AstGenerator {
             var right = (Expression<?>) p.get(2);
             var operator = ((Token) p.get(1)).getName();
             return new BinComp(left, BinComp.Op.valueOf(operator), right);
+        });
+
+        addExpression("CROCHET_OUV #expression CROCHET_FERM",
+                p -> new Expression.SimpleExpression("[" +
+                        evalOneExpr(new ArrayList<>(p.subList(1, p.size() - 1)), null)
+                                .eval() + "]"
+                ));
+
+        addExpression("expression {arithmetic} expression", p -> {
+            var left = (Expression<?>) p.get(0);
+            var right = (Expression<?>) p.get(2);
+            var operator = ((Token) p.get(1)).getName();
+            return new BinOpExpr(left, BinOpExpr.Op.valueOf(operator), right);
         });
 
         addExpression("GCODE expression",
